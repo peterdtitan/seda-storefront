@@ -417,6 +417,9 @@ async function main() {
     ),
     designStudyProduct: ref("product-dart-cargos"),
 
+    shopEyebrow: "Drop 01",
+    shopBannerImage: await image("fabricStack", "Folded Adire cloth stacked in the studio"),
+
     meaning: "Șèdá is a Yoruba word meaning to create.",
     storyHeroImage: await image("fabricBlockprint", "Hand-block printing in progress"),
     mission:

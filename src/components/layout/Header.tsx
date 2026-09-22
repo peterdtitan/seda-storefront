@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { Logo } from "@/components/ui/Logo";
+import { useCart } from "@/lib/cart/CartProvider";
 
 import s from "./Header.module.css";
 
@@ -13,7 +14,8 @@ const NAV = [
   { href: "/story", label: "Story" },
 ];
 
-export function Header({ bagCount = 0 }: { bagCount?: number }) {
+export function Header() {
+  const { count } = useCart();
   const pathname = usePathname();
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
@@ -52,7 +54,7 @@ export function Header({ bagCount = 0 }: { bagCount?: number }) {
             href="/bag"
             className={[s.link, isActive("/bag") ? s.active : ""].filter(Boolean).join(" ")}
           >
-            Bag ({bagCount})
+            Bag ({count})
           </Link>
         </div>
       </div>
@@ -65,7 +67,7 @@ export function Header({ bagCount = 0 }: { bagCount?: number }) {
           <Logo height={15} priority />
         </Link>
         <Link href="/bag" className={s.link}>
-          Bag {bagCount}
+          Bag {count}
         </Link>
       </div>
     </header>

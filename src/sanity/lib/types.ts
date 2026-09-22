@@ -23,6 +23,8 @@ export type SiteCopy = {
   manifestoBody: string;
   manifestoImage: SanityImage;
   stripImages: SanityImage[];
+  shopEyebrow: string;
+  shopBannerImage: SanityImage;
   meaning: string;
   mission: string;
   vision: string;
@@ -35,3 +37,5 @@ export type SiteCopy = {
   studio: string;
   shippingCopy: string;
 };
+
+export type DesignStudy = { name: string; slug: string; description: string };

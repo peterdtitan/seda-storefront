@@ -178,6 +178,46 @@ Configuration now degrades instead:
 CI runs `pnpm build` **with no Sanity variables set** for exactly this reason. A build
 that needs them to compile is a build that breaks on every fork and every fresh clone.
 
+## Analytics
+
+Every storefront interaction the admin and superuser dashboards report on is written to
+Postgres as one immutable row. See `docs/ADMIN_ROADMAP.md` for where those dashboards
+are going.
+
+```bash
+psql "$DATABASE_URL" -f db/migrations/0001_analytics_events.sql
+```
+
+**Firing an event.** `track()` from `src/lib/analytics/track.ts` in a client component,
+or drop `<Track event={...} />` in a page to fire once on mount:
+
+```tsx
+track(EVENTS.addedToBag, { productSlug, colourway, size, quantity, valueKobo });
+```
+
+Event names live in `src/lib/analytics/events.ts` and the API route rejects anything not
+on that list, so a typo cannot quietly create a new event stream.
+
+**How it behaves.** Events batch on an 800ms debounce and flush on `pagehide` and
+`visibilitychange`, so a click-through is not lost when the page unloads. `visitor_id`
+lives in `localStorage`, `session_id` in `sessionStorage`; both are random, first-party
+and carry no personal data. Storage that throws — private windows, blocked site data —
+degrades to a fresh id rather than an error.
+
+`/api/events` always answers `204`, even on a malformed batch. Telling the client that
+telemetry failed teaches ad blockers to retry and gains the shopper nothing.
+
+**Reports** live in `src/lib/analytics/reports.ts`: `topProducts`, `topColourways`,
+`funnel`, `traffic`. Both dashboards read these same functions so they cannot disagree
+about what "most viewed" means.
+
+**An unset `DATABASE_URL` drops events and returns empty reports.** Same posture as the
+CMS: telemetry must never fail a build or a request.
+
+> **Open with the client:** these are first-party analytics with no cross-site tracking,
+> but `localStorage` identifiers still fall under GDPR/ePrivacy consent for EU diaspora
+> traffic. Decide whether a consent banner is needed before launch.
+
 ## Repo conventions
 
 - **Branch per step.** One branch, one commit, one PR per numbered step in `BUILD_PLAN.md`.
