@@ -1,0 +1,88 @@
+/* ȘÈDÁ — colour system.
+   Base values are sampled directly from the brand-strategy deck and the
+   creative-portfolio fabric photography. Semantic aliases sit underneath. */
+:root{
+/* --- Core brand --- */
+--seda-oxblood:#5C0D00;      /* primary brand ground; 26 uses in the deck */
+--seda-oxblood-deep:#3E0900;  /* pressed / shadowed oxblood */
+--seda-oxblood-lift:#74200F;  /* hover lift on oxblood */
+--seda-ink:#000032;           /* deep indigo-navy; second ground */
+--seda-ink-deep:#000020;
+--seda-ink-lift:#141451;
+--seda-cream:#FFFAE8;         /* brand light; logo colour */
+--seda-shell:#FFFAF7;         /* warm white */
+--seda-black:#000000;
+
+/* --- Neutrals (warm, dyed-cotton greys) --- */
+--seda-n-50:#FBF6EC;
+--seda-n-100:#F1EADD;
+--seda-n-200:#E0D6C6;
+--seda-n-300:#C4B8A6;
+--seda-n-400:#9E9284;
+--seda-n-500:#776C60;
+--seda-n-600:#544B42;
+--seda-n-700:#38302A;
+--seda-n-800:#231D19;
+--seda-n-900:#14100E;
+
+/* --- Adire accents (sampled from the collection's own cloth) --- */
+--seda-indigo:#133656;
+--seda-indigo-pale:#8FB3C9;
+--seda-crimson:#A31D26;
+--seda-terracotta:#C16B54;
+--seda-ochre:#C79E32;
+--seda-clay:#A06F5E;
+--seda-rose:#E6CEDE;
+--seda-teal:#065073;
+--seda-olive:#8A8A4A;
+--seda-aubergine:#3B2A55;
+
+/* --- Semantic: surfaces --- */
+--surface-page:var(--seda-cream);
+--surface-page-alt:var(--seda-shell);
+--surface-card:#FFFFFF;
+--surface-sunken:var(--seda-n-100);
+--surface-inverse:var(--seda-oxblood);
+--surface-inverse-alt:var(--seda-ink);
+--surface-overlay:rgba(20,16,14,.58);
+
+/* --- Semantic: text --- */
+--text-body:var(--seda-n-800);
+--text-heading:var(--seda-oxblood);
+--text-muted:var(--seda-n-500);
+--text-subtle:var(--seda-n-400);
+--text-on-inverse:var(--seda-cream);
+--text-on-inverse-muted:rgba(255,250,232,.72);
+--text-link:var(--seda-oxblood);
+--text-link-hover:var(--seda-crimson);
+
+/* --- Semantic: lines --- */
+--border-hairline:rgba(35,29,25,.16);
+--border-strong:var(--seda-n-800);
+--border-on-inverse:rgba(255,250,232,.28);
+--rule-brand:var(--seda-oxblood);
+
+/* --- Semantic: interactive --- */
+--action-primary-bg:var(--seda-oxblood);
+--action-primary-bg-hover:var(--seda-oxblood-lift);
+--action-primary-bg-active:var(--seda-oxblood-deep);
+--action-primary-fg:var(--seda-cream);
+--action-secondary-bg:transparent;
+--action-secondary-fg:var(--seda-oxblood);
+--action-secondary-border:var(--seda-oxblood);
+--action-disabled-bg:var(--seda-n-200);
+--action-disabled-fg:var(--seda-n-400);
+--focus-ring:var(--seda-ochre);
+
+/* --- Semantic: status (derived from accents, never invented hues) --- */
+--status-success:var(--seda-olive);
+--status-warning:var(--seda-ochre);
+--status-danger:var(--seda-crimson);
+--status-info:var(--seda-teal);
+--status-sale:var(--seda-crimson);
+--status-soldout:var(--seda-n-400);
+}
+
+/* Inverse scope: apply to any oxblood or ink ground so text/lines flip together. */
+[data-theme="oxblood"]{--surface-page:var(--seda-oxblood);--surface-page-alt:var(--seda-oxblood-deep);--surface-card:var(--seda-oxblood-lift);--surface-sunken:var(--seda-oxblood-deep);--text-body:var(--seda-cream);--text-heading:var(--seda-cream);--text-muted:rgba(255,250,232,.72);--text-subtle:rgba(255,250,232,.52);--text-link:var(--seda-cream);--text-link-hover:var(--seda-ochre);--border-hairline:rgba(255,250,232,.2);--border-strong:var(--seda-cream);--action-primary-bg:var(--seda-cream);--action-primary-bg-hover:#FFFFFF;--action-primary-bg-active:var(--seda-n-200);--action-primary-fg:var(--seda-oxblood);--action-secondary-fg:var(--seda-cream);--action-secondary-border:var(--seda-cream)}
+[data-theme="ink"]{--surface-page:var(--seda-ink);--surface-page-alt:var(--seda-ink-deep);--surface-card:var(--seda-ink-lift);--surface-sunken:var(--seda-ink-deep);--text-body:var(--seda-cream);--text-heading:var(--seda-cream);--text-muted:rgba(255,250,232,.72);--text-subtle:rgba(255,250,232,.52);--text-link:var(--seda-cream);--text-link-hover:var(--seda-ochre);--border-hairline:rgba(255,250,232,.2);--border-strong:var(--seda-cream);--action-primary-bg:var(--seda-cream);--action-primary-bg-hover:#FFFFFF;--action-primary-bg-active:var(--seda-n-200);--action-primary-fg:var(--seda-ink);--action-secondary-fg:var(--seda-cream);--action-secondary-border:var(--seda-cream)}

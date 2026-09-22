@@ -1,0 +1,31 @@
+/* ȘÈDÁ — motion.
+   Cloth, not rubber. Everything eases out; nothing bounces, nothing springs, nothing
+   overshoots. Fades and short cross-fades over slides; image reveals are slow. */
+:root{
+--dur-instant:80ms; /* @kind other */
+--dur-fast:140ms; /* @kind other */
+--dur-base:220ms; /* @kind other */
+--dur-slow:380ms; /* @kind other */
+--dur-reveal:640ms; /* @kind other */
+--dur-drape:900ms;   /* full-bleed image / slide cross-fade */
+
+--ease-out:cubic-bezier(.22,.61,.36,1); /* @kind other */
+--ease-in-out:cubic-bezier(.45,.05,.55,.95); /* @kind other */
+--ease-drape:cubic-bezier(.16,.84,.24,1); /* @kind other */
+--ease-linear:linear; /* @kind other */
+
+--transition-hover:color var(--dur-fast) var(--ease-out),background-color var(--dur-fast) var(--ease-out),border-color var(--dur-fast) var(--ease-out),opacity var(--dur-fast) var(--ease-out); /* @kind other */
+--transition-press:transform var(--dur-instant) var(--ease-out); /* @kind other */
+--transition-reveal:opacity var(--dur-reveal) var(--ease-drape),transform var(--dur-reveal) var(--ease-drape); /* @kind other */
+
+/* Press = 1% inset, never a scale-down bounce */
+--press-scale:.99; /* @kind other */
+--hover-image-scale:1.03; /* @kind other */
+}
+@media (prefers-reduced-motion:reduce){:root{--dur-fast:1ms; /* @kind other */
+--dur-base:1ms; /* @kind other */
+--dur-slow:1ms; /* @kind other */
+--dur-reveal:1ms; /* @kind other */
+--dur-drape:1ms; /* @kind other */
+--press-scale:1; /* @kind other */
+--hover-image-scale:1 /* @kind other */}}

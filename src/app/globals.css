@@ -1,11 +1,16 @@
-/* Design tokens land in commit 2. Deliberately bare so the scaffold deploy is clean. */
+/* ȘÈDÁ — global stylesheet.
+   The token files under src/styles/tokens/ mirror design_reference/tokens/ one-to-one,
+   so a token edit in the design system maps to exactly one file here. Import order
+   matters: values before the semantic aliases and base rules that consume them.
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
+   fonts.css from the design system has no counterpart — next/font replaces the
+   Google Fonts @import and self-hosts the faces. See src/styles/fonts.ts. */
 
-body {
-  margin: 0;
-}
+@import "../styles/tokens/colors.css";
+@import "../styles/tokens/typography.css";
+@import "../styles/tokens/spacing.css";
+@import "../styles/tokens/radius.css";
+@import "../styles/tokens/elevation.css";
+@import "../styles/tokens/motion.css";
+@import "../styles/tokens/base.css";
+@import "../styles/tokens/recipes.css";

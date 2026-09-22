@@ -1,0 +1,249 @@
+/* Dev-only token inspector. Deliberately plain: it exists to make a broken token
+   obvious, so it must not itself be clever. */
+
+.page {
+  padding: var(--space-12) var(--gutter-page) var(--space-24);
+  max-width: var(--layout-max);
+  margin: 0 auto;
+}
+
+.lede {
+  margin-top: var(--space-4);
+}
+
+.section {
+  margin-top: var(--space-20);
+}
+
+.sectionHead {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-5);
+  margin-bottom: var(--space-8);
+}
+
+.sectionHead .flex {
+  flex: 1;
+  height: 1px;
+  background: var(--border-hairline);
+}
+
+.note {
+  font: var(--type-body-sm);
+  color: var(--text-muted);
+  max-width: 68ch;
+  margin-top: calc(var(--space-2) * -1);
+  margin-bottom: var(--space-6);
+}
+
+/* --- colour --- */
+
+.swatchGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+  gap: var(--space-4);
+}
+
+.swatch {
+  border: 1px solid var(--border-hairline);
+}
+
+.swatchChip {
+  height: 76px;
+}
+
+.swatchMeta {
+  padding: var(--space-3);
+  background: var(--surface-card);
+}
+
+.swatchName {
+  font: var(--type-body-sm);
+  color: var(--text-body);
+  word-break: break-all;
+}
+
+.swatchValue {
+  font: var(--type-caption);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* --- inverse scopes --- */
+
+.scopeRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-4);
+}
+
+.scopePanel {
+  background: var(--surface-page);
+  color: var(--text-body);
+  padding: var(--space-8);
+}
+
+.scopePanel p {
+  color: var(--text-muted);
+  max-width: 40ch;
+}
+
+.scopeActions {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  flex-wrap: wrap;
+}
+
+.solid {
+  font: var(--type-label);
+  font-family: var(--font-ui);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  background: var(--action-primary-bg);
+  color: var(--action-primary-fg);
+  border: none;
+  border-radius: var(--radius-none);
+  padding: 15px 32px;
+  cursor: pointer;
+  transition: var(--transition-hover);
+}
+
+.solid:hover {
+  background: var(--action-primary-bg-hover);
+}
+
+.solid:active {
+  background: var(--action-primary-bg-active);
+}
+
+.outline {
+  font: var(--type-label);
+  font-family: var(--font-ui);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  background: var(--action-secondary-bg);
+  color: var(--action-secondary-fg);
+  border: 1px solid var(--action-secondary-border);
+  border-radius: var(--radius-none);
+  padding: 14px 30px;
+  cursor: pointer;
+  transition: var(--transition-hover);
+}
+
+/* --- type --- */
+
+.typeRow {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: var(--space-6);
+  align-items: baseline;
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--border-hairline);
+}
+
+.typeKey {
+  font: var(--type-caption);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.typeSpecimen {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --- ramps --- */
+
+.rampRow {
+  display: grid;
+  grid-template-columns: 120px 64px 1fr;
+  gap: var(--space-4);
+  align-items: center;
+  padding: var(--space-2) 0;
+}
+
+.rampBar {
+  height: 16px;
+  background: var(--seda-oxblood);
+}
+
+.motionBar {
+  height: 16px;
+  background: var(--seda-teal);
+  animation-name: slide;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  max-width: 100%;
+}
+
+@keyframes slide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(120px);
+  }
+}
+
+.motionTrack {
+  overflow: hidden;
+}
+
+/* --- radius + elevation --- */
+
+.tileGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+  gap: var(--space-5);
+}
+
+.tile {
+  background: var(--surface-card);
+  border: 1px solid var(--border-hairline);
+  height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: var(--type-caption);
+  color: var(--text-muted);
+}
+
+.shadowTile {
+  background: var(--surface-card);
+  height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: var(--type-caption);
+  color: var(--text-muted);
+}
+
+.scrimTile {
+  position: relative;
+  height: 120px;
+  background: var(--seda-n-300);
+  display: flex;
+  align-items: flex-end;
+}
+
+.scrimLayer {
+  position: absolute;
+  inset: 0;
+}
+
+.scrimLabel {
+  position: relative;
+  padding: var(--space-3);
+  font: var(--type-caption);
+  color: var(--seda-cream);
+}
+
+@media (max-width: 768px) {
+  .typeRow,
+  .rampRow {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+  }
+}

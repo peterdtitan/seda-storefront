@@ -72,6 +72,59 @@ On Vercel, set the project's Node.js version to **24.x** to match `.nvmrc`.
 | `pnpm format` | Prettier write |
 | `pnpm format:check` | Prettier check |
 
+## Design tokens
+
+`src/styles/tokens/` mirrors `design_reference/tokens/` one file to one file, so an
+upstream token edit re-ports as a plain copy.
+
+| File | Origin |
+|---|---|
+| `colors.css`, `spacing.css`, `radius.css`, `elevation.css`, `motion.css` | **byte-identical** copies of the design system — listed in `.prettierignore` so formatting never introduces phantom diffs |
+| `typography.css` | ported, with the three family stacks rewired to next/font variables |
+| `base.css` | ported element defaults |
+| `recipes.css` | authored here — the four `disp / eyebrow / brandBody / uiLabel` recipes as classes |
+
+**Consume the semantic alias, never the raw hex.** `--text-heading`, not
+`--seda-oxblood`. For an oxblood or ink band, set `data-theme="oxblood"` /
+`data-theme="ink"` on the section and let the whole semantic set flip, rather than
+hand-inverting colours.
+
+The recipe classes take their per-instance knobs as custom properties, because that is
+the only thing the design varies:
+
+```tsx
+<div className="seda-disp" style={{ "--disp-size": "44px" }}>New this drop</div>
+<p className="seda-brand-body" style={{ "--brand-body-max": "46ch" }}>…</p>
+```
+
+### /styleguide
+
+Every token rendered as a ramp — colour, inverse scopes, type roles, glyph coverage,
+spacing, radius, elevation, scrims, motion. **Development only**; the production build
+404s it. Check it after any token change: if a ramp looks wrong, the token file is wrong.
+
+### Fonts
+
+`src/styles/fonts.ts` is the only file in the repo that names a concrete typeface. It
+registers three faces via `next/font` and exposes `--font-display-face`,
+`--font-brand-face` and `--font-ui-face`; `typography.css` builds the stacks from those
+and never mentions a family.
+
+- **Display** — Hatton *(substituted: Bodoni Moda)*
+- **Brand** — Kingred Modern *(substituted: Poiret One)*
+- **UI** — Jost, real, not a substitution
+
+**When the licensed files arrive:** drop the `.woff2` into `src/app/fonts/`, swap the
+`next/font/google` call for `next/font/local` keeping the same `variable` name, and
+delete the dash patch described below. Nothing else changes.
+
+> **Known substitution artefact.** Bodoni Moda's Google subset declares unicode-range
+> `U+2000-206F` but ships no en or em dash glyph, so the browser draws a blank and never
+> falls back. Display-type copy uses an em dash (`Look 01 — Resist Set`), so
+> `typography.css` redirects those two codepoints to a system serif via a scoped
+> `@font-face`. Delete it with the substitution and confirm on
+> `/styleguide → Glyph coverage`.
+
 ## Repo conventions
 
 - **Branch per step.** One branch, one commit, one PR per numbered step in `BUILD_PLAN.md`.
@@ -87,4 +140,5 @@ On Vercel, set the project's Node.js version to **24.x** to match `.nvmrc`.
 
 ## What is not here yet
 
-Schemas and seed content, the token port, and every page. This commit is the scaffold only: it builds, deploys and authenticates, and does nothing else.
+Schemas and seed content, and every page. The layout shell (header, footer, shared
+primitives) lands next.
