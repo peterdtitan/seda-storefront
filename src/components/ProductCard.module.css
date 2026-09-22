@@ -1,0 +1,59 @@
+.card {
+  display: block;
+  border: none;
+  color: inherit;
+}
+
+.card:hover {
+  color: inherit;
+}
+
+.frame {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface-sunken);
+}
+
+.frame :global(img) {
+  object-fit: cover;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+
+.card:hover .frame :global(img) {
+  transform: scale(var(--hover-image-scale));
+}
+
+.badge {
+  position: absolute;
+  top: var(--badge-inset, 12px);
+  left: var(--badge-inset, 12px);
+  background: var(--surface-card);
+  color: var(--text-muted);
+  padding: 4px 8px;
+}
+
+.name {
+  font: var(--type-body);
+  margin-top: 10px;
+}
+
+.meta {
+  font: var(--type-caption);
+  color: var(--text-muted);
+}
+
+.price {
+  font: var(--type-body-sm);
+  font-variant-numeric: tabular-nums;
+  margin-top: 2px;
+}
+
+.compact .name {
+  font: var(--type-body-sm);
+  margin-top: 8px;
+}
+
+.compact .badge {
+  --badge-inset: 10px;
+  padding: 3px 7px;
+}

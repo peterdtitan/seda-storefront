@@ -40,3 +40,28 @@ export const CATEGORIES_QUERY = groq`*[_type == "category"] | order(order asc){
   title,
   "slug": slug.current
 }`;
+
+export const CARD_FRAGMENT = groq`{
+  _id,
+  name,
+  "slug": slug.current,
+  priceKobo,
+  category->{ title, "slug": slug.current },
+  colourways[]{
+    name,
+    "slug": slug.current,
+    swatch,
+    images[0...1] ${IMAGE_FRAGMENT},
+    stock[]{ size, quantity }
+  }
+}`;
+
+export const HOME_QUERY = groq`{
+  "copy": ${SITE_COPY_QUERY},
+  "products": *[_type == "product" && active] | order(order asc) ${CARD_FRAGMENT},
+  "designStudy": *[_id == "siteCopy"][0].designStudyProduct->{
+    name,
+    "slug": slug.current,
+    description
+  }
+}`;
