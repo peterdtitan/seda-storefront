@@ -11,6 +11,7 @@ export const siteCopy = defineType({
   type: "document",
   groups: [
     { name: "home", title: "Home", default: true },
+    { name: "shop", title: "Shop" },
     { name: "story", title: "Our story" },
     { name: "lookbook", title: "Lookbook" },
     { name: "contact", title: "Contact" },
@@ -86,6 +87,19 @@ export const siteCopy = defineType({
       type: "reference",
       to: [{ type: "product" }],
       group: "home",
+    }),
+
+    defineField({
+      name: "shopEyebrow",
+      type: "string",
+      group: "shop",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "shopBannerImage",
+      type: "productImage",
+      group: "shop",
+      validation: (rule) => rule.required(),
     }),
 
     defineField({

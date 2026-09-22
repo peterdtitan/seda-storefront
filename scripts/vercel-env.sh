@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Pushes the Sanity variables from .env.local to all three Vercel environments.
+# Pushes the app's environment variables from .env.local to all three Vercel targets.
 #
 #   pnpm env:push          # add, skipping any that already exist
 #   pnpm env:push --force  # remove then re-add, to change a value
@@ -17,6 +17,7 @@ VARS=(
   NEXT_PUBLIC_SANITY_DATASET
   NEXT_PUBLIC_SANITY_API_VERSION
   SANITY_API_READ_TOKEN
+  DATABASE_URL
 )
 TARGETS=(production preview development)
 
