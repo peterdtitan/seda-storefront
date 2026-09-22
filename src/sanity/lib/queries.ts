@@ -101,3 +101,18 @@ export const PRODUCT_QUERY = groq`{
 }`;
 
 export const PRODUCT_SLUGS_QUERY = groq`*[_type == "product" && active].slug.current`;
+
+export const BAG_QUERY = groq`*[_type == "product" && slug.current in $slugs]{
+  _id,
+  name,
+  "slug": slug.current,
+  priceKobo,
+  category->{ title, "slug": slug.current },
+  colourways[]{
+    name,
+    "slug": slug.current,
+    swatch,
+    images[0...1] ${IMAGE_FRAGMENT},
+    stock[]{ size, quantity }
+  }
+}`;
