@@ -15,12 +15,15 @@ export function Swatches({
   onChange,
   size,
   label = "Colour",
+  disableSoldOut = true,
 }: {
   options: SwatchOption[];
   value: string;
   onChange?: (slug: string) => void;
   size?: number;
   label?: string;
+  /** A sold-out colour is still worth looking at, so the product page keeps it clickable. */
+  disableSoldOut?: boolean;
 }) {
   return (
     <div className={s.row} role="radiogroup" aria-label={label}>
@@ -33,7 +36,7 @@ export function Swatches({
               role="radio"
               aria-checked={selected}
               aria-label={option.soldOut ? `${option.name} — sold out` : option.name}
-              disabled={option.soldOut}
+              disabled={disableSoldOut && option.soldOut}
               onClick={() => onChange?.(option.slug)}
               className={[s.swatch, selected ? s.selected : "", option.soldOut ? s.soldOut : ""]
                 .filter(Boolean)

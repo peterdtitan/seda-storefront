@@ -73,3 +73,31 @@ export const SHOP_QUERY = groq`{
   "categories": ${CATEGORIES_QUERY},
   "products": *[_type == "product" && active] | order(order asc) ${CARD_FRAGMENT}
 }`;
+
+export const PRODUCT_QUERY = groq`{
+  "product": *[_type == "product" && slug.current == $slug][0]{
+    _id,
+    name,
+    "slug": slug.current,
+    priceKobo,
+    description,
+    details,
+    care,
+    shipping,
+    research,
+    category->{ title, "slug": slug.current },
+    colourways[]{
+      name,
+      "slug": slug.current,
+      swatch,
+      images[] ${IMAGE_FRAGMENT},
+      stock[]{ size, quantity }
+    },
+    "pairsWith": pairsWith[]-> ${CARD_FRAGMENT}
+  },
+  "fallbackPairs": *[_type == "product" && active && slug.current != $slug]
+    | order(order asc)[0...4] ${CARD_FRAGMENT},
+  "shippingCopy": *[_id == "siteCopy"][0].shippingCopy
+}`;
+
+export const PRODUCT_SLUGS_QUERY = groq`*[_type == "product" && active].slug.current`;
