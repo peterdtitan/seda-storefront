@@ -87,6 +87,4 @@ On Vercel, set the project's Node.js version to **24.x** to match `.nvmrc`.
 
 ## What is not here yet
 
-Schemas and seed content (commit 3), the token port (commit 2), and every page (commits
-5–11). This commit is the scaffold only: it builds, deploys and authenticates, and does
-nothing else.
+Schemas and seed content, the token port, and every page. This commit is the scaffold only: it builds, deploys and authenticates, and does nothing else.
