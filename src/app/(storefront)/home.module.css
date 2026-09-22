@@ -1,0 +1,263 @@
+/* --- 1. Hero --- */
+
+.hero {
+  position: relative;
+  height: 620px;
+  overflow: hidden;
+}
+
+.hero :global(img) {
+  object-fit: cover;
+}
+
+/* The README specifies this gradient literally, at 100deg rather than the token's
+   90deg, so the copy column sits in the dark corner of the mural. */
+.heroScrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, rgba(20, 16, 14, 0.68), rgba(20, 16, 14, 0.12) 62%);
+}
+
+.heroCopy {
+  position: absolute;
+  left: var(--gutter-page);
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 560px;
+}
+
+.heroHeadline {
+  --disp-size: 74px;
+  margin-top: var(--space-2);
+}
+
+.heroTagline {
+  margin-top: 22px;
+  margin-bottom: 0;
+}
+
+.heroActions {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-8);
+  flex-wrap: wrap;
+}
+
+/* --- 2. New this drop --- */
+
+.drop {
+  padding: 72px var(--gutter-page);
+}
+
+.dropTitle {
+  --disp-size: 38px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.dropHead {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-5);
+  margin-bottom: 36px;
+}
+
+.allLink {
+  font: var(--type-label);
+  font-family: var(--font-ui);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--text-link);
+  white-space: nowrap;
+}
+
+.dropGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+/* --- 3. Manifesto --- */
+
+.manifesto {
+  position: relative;
+  background: var(--seda-oxblood);
+  overflow: hidden;
+  display: flex;
+  min-height: 460px;
+}
+
+.manifestoMark {
+  position: absolute;
+  right: -60px;
+  top: -40px;
+  z-index: 1;
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.manifestoCopy {
+  flex: 1;
+  padding: 72px var(--gutter-page);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+.manifestoHeadline {
+  --disp-size: 44px;
+  margin-top: 14px;
+}
+
+.manifestoBody {
+  margin-top: var(--space-5);
+  margin-bottom: 0;
+}
+
+.manifestoActions {
+  margin-top: var(--space-8);
+}
+
+.manifestoImage {
+  position: relative;
+  width: 420px;
+  flex-shrink: 0;
+}
+
+.manifestoImage :global(img) {
+  object-fit: cover;
+}
+
+/* --- 4. Image strip --- */
+
+.strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  padding: 6px;
+}
+
+.stripCell {
+  position: relative;
+  height: 260px;
+  background: var(--surface-sunken);
+}
+
+.stripCell :global(img) {
+  object-fit: cover;
+}
+
+/* --- 5. Design study --- */
+
+.study {
+  padding: 56px var(--gutter-page);
+  text-align: center;
+}
+
+.studyTitle {
+  --disp-size: 42px;
+  margin-top: 10px;
+}
+
+.studyBody {
+  margin: 18px auto 0;
+}
+
+.studyActions {
+  margin-top: 26px;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    height: 420px;
+  }
+
+  .heroCopy {
+    left: 20px;
+    right: 20px;
+    top: auto;
+    bottom: 28px;
+    transform: none;
+    max-width: 86%;
+  }
+
+  .heroHeadline {
+    --disp-size: 38px;
+  }
+
+  .heroTagline {
+    margin-top: 12px;
+  }
+
+  /* Desktop only, per the design. */
+  .lookbookCta {
+    display: none;
+  }
+
+  .dropTitle {
+    --disp-size: 24px;
+  }
+
+  .manifestoHeadline {
+    --disp-size: 26px;
+  }
+
+  .studyTitle {
+    --disp-size: 26px;
+  }
+
+  .heroActions {
+    margin-top: var(--space-5);
+  }
+
+  .drop {
+    padding: 32px 20px;
+  }
+
+  .dropHead {
+    margin-bottom: var(--space-5);
+  }
+
+  .dropGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .manifesto {
+    display: block;
+    min-height: 0;
+  }
+
+  .manifestoCopy {
+    padding: 32px 20px;
+  }
+
+  .manifestoImage {
+    display: none;
+  }
+
+  .strip {
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    padding: 4px;
+  }
+
+  .stripCell {
+    height: 160px;
+  }
+
+  .study {
+    padding: 28px 20px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1100px) {
+  .dropGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

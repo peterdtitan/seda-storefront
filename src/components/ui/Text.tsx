@@ -33,13 +33,13 @@ export function Display({
   children,
   className,
   style,
-}: TextProps & { size: string; colour?: string }) {
+}: TextProps & { size?: string; colour?: string }) {
   return (
     <Tag
       className={["seda-disp", className].filter(Boolean).join(" ")}
       style={
         {
-          "--disp-size": size,
+          ...(size ? { "--disp-size": size } : {}),
           ...(colour ? { "--disp-color": colour } : {}),
           ...style,
         } as Vars

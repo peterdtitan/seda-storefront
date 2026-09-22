@@ -35,3 +35,5 @@ export type SiteCopy = {
   studio: string;
   shippingCopy: string;
 };
+
+export type DesignStudy = { name: string; slug: string; description: string };
