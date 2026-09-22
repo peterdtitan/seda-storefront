@@ -129,3 +129,14 @@ export const LOOKBOOK_QUERY = groq`{
     "products": products[]->{ name, "slug": slug.current }
   }
 }`;
+
+export const STORY_QUERY = groq`*[_id == "siteCopy"][0]{
+  meaning,
+  storyHeroImage ${IMAGE_FRAGMENT},
+  mission,
+  vision,
+  missionImage ${IMAGE_FRAGMENT},
+  values[]{ _key, title, body },
+  processSteps[]{ _key, title, body, image ${IMAGE_FRAGMENT} },
+  people
+}`;
