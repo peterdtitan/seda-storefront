@@ -11,7 +11,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
-    "sanity:deploy": "sanity deploy"
+    "sanity:deploy": "sanity deploy",
+    "seed": "sanity exec scripts/seed.ts --with-user-token"
   },
   "dependencies": {
     "@sanity/image-url": "^2.1.1",
