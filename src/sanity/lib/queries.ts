@@ -116,3 +116,16 @@ export const BAG_QUERY = groq`*[_type == "product" && slug.current in $slugs]{
     stock[]{ size, quantity }
   }
 }`;
+
+export const LOOKBOOK_QUERY = groq`{
+  "copy": *[_id == "siteCopy"][0]{ lookbookEyebrow, lookbookIntro },
+  "looks": *[_type == "look"] | order(order asc){
+    _id,
+    title,
+    order,
+    feature,
+    image ${IMAGE_FRAGMENT},
+    supportingImages[] ${IMAGE_FRAGMENT},
+    "products": products[]->{ name, "slug": slug.current }
+  }
+}`;

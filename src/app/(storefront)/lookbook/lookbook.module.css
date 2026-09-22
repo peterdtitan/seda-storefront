@@ -1,0 +1,127 @@
+.header {
+  padding: 56px var(--gutter-page) 28px;
+}
+
+.title {
+  --disp-size: 58px;
+  margin-top: 10px;
+}
+
+.intro {
+  margin-top: var(--space-4);
+  margin-bottom: 0;
+}
+
+.feature {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 8px;
+  padding: 0 8px;
+}
+
+.featureHero {
+  position: relative;
+  overflow: hidden;
+  height: 620px;
+  background: var(--surface-sunken);
+}
+
+.support {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 8px;
+}
+
+.supportCell {
+  position: relative;
+  overflow: hidden;
+  height: 306px;
+  background: var(--surface-sunken);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding: 8px;
+}
+
+.cell {
+  position: relative;
+  overflow: hidden;
+  height: 340px;
+  background: var(--surface-sunken);
+}
+
+.feature :global(img),
+.grid :global(img) {
+  object-fit: cover;
+}
+
+.captionLarge {
+  --disp-size: 26px;
+  position: absolute;
+  left: 24px;
+  bottom: 20px;
+  z-index: 1;
+}
+
+.caption {
+  --disp-size: 18px;
+  position: absolute;
+  left: 16px;
+  bottom: 14px;
+  z-index: 1;
+}
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 28px 20px 18px;
+  }
+
+  .title {
+    --disp-size: 32px;
+  }
+
+  .feature {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    padding: 0 6px;
+  }
+
+  .featureHero {
+    height: 380px;
+  }
+
+  .support {
+    gap: 6px;
+  }
+
+  .supportCell {
+    height: 200px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    padding: 6px;
+  }
+
+  .cell {
+    height: 200px;
+  }
+
+  .captionLarge {
+    --disp-size: 20px;
+  }
+
+  .caption {
+    --disp-size: 15px;
+  }
+}
