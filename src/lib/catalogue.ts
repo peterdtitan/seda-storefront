@@ -27,6 +27,7 @@ export type Card = {
   key: string;
   href: string;
   name: string;
+  categorySlug: string;
   colourName: string;
   priceKobo: number;
   image: SanityImage | undefined;
@@ -43,6 +44,7 @@ export function toCards(products: Product[]): Card[] {
       key: `${product.slug}-${colourway.slug}`,
       href: `/product/${product.slug}?colour=${colourway.slug}`,
       name: product.name,
+      categorySlug: product.category?.slug ?? "",
       colourName: colourway.name,
       priceKobo: product.priceKobo,
       image: colourway.images?.[0],

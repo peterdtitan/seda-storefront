@@ -20,6 +20,8 @@ export const SITE_COPY_QUERY = groq`*[_id == "siteCopy"][0]{
   manifestoBody,
   manifestoImage ${IMAGE_FRAGMENT},
   stripImages[] ${IMAGE_FRAGMENT},
+  shopEyebrow,
+  shopBannerImage ${IMAGE_FRAGMENT},
   meaning,
   mission,
   vision,
@@ -64,4 +66,10 @@ export const HOME_QUERY = groq`{
     "slug": slug.current,
     description
   }
+}`;
+
+export const SHOP_QUERY = groq`{
+  "copy": *[_id == "siteCopy"][0]{ shopEyebrow, shopBannerImage ${IMAGE_FRAGMENT} },
+  "categories": ${CATEGORIES_QUERY},
+  "products": *[_type == "product" && active] | order(order asc) ${CARD_FRAGMENT}
 }`;

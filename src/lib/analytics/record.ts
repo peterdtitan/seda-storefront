@@ -44,11 +44,14 @@ export function parseEvents(body: unknown): StoredEvent[] {
 export async function recordEvents(events: StoredEvent[], context: RequestContext = {}) {
   if (events.length === 0) return;
 
-  if (!sql) {
+  const db = sql;
+  if (!db) {
     warnUnconfigured();
     return;
   }
 
+  // sql.json is required for the jsonb column: a JSON.stringify'd object arrives as a
+  // JSON *string* scalar, so props reads back as "{}" rather than {}.
   const rows = events.map((event) => ({
     visitor_id: event.visitorId,
     session_id: event.sessionId,
@@ -64,11 +67,11 @@ export async function recordEvents(events: StoredEvent[], context: RequestContex
     value_kobo: event.valueKobo ?? null,
     country: context.country ?? null,
     user_agent: context.userAgent?.slice(0, 512) ?? null,
-    props: JSON.stringify(event.props ?? {}),
+    props: db.json((event.props ?? {}) as Record<string, never>),
   }));
 
   try {
-    await sql`insert into analytics_events ${sql(rows)}`;
+    await db`insert into analytics_events ${db(rows)}`;
   } catch (error) {
     console.error("[analytics] insert failed", error);
   }

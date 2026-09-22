@@ -1,0 +1,146 @@
+.banner {
+  position: relative;
+  height: 300px;
+  overflow: hidden;
+}
+
+.banner :global(img) {
+  object-fit: cover;
+}
+
+.bannerCopy {
+  position: absolute;
+  left: var(--gutter-page);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.bannerTitle {
+  --disp-size: 56px;
+  margin-top: var(--space-2);
+}
+
+.body {
+  padding: 36px var(--gutter-page);
+}
+
+.filters {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+/* The only rounded elements on the page. Everything else in the brand is squared. */
+.pill {
+  font: var(--type-label);
+  font-family: var(--font-ui);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--text-body);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  padding: 8px 16px;
+  min-height: var(--touch-min);
+  cursor: pointer;
+  transition: var(--transition-hover);
+}
+
+.pill:hover {
+  border-color: var(--seda-oxblood);
+  color: var(--seda-oxblood);
+}
+
+.pillActive {
+  background: var(--seda-oxblood);
+  border-color: var(--seda-oxblood);
+  color: var(--seda-cream);
+}
+
+.pillActive:hover {
+  background: var(--seda-oxblood-lift);
+  border-color: var(--seda-oxblood-lift);
+  color: var(--seda-cream);
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.count {
+  font: var(--type-caption);
+  color: var(--text-muted);
+}
+
+.sort {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.sortSelect {
+  font: var(--type-label);
+  font-family: var(--font-ui);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border-hairline);
+  border-radius: var(--radius-none);
+  padding: 4px 0;
+  cursor: pointer;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.empty {
+  padding: var(--space-16) 0;
+  text-align: center;
+}
+
+.emptyBody {
+  margin: var(--space-4) auto var(--space-8);
+}
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .banner {
+    height: 200px;
+  }
+
+  .bannerCopy {
+    left: 20px;
+  }
+
+  .bannerTitle {
+    --disp-size: 32px;
+  }
+
+  .body {
+    padding: 20px;
+  }
+
+  .filters {
+    margin-bottom: 18px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+}
