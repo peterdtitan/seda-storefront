@@ -3,12 +3,6 @@
 Public storefront for **Șèdá** (Yoruba: *to create*) — a Lagos label making contemporary
 Adire garments. Next.js App Router + TypeScript, content in Sanity, deployed on Vercel.
 
-Design direction: **Option A, "Editorial Oxblood"** — full-bleed photography, oxblood
-colour floods, asymmetric display serif. The spec, tokens and screen-by-screen
-measurements live in the handoff bundle at
-`../Șèdá Design System/design_handoff_seda_storefront/`. `BUILD_PLAN.md` there is the
-commit-by-commit working agreement for this repo; read it before adding anything.
-
 ## Requirements
 
 - Node **24.x** (`.nvmrc`; `nvm use`)
@@ -31,39 +25,11 @@ Every variable below must be set in `.env.local` locally and in the Vercel proje
 (Production, Preview and Development). The app throws at boot if one is missing rather
 than rendering empty content.
 
-| Variable | Where it comes from | Secret |
-|---|---|---|
-| `NEXT_PUBLIC_SANITY_PROJECT_ID` | sanity.io/manage → Project settings | no |
-| `NEXT_PUBLIC_SANITY_DATASET` | usually `production` | no |
-| `NEXT_PUBLIC_SANITY_API_VERSION` | pinned date, e.g. `2026-09-22` | no |
-| `SANITY_API_READ_TOKEN` | Project settings → API → Tokens, **Viewer** role | **yes** |
-
-`.env*` is gitignored; only `.env.local.example` is committed.
 
 > A token created without a **role** authenticates but cannot read data — the query
 > API answers `project user not found`. Public reads still work, so the storefront
-> looks fine and only draft previews break. Check the token has Viewer.
+> looks fine and only draft previews break.
 
-## First-time service setup
-
-These two steps need your own logins and are not scripted:
-
-```bash
-# 1. Sanity — creates the project + dataset, prints the project ID
-pnpm dlx sanity@latest login
-pnpm dlx sanity@latest init --create-project "Seda Storefront" --dataset production
-
-# 2. Vercel — links this directory to a Vercel project
-pnpm dlx vercel@latest link
-pnpm dlx vercel@latest env add NEXT_PUBLIC_SANITY_PROJECT_ID
-# …repeat for each variable in the table above
-```
-
-In Sanity **Project settings → API → CORS origins**, add `http://localhost:3000` and the
-Vercel production/preview domains with credentials allowed, or the embedded Studio will
-refuse to authenticate.
-
-On Vercel, set the project's Node.js version to **24.x** to match `.nvmrc`.
 
 ## Scripts
 
@@ -171,16 +137,46 @@ and never mentions a family.
 - **Brand** — Kingred Modern *(substituted: Poiret One)*
 - **UI** — Jost, real, not a substitution
 
-**When the licensed files arrive:** drop the `.woff2` into `src/app/fonts/`, swap the
-`next/font/google` call for `next/font/local` keeping the same `variable` name, and
-delete the dash patch described below. Nothing else changes.
+## Layout
 
-> **Known substitution artefact.** Bodoni Moda's Google subset declares unicode-range
-> `U+2000-206F` but ships no en or em dash glyph, so the browser draws a blank and never
-> falls back. Display-type copy uses an em dash (`Look 01 — Resist Set`), so
-> `typography.css` redirects those two codepoints to a system serif via a scoped
-> `@font-face`. Delete it with the substitution and confirm on
-> `/styleguide → Glyph coverage`.
+Two route groups sit under `src/app/`:
+
+- `(storefront)` — header, footer and the page shell. Its layout fetches the footer
+  tagline from `siteCopy`.
+- `(studio)` — the embedded Sanity Studio, deliberately outside the storefront chrome.
+
+The root layout stays bare: `<html>`, `<body>` and the font variables, nothing else.
+
+**Responsive is CSS, not JavaScript.** The design reference switches layouts on a
+`mobile` boolean; here both the desktop and mobile headers render and a media query at
+**768px** picks one, so the server and the client agree on the first paint. There is no
+`useMediaQuery` anywhere and there should not be.
+
+Shared parts live in `src/components/ui/` — `Cta`, `Outline`, `Swatches`, `Sizes`,
+`Rule`, `Scrim`, `Logo`, and the `Eyebrow / Display / BrandBody / UiLabel` text
+wrappers over the token recipes. `Cta` and `Outline` render an `<a>` when given `href`
+and a `<button>` otherwise. All of them are on `/styleguide` under **Primitives**.
+
+`SanityImage` wraps `next/image`: it reads width, height and the lqip blur from the
+dereferenced asset, so images reserve their box instead of shifting. Use the
+`IMAGE_FRAGMENT` in `src/sanity/lib/queries.ts` for every image projection or that
+metadata will be missing.
+
+## Why the build must not need the CMS
+
+`src/sanity/env.ts` used to throw on a missing variable. Next evaluates that module
+while collecting page data, so the throw killed the entire build before one route
+rendered — a Vercel preview died with nothing but a stack trace.
+
+Configuration now degrades instead:
+
+- `dataset` defaults to `production`, `apiVersion` to the pinned date.
+- A missing `projectId` leaves `client` null and logs an error naming the variable.
+- Every read goes through `sanityFetch`, which returns `null` on an unconfigured or
+  unreachable CMS. Callers fall back.
+
+CI runs `pnpm build` **with no Sanity variables set** for exactly this reason. A build
+that needs them to compile is a build that breaks on every fork and every fresh clone.
 
 ## Repo conventions
 
@@ -194,7 +190,3 @@ delete the dash patch described below. Nothing else changes.
   system's custom properties. A Tailwind config duplicating the tokens is a maintenance
   trap and was ruled out deliberately.
 - **Photography goes in the CMS**, not `/public`. Only the logos are committed.
-
-## What is not here yet
-
-Every page. The layout shell — header, footer and the shared primitives — lands next.

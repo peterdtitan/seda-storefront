@@ -1,0 +1,124 @@
+.footer {
+  background: var(--seda-ink);
+  color: var(--seda-cream);
+  padding: 56px var(--gutter-page) 0;
+}
+
+.top {
+  display: flex;
+  gap: var(--space-16);
+  padding-bottom: var(--space-12);
+  flex-wrap: wrap;
+}
+
+.brand {
+  flex: 1;
+  min-width: 220px;
+}
+
+.tagline {
+  margin-top: var(--space-4);
+}
+
+.columns {
+  display: flex;
+  gap: 56px;
+}
+
+.column h2 {
+  font: var(--type-eyebrow);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--text-on-inverse-muted);
+  margin: 0;
+}
+
+.columnItems {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: 14px;
+}
+
+.columnItems a {
+  font: var(--type-body-sm);
+  color: var(--seda-cream);
+  border-bottom-color: transparent;
+}
+
+.columnItems a:hover {
+  color: var(--seda-cream);
+  border-bottom-color: currentColor;
+}
+
+.newsletter h2 {
+  font: var(--type-eyebrow);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--text-on-inverse-muted);
+  margin: 0;
+}
+
+.signup {
+  display: flex;
+  margin-top: 14px;
+}
+
+.input {
+  background: transparent;
+  border: 1px solid var(--border-on-inverse);
+  border-right: none;
+  padding: 12px 14px;
+  font: var(--type-body-sm);
+  color: var(--seda-cream);
+  border-radius: var(--radius-none);
+  min-width: 180px;
+}
+
+.input::placeholder {
+  color: var(--text-on-inverse-muted);
+}
+
+.join {
+  padding: 12px 18px;
+  min-height: 0;
+}
+
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border-on-inverse);
+  padding: 18px 0;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-eyebrow);
+  font-size: 13px;
+}
+
+.year {
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 28px 20px;
+  }
+
+  .top {
+    display: block;
+    padding-bottom: var(--space-5);
+  }
+
+  .columns {
+    display: none;
+  }
+
+  .newsletter {
+    margin-top: var(--space-6);
+  }
+
+  .input {
+    min-width: 140px;
+  }
+}

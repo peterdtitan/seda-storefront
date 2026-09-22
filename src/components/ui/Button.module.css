@@ -1,0 +1,110 @@
+.base {
+  font: var(--type-label);
+  font-family: var(--font-ui);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  border-radius: var(--radius-none);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--touch-min);
+  text-align: center;
+  transition: var(--transition-hover);
+}
+
+.base:active {
+  transform: scale(var(--press-scale));
+  transition: var(--transition-press);
+}
+
+.base:disabled {
+  background: var(--action-disabled-bg);
+  color: var(--action-disabled-fg);
+  border-color: var(--action-disabled-bg);
+  cursor: not-allowed;
+}
+
+.solid {
+  border: none;
+  padding: 15px 32px;
+}
+
+.outline {
+  background: transparent;
+  border: 1px solid currentColor;
+  padding: 14px 30px;
+}
+
+.full {
+  width: 100%;
+}
+
+.oxblood {
+  background: var(--seda-oxblood);
+  color: var(--seda-cream);
+}
+
+.oxblood:hover:not(:disabled) {
+  background: var(--seda-oxblood-lift);
+}
+
+.oxblood:active:not(:disabled) {
+  background: var(--seda-oxblood-deep);
+}
+
+.cream {
+  background: var(--seda-cream);
+  color: var(--seda-oxblood);
+}
+
+.cream:hover:not(:disabled) {
+  background: #ffffff;
+}
+
+.cream:active:not(:disabled) {
+  background: var(--seda-n-200);
+}
+
+.ink {
+  background: var(--seda-ink);
+  color: var(--seda-cream);
+}
+
+.ink:hover:not(:disabled) {
+  background: var(--seda-ink-lift);
+}
+
+.ink:active:not(:disabled) {
+  background: var(--seda-ink-deep);
+}
+
+.outline.oxblood {
+  background: transparent;
+  color: var(--seda-oxblood);
+}
+
+.outline.oxblood:hover:not(:disabled) {
+  background: var(--seda-oxblood);
+  color: var(--seda-cream);
+}
+
+.outline.cream {
+  background: transparent;
+  color: var(--seda-cream);
+}
+
+.outline.cream:hover:not(:disabled) {
+  background: var(--seda-cream);
+  color: var(--seda-oxblood);
+}
+
+.outline.ink {
+  background: transparent;
+  color: var(--seda-ink);
+}
+
+.outline.ink:hover:not(:disabled) {
+  background: var(--seda-ink);
+  color: var(--seda-cream);
+}
