@@ -12,15 +12,15 @@ type Props = {
   height: string;
   sizes: string;
   priority?: boolean;
-  /** Shop and "pairs with" split colour and price onto their own lines. */
-  layout?: "inline" | "stacked";
+  /** inline: "colour · price". stacked: shop grid. minimal: name and price only. */
+  layout?: "inline" | "stacked" | "minimal";
 };
 
 export function ProductCard({ card, height, sizes, priority, layout = "inline" }: Props) {
   return (
     <Link
       href={card.href}
-      className={[s.card, layout === "stacked" ? s.compact : ""].filter(Boolean).join(" ")}
+      className={[s.card, layout === "inline" ? "" : s.compact].filter(Boolean).join(" ")}
     >
       <div className={s.frame} style={{ height }}>
         <SanityImage image={card.image} sizes={sizes} fill priority={priority} />
@@ -33,15 +33,21 @@ export function ProductCard({ card, height, sizes, priority, layout = "inline" }
 
       <div className={s.name}>{card.name}</div>
 
-      {layout === "inline" ? (
+      {layout === "inline" && (
         <div className={s.meta}>
           {card.colourName} · {formatNaira(card.priceKobo)}
         </div>
-      ) : (
+      )}
+
+      {layout === "stacked" && (
         <>
           <div className={s.meta}>{card.colourName}</div>
           <div className={s.price}>{card.soldOut ? "—" : formatNaira(card.priceKobo)}</div>
         </>
+      )}
+
+      {layout === "minimal" && (
+        <div className={s.meta}>{card.soldOut ? "—" : formatNaira(card.priceKobo)}</div>
       )}
     </Link>
   );
