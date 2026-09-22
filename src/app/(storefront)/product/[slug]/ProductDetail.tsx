@@ -10,6 +10,7 @@ import { Swatches } from "@/components/ui/Swatches";
 import { BrandBody, Display, UiLabel } from "@/components/ui/Text";
 import { EVENTS } from "@/lib/analytics/events";
 import { track } from "@/lib/analytics/track";
+import { useCart } from "@/lib/cart/CartProvider";
 import type { Colourway, Product } from "@/lib/catalogue";
 import { unitsInStock } from "@/lib/catalogue";
 import { formatNaira } from "@/lib/money";
@@ -51,6 +52,7 @@ export function ProductDetail({
   initialColour: string;
 }) {
   const router = useRouter();
+  const { add } = useCart();
   const [colourSlug, setColourSlug] = useState(initialColour);
   const [tab, setTab] = useState<Tab>("details");
   const [quantity, setQuantity] = useState(1);
@@ -111,6 +113,15 @@ export function ProductDetail({
   }
 
   function addToBag() {
+    if (!size || !colourway) return;
+
+    add({
+      productSlug: product.slug,
+      colourSlug: colourway.slug,
+      size,
+      quantity,
+    });
+
     track(EVENTS.addedToBag, {
       productId: product._id,
       productSlug: product.slug,
