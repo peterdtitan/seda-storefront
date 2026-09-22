@@ -3,3 +3,14 @@ node_modules
 pnpm-lock.yaml
 public
 *.md
+
+# Ported verbatim from the design system's design_reference/tokens/.
+# Kept byte-identical so re-porting an upstream token edit is a plain copy and the
+# diff shows only real value changes. Prettier would rewrite hex case and 0.2/.2
+# and turn every future re-port into noise. The files this repo authors itself —
+# typography.css, base.css, recipes.css — are exempt from the exemption.
+src/styles/tokens/colors.css
+src/styles/tokens/spacing.css
+src/styles/tokens/radius.css
+src/styles/tokens/elevation.css
+src/styles/tokens/motion.css

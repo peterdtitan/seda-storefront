@@ -1,0 +1,14 @@
+/* ȘÈDÁ — corner radii.
+   The brand is squared. Every panel, image block and rule in both decks is a hard
+   rectangle; the only curved thing in the whole system is the cowrie mark itself and
+   one soft-cornered callout on the pattern-exploration slide (~28px). Keep radius near
+   zero and treat --radius-callout as the deliberate exception. */
+:root{
+--radius-none:0;
+--radius-xs:2px;
+--radius-sm:3px;      /* inputs, chips — barely perceptible */
+--radius-md:4px;
+--radius-callout:28px; /* the one soft panel in the source deck */
+--radius-pill:999px;   /* dot indicators, counters only */
+--radius-circle:50%; /* @kind radius */
+}

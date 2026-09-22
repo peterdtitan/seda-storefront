@@ -1,0 +1,89 @@
+/* ȘÈDÁ — base element defaults. Kept minimal; tokens do the work.
+   Ported from design_reference/tokens/base.css. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--surface-page);
+  color: var(--text-body);
+  font: var(--type-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  color: var(--text-heading);
+  font-weight: var(--fw-regular);
+  letter-spacing: var(--ls-heading);
+  text-wrap: balance;
+}
+
+h1 {
+  font: var(--type-h1);
+  letter-spacing: var(--ls-display);
+}
+
+h2 {
+  font: var(--type-h2);
+}
+
+h3 {
+  font: var(--type-h3);
+}
+
+h4 {
+  font: var(--type-h4);
+}
+
+p {
+  margin: 0 0 var(--space-4);
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--text-link);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 1px;
+  transition: var(--transition-hover);
+}
+
+a:hover {
+  color: var(--text-link-hover);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--border-hairline);
+  margin: var(--space-8) 0;
+}
+
+::selection {
+  background: var(--seda-ochre);
+  color: var(--seda-n-900);
+}

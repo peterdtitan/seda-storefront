@@ -1,0 +1,26 @@
+/* ȘÈDÁ — elevation.
+   The brand does not float. Depth comes from photography, block colour and hairlines,
+   not from drop shadows. Shadows exist only where an element genuinely overlaps
+   content (menus, drawers, modals) and stay warm-black and diffuse. */
+:root{
+--shadow-none:none;
+--shadow-hairline:0 0 0 1px var(--border-hairline);
+--shadow-raise:0 1px 2px rgba(20,16,14,.08);
+--shadow-menu:0 8px 28px -8px rgba(20,16,14,.28);
+--shadow-modal:0 24px 64px -16px rgba(20,16,14,.42);
+--shadow-inset-well:inset 0 1px 0 rgba(20,16,14,.06);
+
+/* Protection gradients — the decks legibly float cream type over photography with a
+   soft dark scrim rather than a capsule. Use these, not opacity on the text. */
+--scrim-bottom:linear-gradient(to top,rgba(20,16,14,.72) 0%,rgba(20,16,14,.35) 38%,transparent 78%); /* @kind other */
+--scrim-left:linear-gradient(to right,rgba(20,16,14,.68) 0%,rgba(20,16,14,.28) 45%,transparent 80%); /* @kind other */
+--scrim-full:linear-gradient(to bottom,rgba(20,16,14,.42),rgba(20,16,14,.42)); /* @kind other */
+--scrim-oxblood:linear-gradient(to right,rgba(92,13,0,.92) 0%,rgba(92,13,0,.55) 60%,rgba(92,13,0,0) 100%); /* @kind other */
+--scrim-ink:linear-gradient(to right,rgba(0,0,50,.92) 0%,rgba(0,0,50,.5) 62%,rgba(0,0,50,0) 100%); /* @kind other */
+
+/* Frosted panel — used sparingly, only over photography (the deck's translucent
+   cream text panel on the Brand Overview slide). Never over flat colour. */
+--glass-cream:rgba(255,250,232,.86); /* @kind other */
+--glass-ink:rgba(0,0,50,.82); /* @kind other */
+--glass-blur:blur(2px); /* @kind other */
+}
