@@ -1,0 +1,11 @@
+/* Design tokens land in commit 2. Deliberately bare so the scaffold deploy is clean. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
