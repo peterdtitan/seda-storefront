@@ -1,0 +1,41 @@
+.row {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.size {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font: var(--type-label);
+  font-family: var(--font-ui);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--text-body);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-none);
+  cursor: pointer;
+  transition: var(--transition-hover);
+}
+
+.compact {
+  width: 36px;
+  height: 36px;
+}
+
+.selected {
+  background: var(--seda-oxblood);
+  border-color: var(--seda-oxblood);
+  color: var(--seda-cream);
+}
+
+.soldOut {
+  color: var(--text-subtle);
+  border-color: var(--border-hairline);
+  cursor: not-allowed;
+  text-decoration: line-through;
+}

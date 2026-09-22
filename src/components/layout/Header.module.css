@@ -1,0 +1,103 @@
+.header {
+  position: relative;
+  background: var(--surface-page);
+}
+
+/* I render both headers and let CSS pick, rather than the reference's JS `mobile`
+   boolean, so the server and client agree on the first paint. */
+.desktop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px var(--gutter-page);
+  gap: var(--space-6);
+}
+
+.mobile {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-hairline);
+}
+
+.nav {
+  display: flex;
+  gap: 30px;
+  flex: 1;
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-6);
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.link {
+  font: var(--type-label);
+  font-family: var(--font-ui);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--text-body);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: none;
+  /* Transparent, not absent, so the active state does not shift the row. */
+  border-bottom: 1px solid transparent;
+  transition: var(--transition-hover);
+}
+
+.link:hover {
+  color: var(--seda-oxblood);
+}
+
+.active {
+  color: var(--seda-oxblood);
+  border-bottom-color: currentColor;
+}
+
+.wordmark {
+  display: block;
+  border: none;
+  flex-shrink: 0;
+}
+
+.mobileMark,
+.mobileWordmark {
+  border: none;
+  display: block;
+}
+
+.skip {
+  position: absolute;
+  left: var(--space-4);
+  top: var(--space-2);
+  z-index: 10;
+  padding: 12px 18px;
+  background: var(--seda-oxblood);
+  color: var(--seda-cream);
+  font: var(--type-label);
+  font-family: var(--font-ui);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  border: none;
+  transform: translateY(-200%);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.skip:focus-visible {
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .desktop {
+    display: none;
+  }
+
+  .mobile {
+    display: flex;
+  }
+}

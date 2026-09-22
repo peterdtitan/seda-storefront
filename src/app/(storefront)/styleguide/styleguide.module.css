@@ -170,6 +170,7 @@
 }
 
 .motionBar {
+  display: block;
   height: 16px;
   background: var(--seda-teal);
   animation-name: slide;
@@ -188,6 +189,8 @@
 }
 
 .motionTrack {
+  display: block;
+  height: 16px;
   overflow: hidden;
 }
 
@@ -246,4 +249,15 @@
     grid-template-columns: 1fr;
     gap: var(--space-2);
   }
+}
+
+.scrimRow {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.scrimRow .scrimTile {
+  flex: 1;
+  min-width: 140px;
 }

@@ -1,0 +1,25 @@
+.scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.bottom {
+  background: var(--scrim-bottom);
+}
+
+.left {
+  background: var(--scrim-left);
+}
+
+.full {
+  background: var(--scrim-full);
+}
+
+.oxblood {
+  background: var(--scrim-oxblood);
+}
+
+.ink {
+  background: var(--scrim-ink);
+}

@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import { notFound } from "next/navigation";
 
+import { Primitives } from "./Primitives";
 import s from "./styleguide.module.css";
 import {
   accents,
@@ -184,6 +185,13 @@ export default function StyleguidePage() {
             ₦48,000 · ₦22,000 · ₦86,000
           </span>
         </div>
+      </Section>
+
+      <Section
+        title="Primitives"
+        note="The shared parts the screens are built from. Swatches and sizes are interactive — click one."
+      >
+        <Primitives />
       </Section>
 
       <Section
