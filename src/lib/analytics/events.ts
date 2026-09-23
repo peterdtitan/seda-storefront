@@ -3,6 +3,7 @@ export const EVENTS = {
   productListViewed: "product_list_viewed",
   categoryFiltered: "category_filtered",
   productViewed: "product_viewed",
+  lookOpened: "look_opened",
   colourwaySelected: "colourway_selected",
   sizeSelected: "size_selected",
   addedToBag: "added_to_bag",
