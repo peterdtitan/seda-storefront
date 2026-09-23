@@ -140,3 +140,11 @@ export const STORY_QUERY = groq`*[_id == "siteCopy"][0]{
   processSteps[]{ _key, title, body, image ${IMAGE_FRAGMENT} },
   people
 }`;
+
+export const CONTACT_QUERY = groq`*[_id == "siteCopy"][0]{
+  email,
+  phone,
+  social,
+  studio,
+  contactImage ${IMAGE_FRAGMENT}
+}`;
