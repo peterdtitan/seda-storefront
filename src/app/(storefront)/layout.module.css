@@ -7,3 +7,11 @@
 .main {
   flex: 1;
 }
+
+/* main carries tabindex="-1" purely as the skip link's landing spot. It is not a
+   control, so it should not draw the focus ring around the whole page. */
+.main:focus,
+.main:focus-visible {
+  outline: none;
+  box-shadow: none;
+}

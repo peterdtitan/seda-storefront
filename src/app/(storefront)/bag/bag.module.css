@@ -219,3 +219,11 @@
     --disp-size: 26px;
   }
 }
+
+/* Focus lands here after the last line is removed, so the empty state is read out
+   instead of the keyboard dropping to the top. It is a destination, not a control. */
+.empty:focus,
+.empty:focus-visible {
+  outline: none;
+  box-shadow: none;
+}

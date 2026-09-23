@@ -15,8 +15,11 @@
   transition: var(--transition-hover);
 }
 
+/* Selection is a border, not an outline. Arrow keys now move focus without moving
+   the selection, so the two indicators have to be visible at the same time, and the
+   focus ring owns outline. */
 .selected {
-  outline: 2px solid var(--seda-ink);
+  border: 2px solid var(--seda-ink);
 }
 
 .soldOut {

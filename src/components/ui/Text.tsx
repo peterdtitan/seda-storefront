@@ -7,6 +7,8 @@ type TextProps = {
   children: ReactNode;
   className?: string;
   style?: CSSProperties;
+  /** For aria-labelledby, which needs the heading to be addressable. */
+  id?: string;
 };
 
 export function Eyebrow({
@@ -15,9 +17,11 @@ export function Eyebrow({
   className,
   style,
   colour,
+  id,
 }: TextProps & { colour?: string }) {
   return (
     <Tag
+      id={id}
       className={["seda-eyebrow", className].filter(Boolean).join(" ")}
       style={{ ...(colour ? { "--eyebrow-color": colour } : {}), ...style } as Vars}
     >
@@ -33,9 +37,11 @@ export function Display({
   children,
   className,
   style,
+  id,
 }: TextProps & { size?: string; colour?: string }) {
   return (
     <Tag
+      id={id}
       className={["seda-disp", className].filter(Boolean).join(" ")}
       style={
         {
@@ -58,9 +64,11 @@ export function BrandBody({
   children,
   className,
   style,
+  id,
 }: TextProps & { colour?: string; max?: string; size?: string }) {
   return (
     <Tag
+      id={id}
       className={["seda-brand-body", className].filter(Boolean).join(" ")}
       style={
         {
@@ -82,9 +90,11 @@ export function UiLabel({
   children,
   className,
   style,
+  id,
 }: TextProps & { colour?: string }) {
   return (
     <Tag
+      id={id}
       className={["seda-ui-label", className].filter(Boolean).join(" ")}
       style={{ ...(colour ? { "--ui-label-color": colour } : {}), ...style } as Vars}
     >

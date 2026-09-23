@@ -70,6 +70,7 @@ export default async function LookbookPage() {
                   sizes="(max-width: 768px) 100vw, 66vw"
                   fill
                   priority
+                  alt=""
                 />
               </LookTrigger>
               <Scrim />
@@ -99,6 +100,7 @@ export default async function LookbookPage() {
                     image={look.image}
                     sizes="(max-width: 768px) 50vw, (max-width: 1100px) 50vw, 33vw"
                     fill
+                    alt=""
                   />
                 </LookTrigger>
                 <Scrim />

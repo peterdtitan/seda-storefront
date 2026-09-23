@@ -22,7 +22,9 @@ export default async function StorefrontLayout({ children }: { children: React.R
       <div className={s.shell}>
         <PageViews />
         <Header />
-        <main id="main" className={s.main}>
+        {/* tabIndex -1 so the skip link actually lands focus here; without it Safari
+            moves the scroll position and leaves focus at the top of the document. */}
+        <main id="main" tabIndex={-1} className={s.main}>
           {children}
         </main>
         <Footer tagline={copy?.tagline ?? "Made in Nigeria, designed for it too."} />

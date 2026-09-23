@@ -97,7 +97,7 @@ export function ShopGrid({
       </div>
 
       <div className={s.meta}>
-        <span className={s.count}>
+        <span className={s.count} role="status">
           {visible.length} {visible.length === 1 ? "piece" : "pieces"}
         </span>
         <div className={s.sort}>
