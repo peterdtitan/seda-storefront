@@ -23,7 +23,7 @@ export function ProductCard({ card, height, sizes, priority, layout = "inline" }
       className={[s.card, layout === "inline" ? "" : s.compact].filter(Boolean).join(" ")}
     >
       <div className={s.frame} style={{ height }}>
-        <SanityImage image={card.image} sizes={sizes} fill priority={priority} />
+        <SanityImage image={card.image} sizes={sizes} fill priority={priority} alt="" />
         {card.soldOut && (
           <UiLabel className={s.badge} colour="var(--text-muted)">
             Sold out

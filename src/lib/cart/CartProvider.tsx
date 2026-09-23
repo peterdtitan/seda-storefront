@@ -1,6 +1,14 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import {
   CART_COOKIE,
@@ -19,6 +27,8 @@ type CartContextValue = {
   setQuantity: (key: string, quantity: number) => void;
   remove: (key: string) => void;
   clear: () => void;
+  /** Speak a change that is otherwise only visible as the header count moving. */
+  announce: (message: string) => void;
 };
 
 const CartContext = createContext<CartContextValue | null>(null);
@@ -40,6 +50,18 @@ export function CartProvider({
 }) {
   const [cart, setCart] = useState<Cart>(initialCart);
   const [dirty, setDirty] = useState(false);
+  const [message, setMessage] = useState("");
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Adding the same piece twice writes the same string, and a live region that has
+  // not changed says nothing. Emptying it first makes the second add a change again.
+  const announce = useCallback((next: string) => {
+    if (timer.current) clearTimeout(timer.current);
+    setMessage("");
+    timer.current = setTimeout(() => setMessage(next), 60);
+  }, []);
+
+  useEffect(() => () => (timer.current ? clearTimeout(timer.current) : undefined), []);
 
   useEffect(() => {
     if (dirty) writeCookie(cart);
@@ -84,11 +106,18 @@ export function CartProvider({
   }, []);
 
   const value = useMemo(
-    () => ({ cart, count: cartCount(cart), add, setQuantity, remove, clear }),
-    [cart, add, setQuantity, remove, clear],
+    () => ({ cart, count: cartCount(cart), add, setQuantity, remove, clear, announce }),
+    [cart, add, setQuantity, remove, clear, announce],
   );
 
-  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
+  return (
+    <CartContext.Provider value={value}>
+      {children}
+      <div className="seda-visually-hidden" role="status" aria-live="polite">
+        {message}
+      </div>
+    </CartContext.Provider>
+  );
 }
 
 export function useCart() {

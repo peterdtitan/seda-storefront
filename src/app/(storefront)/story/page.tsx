@@ -85,6 +85,7 @@ export default async function StoryPage() {
                   image={step.image}
                   sizes="(max-width: 768px) 100vw, (max-width: 1100px) 50vw, 25vw"
                   fill
+                  alt=""
                 />
               </div>
               <UiLabel colour="var(--text-muted)" className={s.processNumber}>

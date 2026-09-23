@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 
 import { SanityImage } from "@/components/SanityImage";
 import { Cta } from "@/components/ui/Button";
@@ -27,7 +27,14 @@ type Resolved = {
 };
 
 export function BagContents({ products }: { products: Product[] }) {
-  const { cart, setQuantity, remove } = useCart();
+  const { cart, setQuantity, remove, announce } = useCart();
+  const removeRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const continueRef = useRef<HTMLAnchorElement>(null);
+  const emptyRef = useRef<HTMLDivElement>(null);
+  // Removing a line unmounts the button that had focus, which drops the keyboard
+  // back to the top of the document. A ref rather than state: this is a note to the
+  // effect about what to do once the list re-renders, not something we render from.
+  const pendingFocus = useRef<number | null>(null);
 
   const lines = useMemo<Resolved[]>(
     () =>
@@ -66,12 +73,26 @@ export function BagContents({ products }: { products: Product[] }) {
     stale.forEach((line) => remove(lineKey(line)));
   }, [stale, remove]);
 
+  useEffect(() => {
+    const index = pendingFocus.current;
+    if (index === null) return;
+    pendingFocus.current = null;
+    const buttons = removeRefs.current.filter(Boolean);
+    // Removing the last line unmounts every one of those, so the empty state is
+    // the last resort — otherwise focus falls to the top of the document.
+    (
+      buttons[Math.min(index, buttons.length - 1)] ??
+      continueRef.current ??
+      emptyRef.current
+    )?.focus();
+  }, [lines.length]);
+
   const subtotalKobo = lines.reduce((total, line) => total + line.lineTotalKobo, 0);
   const overstocked = lines.some((line) => line.quantity > line.available);
 
   if (lines.length === 0) {
     return (
-      <div className={s.empty}>
+      <div className={s.empty} ref={emptyRef} tabIndex={-1}>
         <Display as="p" className={s.emptyTitle}>
           Your bag is empty
         </Display>
@@ -86,10 +107,10 @@ export function BagContents({ products }: { products: Product[] }) {
   return (
     <div className={s.columns}>
       <div>
-        {lines.map((line) => (
+        {lines.map((line, index) => (
           <div key={line.key} className={s.line}>
             <div className={s.thumb}>
-              <SanityImage image={line.colourway.images?.[0]} sizes="110px" fill />
+              <SanityImage image={line.colourway.images?.[0]} sizes="110px" fill alt="" />
             </div>
 
             <div className={s.lineBody}>
@@ -108,7 +129,10 @@ export function BagContents({ products }: { products: Product[] }) {
                   <button
                     type="button"
                     className={s.stepperButton}
-                    onClick={() => setQuantity(line.key, line.quantity - 1)}
+                    onClick={() => {
+                      setQuantity(line.key, line.quantity - 1);
+                      announce(`${line.product.name}, quantity ${line.quantity - 1}.`);
+                    }}
                     aria-label={`Decrease quantity of ${line.product.name}`}
                   >
                     −
@@ -117,7 +141,10 @@ export function BagContents({ products }: { products: Product[] }) {
                   <button
                     type="button"
                     className={s.stepperButton}
-                    onClick={() => setQuantity(line.key, line.quantity + 1)}
+                    onClick={() => {
+                      setQuantity(line.key, line.quantity + 1);
+                      announce(`${line.product.name}, quantity ${line.quantity + 1}.`);
+                    }}
                     disabled={line.quantity >= line.available}
                     aria-label={`Increase quantity of ${line.product.name}`}
                   >
@@ -127,9 +154,15 @@ export function BagContents({ products }: { products: Product[] }) {
 
                 <button
                   type="button"
+                  ref={(node) => {
+                    removeRefs.current[index] = node;
+                  }}
                   className={s.remove}
+                  aria-label={`Remove ${line.product.name}, ${line.colourway.name}, size ${line.size}`}
                   onClick={() => {
                     remove(line.key);
+                    announce(`${line.product.name} removed from your bag.`);
+                    pendingFocus.current = index;
                     track(EVENTS.removedFromBag, {
                       productSlug: line.product.slug,
                       productName: line.product.name,
@@ -145,7 +178,7 @@ export function BagContents({ products }: { products: Product[] }) {
               </div>
 
               {line.quantity > line.available && (
-                <div className={s.lineNotice}>
+                <div className={s.lineNotice} role="status">
                   {line.available === 0
                     ? "Sold out since you added it. Remove to continue."
                     : `Only ${line.available} left. Reduce the quantity to continue.`}
@@ -158,14 +191,16 @@ export function BagContents({ products }: { products: Product[] }) {
         ))}
 
         <div className={s.continue}>
-          <Link href="/shop" className={s.continueLink}>
+          <Link href="/shop" ref={continueRef} className={s.continueLink}>
             Continue shopping
           </Link>
         </div>
       </div>
 
-      <aside className={s.summary}>
-        <Eyebrow as="h2">Summary</Eyebrow>
+      <aside className={s.summary} aria-labelledby="bag-summary">
+        <Eyebrow as="h2" id="bag-summary">
+          Summary
+        </Eyebrow>
 
         <div className={s.summaryRow}>
           <span>Subtotal</span>
