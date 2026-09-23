@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { SanityImage } from "@/components/SanityImage";
+import { LookLightbox, LookTrigger, type LightboxLook } from "./LookLightbox";
 import { Scrim } from "@/components/ui/Scrim";
 import { BrandBody, Display, Eyebrow } from "@/components/ui/Text";
 import type { SanityImage as SanityImageValue } from "@/sanity/lib/types";
@@ -40,6 +41,13 @@ export default async function LookbookPage() {
   const feature = looks.find((look) => look.feature) ?? looks[0];
   const rest = looks.filter((look) => look._id !== feature?._id);
 
+  const lightboxLooks: LightboxLook[] = looks.map((look) => ({
+    _id: look._id,
+    slug: String(look.order).padStart(2, "0"),
+    label: lookLabel(look),
+    image: look.image,
+  }));
+
   return (
     <>
       <header className={s.header}>
@@ -52,50 +60,56 @@ export default async function LookbookPage() {
         </BrandBody>
       </header>
 
-      {feature && (
-        <section className={s.feature}>
-          <figure className={s.featureHero}>
-            <SanityImage
-              image={feature.image}
-              sizes="(max-width: 768px) 100vw, 66vw"
-              fill
-              priority
-            />
-            <Scrim />
-            <Display as="figcaption" colour="var(--seda-cream)" className={s.captionLarge}>
-              {lookLabel(feature)}
-            </Display>
-          </figure>
-
-          {(feature.supportingImages?.length ?? 0) > 0 && (
-            <div className={s.support}>
-              {feature.supportingImages!.slice(0, 2).map((image, i) => (
-                <div key={image.asset?._id ?? i} className={s.supportCell}>
-                  <SanityImage image={image} sizes="(max-width: 768px) 50vw, 33vw" fill />
-                </div>
-              ))}
-            </div>
-          )}
-        </section>
-      )}
-
-      {rest.length > 0 && (
-        <section className={s.grid}>
-          {rest.map((look) => (
-            <figure key={look._id} className={s.cell}>
-              <SanityImage
-                image={look.image}
-                sizes="(max-width: 768px) 50vw, (max-width: 1100px) 50vw, 33vw"
-                fill
-              />
+      <LookLightbox looks={lightboxLooks}>
+        {feature && (
+          <section className={s.feature}>
+            <figure className={s.featureHero}>
+              <LookTrigger id={feature._id} label={lookLabel(feature)}>
+                <SanityImage
+                  image={feature.image}
+                  sizes="(max-width: 768px) 100vw, 66vw"
+                  fill
+                  priority
+                />
+              </LookTrigger>
               <Scrim />
-              <Display as="figcaption" colour="var(--seda-cream)" className={s.caption}>
-                {lookLabel(look)}
+              <Display as="figcaption" colour="var(--seda-cream)" className={s.captionLarge}>
+                {lookLabel(feature)}
               </Display>
             </figure>
-          ))}
-        </section>
-      )}
+
+            {(feature.supportingImages?.length ?? 0) > 0 && (
+              <div className={s.support}>
+                {feature.supportingImages!.slice(0, 2).map((image, i) => (
+                  <div key={image.asset?._id ?? i} className={s.supportCell}>
+                    <SanityImage image={image} sizes="(max-width: 768px) 50vw, 33vw" fill />
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+        )}
+
+        {rest.length > 0 && (
+          <section className={s.grid}>
+            {rest.map((look) => (
+              <figure key={look._id} className={s.cell}>
+                <LookTrigger id={look._id} label={lookLabel(look)}>
+                  <SanityImage
+                    image={look.image}
+                    sizes="(max-width: 768px) 50vw, (max-width: 1100px) 50vw, 33vw"
+                    fill
+                  />
+                </LookTrigger>
+                <Scrim />
+                <Display as="figcaption" colour="var(--seda-cream)" className={s.caption}>
+                  {lookLabel(look)}
+                </Display>
+              </figure>
+            ))}
+          </section>
+        )}
+      </LookLightbox>
     </>
   );
 }
