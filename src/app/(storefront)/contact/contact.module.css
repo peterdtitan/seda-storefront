@@ -1,0 +1,149 @@
+.split {
+  display: flex;
+  min-height: 620px;
+}
+
+.image {
+  position: relative;
+  width: 44%;
+  flex-shrink: 0;
+  background: var(--surface-sunken);
+}
+
+.image :global(img) {
+  object-fit: cover;
+}
+
+.panel {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  padding: 72px var(--gutter-page);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.mark {
+  position: absolute;
+  right: -40px;
+  top: 40px;
+  opacity: 0.14;
+  pointer-events: none;
+}
+
+.title {
+  --disp-size: 58px;
+  margin-top: 10px;
+}
+
+.details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin-top: 44px;
+  position: relative;
+}
+
+/* Display face at label scale — not the eyebrow recipe, which is Jost. */
+.detailKey {
+  font-family: var(--font-display);
+  font-size: 14px;
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--text-heading);
+}
+
+.detailValue {
+  margin-top: 6px;
+  margin-bottom: 0;
+}
+
+.detailValue a {
+  color: inherit;
+  border-bottom-color: var(--border-hairline);
+}
+
+.form {
+  position: relative;
+  max-width: 460px;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: 14px;
+}
+
+.input,
+.textarea {
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-sm);
+  padding: 13px 14px;
+  font: var(--type-body);
+  color: var(--text-body);
+  background: var(--surface-card);
+  width: 100%;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--text-subtle);
+}
+
+.textarea {
+  min-height: 72px;
+  resize: vertical;
+}
+
+/* The flex column would otherwise stretch it to the field width. */
+.fields > button {
+  align-self: flex-start;
+}
+
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.feedback {
+  font: var(--type-body-sm);
+  margin-top: var(--space-3);
+  padding: 12px 16px;
+  border-left: 3px solid var(--status-danger);
+  background: var(--surface-sunken);
+}
+
+.sent {
+  border-left-color: var(--status-success);
+}
+
+@media (max-width: 900px) {
+  .split {
+    display: block;
+    min-height: 0;
+  }
+
+  .image {
+    width: 100%;
+    height: 260px;
+  }
+
+  .panel {
+    padding: 32px 20px;
+  }
+
+  .title {
+    --disp-size: 34px;
+  }
+
+  .details {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+    margin-top: 28px;
+  }
+}

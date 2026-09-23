@@ -218,6 +218,19 @@ CMS: telemetry must never fail a build or a request.
 > but `localStorage` identifiers still fall under GDPR/ePrivacy consent for EU diaspora
 > traffic. Decide whether a consent banner is needed before launch.
 
+## Contact form
+
+Custom requests go to Postgres (`db/migrations/0002_contact_requests.sql`), not the
+CMS: these are messages from people, not content, and the admin panel will list them
+beside orders. See `docs/ADMIN_ROADMAP.md`.
+
+Submission is a server action, so it works without JavaScript. A hidden honeypot field
+is accepted and silently discarded rather than rejected, so a bot cannot tell it failed.
+
+**Unlike analytics, a dropped message is not acceptable.** With no `DATABASE_URL` the
+form says so and gives the studio's email address, rather than showing a confirmation
+for something that was never stored.
+
 ## Repo conventions
 
 - **Branch per step.** One branch, one commit, one PR per numbered step in `BUILD_PLAN.md`.
