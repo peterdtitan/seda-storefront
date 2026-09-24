@@ -4,6 +4,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { SanityImage } from "@/components/SanityImage";
 import { Cta, Outline } from "@/components/ui/Button";
 import { Logo } from "@/components/ui/Logo";
+import { StateMessage } from "@/components/ui/StateMessage";
 import { BrandBody, Display, Eyebrow } from "@/components/ui/Text";
 import { toCards, type Product } from "@/lib/catalogue";
 import { sanityFetch } from "@/sanity/lib/client";
@@ -24,6 +25,12 @@ export default async function HomePage() {
   const cards = toCards(data?.products ?? []).slice(0, 3);
   const study = data?.designStudy;
 
+  // The front door has to say the brand's name even with nothing behind it, so the
+  // hero holds its own copy rather than rendering an h1 with no words in it.
+  const heroEyebrow = copy?.heroEyebrow || "Drop 01 · Lagos";
+  const heroHeadline = copy?.heroHeadline || "Contemporary Adire";
+  const tagline = copy?.tagline || "Made in Nigeria, designed for it too.";
+
   return (
     <>
       <section className={s.hero}>
@@ -36,17 +43,17 @@ export default async function HomePage() {
         />
         <span className={s.heroScrim} aria-hidden="true" />
         <div className={s.heroCopy}>
-          <Eyebrow colour="var(--seda-cream)">{copy?.heroEyebrow}</Eyebrow>
+          <Eyebrow colour="var(--seda-cream)">{heroEyebrow}</Eyebrow>
           <Display
             as="h1"
             colour="var(--seda-cream)"
             className={s.heroHeadline}
             style={{ whiteSpace: "pre-line" }}
           >
-            {copy?.heroHeadline}
+            {heroHeadline}
           </Display>
           <BrandBody colour="var(--seda-cream)" max="40ch" className={s.heroTagline}>
-            {copy?.tagline}
+            {tagline}
           </BrandBody>
           <div className={s.heroActions}>
             <Cta tone="cream" href="/shop">
@@ -69,6 +76,20 @@ export default async function HomePage() {
             All
           </Link>
         </div>
+        {cards.length === 0 && (
+          <StateMessage
+            compact
+            eyebrow={data === null ? "Catalogue unavailable" : "Coming soon"}
+            tone={data === null ? "fault" : "quiet"}
+            title={data === null ? "We cannot reach the drop right now" : "Drop 01 lands shortly"}
+            body={
+              data === null
+                ? "The pieces are still here — our catalogue just is not answering. Try the shop in a moment."
+                : "Every piece is dyed and sewn in short runs. The first release is nearly ready."
+            }
+          />
+        )}
+
         <div className={s.dropGrid}>
           {cards.map((card, i) => (
             <ProductCard
@@ -82,28 +103,32 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className={s.manifesto} data-theme="oxblood">
-        <div className={s.manifestoMark} aria-hidden="true">
-          <Logo kind="mark" tone="cream" height={400} alt="" />
-        </div>
-        <div className={s.manifestoCopy}>
-          <Eyebrow colour="var(--text-on-inverse-muted)">{copy?.manifestoEyebrow}</Eyebrow>
-          <Display as="h2" colour="var(--seda-cream)" className={s.manifestoHeadline}>
-            {copy?.manifestoHeadline}
-          </Display>
-          <BrandBody colour="var(--text-on-inverse-muted)" max="46ch" className={s.manifestoBody}>
-            {copy?.manifestoBody}
-          </BrandBody>
-          <div className={s.manifestoActions}>
-            <Outline tone="cream" href="/story">
-              Our story
-            </Outline>
+      {/* The manifesto is nothing but CMS prose. Without it the band renders as an
+          empty h2 over an oxblood block, so drop the section rather than the copy. */}
+      {copy?.manifestoHeadline && (
+        <section className={s.manifesto} data-theme="oxblood">
+          <div className={s.manifestoMark} aria-hidden="true">
+            <Logo kind="mark" tone="cream" height={400} alt="" />
           </div>
-        </div>
-        <div className={s.manifestoImage}>
-          <SanityImage image={copy?.manifestoImage} sizes="420px" fill />
-        </div>
-      </section>
+          <div className={s.manifestoCopy}>
+            <Eyebrow colour="var(--text-on-inverse-muted)">{copy?.manifestoEyebrow}</Eyebrow>
+            <Display as="h2" colour="var(--seda-cream)" className={s.manifestoHeadline}>
+              {copy?.manifestoHeadline}
+            </Display>
+            <BrandBody colour="var(--text-on-inverse-muted)" max="46ch" className={s.manifestoBody}>
+              {copy?.manifestoBody}
+            </BrandBody>
+            <div className={s.manifestoActions}>
+              <Outline tone="cream" href="/story">
+                Our story
+              </Outline>
+            </div>
+          </div>
+          <div className={s.manifestoImage}>
+            <SanityImage image={copy?.manifestoImage} sizes="420px" fill />
+          </div>
+        </section>
+      )}
 
       <section className={s.strip}>
         {(copy?.stripImages ?? []).map((image, i) => (

@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { SanityImage } from "@/components/SanityImage";
 import { LookLightbox, LookTrigger, type LightboxLook } from "./LookLightbox";
 import { Scrim } from "@/components/ui/Scrim";
+import { StateMessage } from "@/components/ui/StateMessage";
+import { Cta, Outline } from "@/components/ui/Button";
 import { BrandBody, Display, Eyebrow } from "@/components/ui/Text";
 import type { SanityImage as SanityImageValue } from "@/sanity/lib/types";
 import { sanityFetch } from "@/sanity/lib/client";
@@ -59,6 +61,28 @@ export default async function LookbookPage() {
           {data?.copy?.lookbookIntro}
         </BrandBody>
       </header>
+
+      {data === null && (
+        <StateMessage
+          eyebrow="Lookbook unavailable"
+          tone="fault"
+          title="The lookbook is not loading"
+          body="The images are still there — our catalogue just is not answering right now. The shop may still be working."
+        >
+          <Cta href="/lookbook">Try again</Cta>
+          <Outline href="/shop">Go to the shop</Outline>
+        </StateMessage>
+      )}
+
+      {data !== null && looks.length === 0 && (
+        <StateMessage
+          eyebrow="Coming soon"
+          title="The Drop 01 lookbook is being shot"
+          body="We photograph each drop once the full run is finished. It will be here shortly — the pieces are already in the shop."
+        >
+          <Cta href="/shop">Shop the drop</Cta>
+        </StateMessage>
+      )}
 
       <LookLightbox looks={lightboxLooks}>
         {feature && (

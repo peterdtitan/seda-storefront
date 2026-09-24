@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 
 import { SanityImage } from "@/components/SanityImage";
+import { StateMessage } from "@/components/ui/StateMessage";
+import { Cta, Outline } from "@/components/ui/Button";
 import { BrandBody, Display, Eyebrow, UiLabel } from "@/components/ui/Text";
 import { sanityFetch } from "@/sanity/lib/client";
 import { STORY_QUERY } from "@/sanity/lib/queries";
@@ -26,6 +28,23 @@ type Story = {
 
 export default async function StoryPage() {
   const copy = await sanityFetch<Story>(STORY_QUERY);
+
+  // Every word on this page comes from the CMS, so without it there is no page —
+  // only a run of empty headings, starting with an h1 that says nothing.
+  if (!copy) {
+    return (
+      <StateMessage
+        eyebrow="Story unavailable"
+        tone="fault"
+        title="We cannot tell you our story right now"
+        as="h1"
+        body="This page is written entirely in our studio journal, and it is not answering. The shop and lookbook may still be working."
+      >
+        <Cta href="/story">Try again</Cta>
+        <Outline href="/shop">Go to the shop</Outline>
+      </StateMessage>
+    );
+  }
 
   return (
     <>

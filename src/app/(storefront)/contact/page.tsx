@@ -4,6 +4,7 @@ import { SanityImage } from "@/components/SanityImage";
 import { Logo } from "@/components/ui/Logo";
 import { Rule } from "@/components/ui/Rule";
 import { BrandBody, Display, Eyebrow } from "@/components/ui/Text";
+import { STUDIO } from "@/lib/studio";
 import { sanityFetch } from "@/sanity/lib/client";
 import { CONTACT_QUERY } from "@/sanity/lib/queries";
 import type { SanityImage as SanityImageValue } from "@/sanity/lib/types";
@@ -27,27 +28,24 @@ type Contact = {
 export default async function ContactPage() {
   const copy = await sanityFetch<Contact>(CONTACT_QUERY);
 
+  // A blank "Email:" is the one failure this page cannot afford, so each line falls
+  // back to the studio's own details rather than rendering an empty term.
+  const email = copy?.email || STUDIO.email;
+  const phone = copy?.phone || STUDIO.phone;
+  const social = copy?.social || STUDIO.social;
+
   const details: { key: string; value: React.ReactNode }[] = [
-    {
-      key: "Email:",
-      value: copy?.email ? <a href={`mailto:${copy.email}`}>{copy.email}</a> : null,
-    },
-    {
-      key: "Phone:",
-      value: copy?.phone ? <a href={`tel:${copy.phone}`}>{copy.phone}</a> : null,
-    },
+    { key: "Email:", value: <a href={`mailto:${email}`}>{email}</a> },
+    { key: "Phone:", value: <a href={`tel:${phone}`}>{phone}</a> },
     {
       key: "Social Media:",
-      value: copy?.social ? (
-        <a
-          href={`https://instagram.com/${copy.social.replace(/^@/, "")}`}
-          rel="noreferrer noopener"
-        >
-          {copy.social}
+      value: (
+        <a href={`https://instagram.com/${social.replace(/^@/, "")}`} rel="noreferrer noopener">
+          {social}
         </a>
-      ) : null,
+      ),
     },
-    { key: "Studio:", value: copy?.studio },
+    { key: "Studio:", value: copy?.studio || STUDIO.location },
   ];
 
   return (

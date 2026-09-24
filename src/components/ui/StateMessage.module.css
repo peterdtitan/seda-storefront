@@ -1,0 +1,35 @@
+.panel {
+  padding: var(--space-20) var(--gutter-page) var(--space-24);
+  text-align: center;
+}
+
+.compact {
+  padding: var(--space-12) var(--gutter-page);
+}
+
+.title {
+  --disp-size: 40px;
+  margin-top: var(--space-2);
+}
+
+.body {
+  margin: var(--space-4) auto 0;
+}
+
+.actions {
+  margin-top: var(--space-8);
+  display: flex;
+  gap: var(--space-3);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .panel {
+    padding: var(--space-12) 20px var(--space-16);
+  }
+
+  .title {
+    --disp-size: 26px;
+  }
+}

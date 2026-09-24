@@ -246,3 +246,7 @@
     --disp-size: 15px;
   }
 }
+
+.skeletonTitle {
+  margin-top: var(--space-3);
+}

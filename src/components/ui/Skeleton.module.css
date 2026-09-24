@@ -1,0 +1,34 @@
+.block {
+  display: block;
+  height: var(--sk-h);
+  width: var(--sk-w, 100%);
+  border-radius: var(--sk-r, var(--radius-none));
+  background: var(--surface-sunken);
+  position: relative;
+  overflow: hidden;
+}
+
+/* A slow sheen rather than a pulse — the same "cloth, not rubber" rule the motion
+   tokens set. The gradient is cream because every skeleton sits on a cream ground. */
+.block::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255, 250, 232, 0.6), transparent);
+  animation: sheen var(--dur-drape) var(--ease-linear) infinite;
+}
+
+@keyframes sheen {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* The motion tokens collapse durations under reduced motion, which would leave the
+   sheen flickering rather than stopping. Take it off entirely instead. */
+@media (prefers-reduced-motion: reduce) {
+  .block::after {
+    animation: none;
+  }
+}
