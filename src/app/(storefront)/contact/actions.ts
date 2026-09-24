@@ -2,6 +2,8 @@
 
 import { headers } from "next/headers";
 
+import { STUDIO } from "@/lib/studio";
+
 import { sql } from "@/lib/analytics/db";
 
 export type ContactState =
@@ -43,7 +45,7 @@ export async function submitContactRequest(
   if (!sql) {
     return {
       status: "error",
-      message: "We could not send that. Email wearsedastudio@gmail.com and we will reply.",
+      message: `We could not send that. Email ${STUDIO.email} and we will reply.`,
       fields,
     };
   }
@@ -65,7 +67,7 @@ export async function submitContactRequest(
     console.error("[contact] insert failed", error);
     return {
       status: "error",
-      message: "We could not send that. Email wearsedastudio@gmail.com and we will reply.",
+      message: `We could not send that. Email ${STUDIO.email} and we will reply.`,
       fields,
     };
   }

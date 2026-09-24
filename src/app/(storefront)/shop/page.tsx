@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 
 import { SanityImage } from "@/components/SanityImage";
 import { Track } from "@/components/Track";
+import { Cta, Outline } from "@/components/ui/Button";
 import { Scrim } from "@/components/ui/Scrim";
+import { StateMessage } from "@/components/ui/StateMessage";
+import { STUDIO } from "@/lib/studio";
 import { Display, Eyebrow } from "@/components/ui/Text";
 import { EVENTS } from "@/lib/analytics/events";
 import { toCards, type Product } from "@/lib/catalogue";
@@ -60,12 +63,33 @@ export default async function ShopPage({ searchParams }: { searchParams: SearchP
       </section>
 
       <div className={s.body}>
-        <ShopGrid
-          cards={cards}
-          categories={categories}
-          initialCategory={category}
-          initialSort={sort as "newest" | "price-asc" | "price-desc"}
-        />
+        {/* null means the CMS did not answer; an empty array means it answered and the
+            drop really is empty. Collapsing the two told the visitor the category was
+            empty when in fact nothing had loaded. */}
+        {data === null ? (
+          <StateMessage
+            eyebrow="Catalogue unavailable"
+            tone="fault"
+            title="We cannot reach the collection right now"
+            body={
+              <>
+                The pieces are still here — our catalogue just is not answering. Try again in a
+                moment, or write to <a href={`mailto:${STUDIO.email}`}>{STUDIO.email}</a> and we
+                will take your order directly.
+              </>
+            }
+          >
+            <Cta href="/shop">Try again</Cta>
+            <Outline href="/contact">Get in touch</Outline>
+          </StateMessage>
+        ) : (
+          <ShopGrid
+            cards={cards}
+            categories={categories}
+            initialCategory={category}
+            initialSort={sort as "newest" | "price-asc" | "price-desc"}
+          />
+        )}
       </div>
     </>
   );

@@ -59,6 +59,10 @@ export default async function ProductPage({
   const data = await load(slug);
   const product = data?.product;
 
+  // Deliberately no loading.tsx on this route. A loading file wraps the segment in
+  // Suspense, the response starts streaming, and the 200 is committed before this line
+  // runs — so a retired piece would answer 200 with 404 wording. A soft 404 gets the
+  // URL indexed as a live page; a skeleton is worth less than that costs.
   if (!product) notFound();
 
   const colourways = product.colourways ?? [];

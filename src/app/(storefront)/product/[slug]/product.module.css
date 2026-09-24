@@ -272,3 +272,7 @@
     gap: 12px;
   }
 }
+
+.skeletonGap {
+  margin-top: var(--space-5);
+}
