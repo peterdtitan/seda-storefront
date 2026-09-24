@@ -1,11 +1,5 @@
 #!/usr/bin/env bash
 # Pushes the app's environment variables from .env.local to all three Vercel targets.
-#
-#   pnpm env:push          # add, skipping any that already exist
-#   pnpm env:push --force  # remove then re-add, to change a value
-#
-# `vercel env add` prompts for the value, so each one is piped in. VERCEL_OIDC_TOKEN is
-# written into .env.local by the Vercel CLI itself and is deliberately not pushed back.
 
 set -euo pipefail
 
@@ -18,6 +12,7 @@ VARS=(
   NEXT_PUBLIC_SANITY_API_VERSION
   SANITY_API_READ_TOKEN
   DATABASE_URL
+  NEXT_PUBLIC_SITE_URL
 )
 TARGETS=(production preview development)
 

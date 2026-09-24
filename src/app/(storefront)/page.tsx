@@ -1,10 +1,14 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
+import { JsonLd } from "@/components/JsonLd";
 import { ProductCard } from "@/components/ProductCard";
 import { SanityImage } from "@/components/SanityImage";
 import { Cta, Outline } from "@/components/ui/Button";
 import { Logo } from "@/components/ui/Logo";
 import { StateMessage } from "@/components/ui/StateMessage";
+import { SITE, absoluteUrl } from "@/lib/site";
+import { organisationJsonLd } from "@/lib/seo";
 import { BrandBody, Display, Eyebrow } from "@/components/ui/Text";
 import { toCards, type Product } from "@/lib/catalogue";
 import { sanityFetch } from "@/sanity/lib/client";
@@ -17,6 +21,11 @@ type HomeData = {
   copy: SiteCopy | null;
   products: Product[] | null;
   designStudy: DesignStudy | null;
+};
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+  openGraph: { title: SITE.title, description: SITE.description, url: "/" },
 };
 
 export default async function HomePage() {
@@ -33,6 +42,8 @@ export default async function HomePage() {
 
   return (
     <>
+      <JsonLd data={organisationJsonLd(absoluteUrl, absoluteUrl("/logo/wordmark-oxblood.png"))} />
+
       <section className={s.hero}>
         <SanityImage
           image={copy?.heroImage}

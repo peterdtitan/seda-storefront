@@ -2,11 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { JsonLd } from "@/components/JsonLd";
 import { ProductCard } from "@/components/ProductCard";
 import { Track } from "@/components/Track";
 import { BrandBody, Display, Eyebrow, UiLabel } from "@/components/ui/Text";
 import { EVENTS } from "@/lib/analytics/events";
-import { toCards, type Colourway, type Product } from "@/lib/catalogue";
+import { ogImage, productJsonLd } from "@/lib/seo";
+import { absoluteUrl } from "@/lib/site";
+import { toCards, unitsInStock, type Colourway, type Product } from "@/lib/catalogue";
+import { urlForImage } from "@/sanity/lib/image";
 import { sanityFetch } from "@/sanity/lib/client";
 import { PRODUCT_QUERY } from "@/sanity/lib/queries";
 
@@ -40,11 +44,22 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const { slug } = await params;
   const data = await load(slug);
   const product = data?.product;
-  if (!product) return { title: "Not found — Șèdá" };
+  if (!product) return { title: "Not found" };
+
+  const hero = product.colourways?.[0]?.images?.[0];
+  const description = product.description?.slice(0, 160);
 
   return {
-    title: `${product.name} — Șèdá`,
-    description: product.description?.slice(0, 160),
+    title: product.name,
+    description,
+    alternates: { canonical: `/product/${slug}` },
+    openGraph: {
+      type: "website",
+      title: product.name,
+      description,
+      url: absoluteUrl(`/product/${slug}`),
+      images: ogImage(hero, `${product.name} — Șèdá`),
+    },
   };
 }
 
@@ -77,8 +92,30 @@ export default async function ProductPage({
     .filter((card, i, all) => all.findIndex((c) => c.name === card.name) === i)
     .slice(0, 4);
 
+  // Every colourway photo, so a rich result can carousel the piece rather than show
+  // whichever colour happens to be first.
+  const imageUrls = colourways
+    .flatMap((c) => c.images?.slice(0, 1) ?? [])
+    .map((image) => urlForImage(image)?.width(1200).url())
+    .filter((url): url is string => Boolean(url));
+
   return (
     <>
+      <JsonLd
+        data={productJsonLd(
+          {
+            name: product.name,
+            slug: product.slug,
+            description: product.description,
+            priceKobo: product.priceKobo,
+            imageUrls,
+            inStock: colourways.some((c) => unitsInStock(c) > 0),
+            category: product.category?.title,
+          },
+          absoluteUrl,
+        )}
+      />
+
       <Track
         event={EVENTS.productViewed}
         productId={product._id}

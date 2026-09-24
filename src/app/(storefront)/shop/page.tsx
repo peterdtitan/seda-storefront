@@ -17,8 +17,14 @@ import { ShopGrid, type Category } from "./ShopGrid";
 import s from "./shop.module.css";
 
 export const metadata: Metadata = {
-  title: "Shop — Șèdá",
+  title: "Shop",
   description: "Contemporary Adire for everyday life. Drop 01, made in Lagos.",
+  alternates: { canonical: "/shop" },
+  openGraph: {
+    title: "Shop — Șèdá",
+    description: "Contemporary Adire for everyday life. Drop 01, made in Lagos.",
+    url: "/shop",
+  },
 };
 
 type ShopData = {

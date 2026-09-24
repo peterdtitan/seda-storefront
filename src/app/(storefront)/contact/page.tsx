@@ -13,8 +13,14 @@ import { ContactForm } from "./ContactForm";
 import s from "./contact.module.css";
 
 export const metadata: Metadata = {
-  title: "Get in touch — Șèdá",
+  title: "Get in touch",
   description: "Lagos and Abuja. Custom requests welcome.",
+  alternates: { canonical: "/contact" },
+  openGraph: {
+    title: "Get in touch — Șèdá",
+    description: "Lagos and Abuja. Custom requests welcome.",
+    url: "/contact",
+  },
 };
 
 type Contact = {

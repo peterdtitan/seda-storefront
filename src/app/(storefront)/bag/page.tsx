@@ -13,8 +13,9 @@ import { BagContents } from "./BagContents";
 import s from "./bag.module.css";
 
 export const metadata: Metadata = {
-  title: "Your bag — Șèdá",
+  title: "Your bag",
   robots: { index: false, follow: false },
+  alternates: { canonical: "/bag" },
 };
 
 export const dynamic = "force-dynamic";
