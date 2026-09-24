@@ -18,8 +18,10 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        // The bag is per-visitor and empty to a crawler; the rest is not public work.
-        disallow: ["/studio", "/studio/", "/styleguide", "/bag", "/api/"],
+        // The bag and checkout are per-visitor and empty to a crawler; the rest is
+        // not public work. Both also carry noindex, which is what actually keeps
+        // them out of an index — this just saves the crawl.
+        disallow: ["/studio", "/studio/", "/styleguide", "/bag", "/checkout", "/api/"],
       },
     ],
     sitemap: absoluteUrl("/sitemap.xml"),

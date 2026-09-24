@@ -13,6 +13,7 @@ VARS=(
   SANITY_API_READ_TOKEN
   DATABASE_URL
   NEXT_PUBLIC_SITE_URL
+  PAYSTACK_SECRET_KEY
 )
 TARGETS=(production preview development)
 
