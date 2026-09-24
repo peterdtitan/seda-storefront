@@ -128,7 +128,11 @@
 
 /* --- trigger --- */
 
+/* The fill image inside is position:absolute, so without a position here it resolves
+   against the figure and skips the button altogether. It happened to line up, because
+   the button is the same box — but Next warns, and the button's own box held nothing. */
 .trigger {
+  position: relative;
   display: block;
   width: 100%;
   height: 100%;
