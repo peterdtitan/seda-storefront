@@ -91,13 +91,12 @@ export default async function HomePage() {
         )}
 
         <div className={s.dropGrid}>
-          {cards.map((card, i) => (
+          {cards.map((card) => (
             <ProductCard
               key={card.key}
               card={card}
               height="360px"
-              sizes="(max-width: 768px) 50vw, 33vw"
-              priority={i === 0}
+              sizes="(max-width: 768px) 48vw, (max-width: 1100px) 44vw, 30vw"
             />
           ))}
         </div>
@@ -133,7 +132,7 @@ export default async function HomePage() {
       <section className={s.strip}>
         {(copy?.stripImages ?? []).map((image, i) => (
           <div key={image.asset?._id ?? i} className={s.stripCell}>
-            <SanityImage image={image} sizes="(max-width: 768px) 50vw, 25vw" fill />
+            <SanityImage image={image} sizes="(max-width: 1100px) 50vw, 25vw" fill />
           </div>
         ))}
       </section>

@@ -128,7 +128,7 @@ export default async function ProductPage({
                 key={card.key}
                 card={card}
                 height="260px"
-                sizes="(max-width: 768px) 50vw, 25vw"
+                sizes="(max-width: 768px) 48vw, (max-width: 1100px) 29vw, 22vw"
                 layout="minimal"
               />
             ))}

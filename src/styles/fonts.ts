@@ -16,9 +16,16 @@
 
 import { Bodoni_Moda, Jost, Poiret_One } from "next/font/google";
 
-/** Display — Hatton. Caps, wide tracking, hairline contrast. */
+/**
+ * Display — Hatton. Caps, wide tracking, hairline contrast.
+ *
+ * Latin-ext for the same reason as the UI face: the story page sets "Șèdá" as its
+ * h1 in the display face. With latin declared alone the browser still fetched the
+ * ext subset, but late and unpreloaded, so the brand's own name was the one word
+ * on the page liable to swap in after paint.
+ */
 const displayFace = Bodoni_Moda({
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
   variable: "--font-display-face",
   display: "swap",
   // Bodoni Moda is optical-size variable; the storefront sets display sizes from

@@ -54,6 +54,17 @@ p {
   text-wrap: pretty;
 }
 
+/* The UA gives figure and dd a 40px side margin. It was eating 80px off every
+   lookbook cell — 106px instead of 186px on a phone — and indenting each contact
+   detail away from the label above it. Layout here comes from grid and the spacing
+   scale, so none of these carry margin of their own. */
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
 a {
   color: var(--text-link);
   text-decoration: none;

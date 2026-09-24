@@ -40,7 +40,7 @@ export function Header() {
         </nav>
 
         <Link href="/" className={s.wordmark} aria-label="Șèdá — home">
-          <Logo height={22} priority />
+          <Logo height={22} />
         </Link>
 
         <div className={s.actions}>
@@ -61,10 +61,10 @@ export function Header() {
 
       <div className={s.mobile}>
         <Link href="/" className={s.mobileMark} aria-label="Șèdá — home">
-          <Logo kind="mark" height={22} alt="" priority />
+          <Logo kind="mark" height={22} alt="" />
         </Link>
         <Link href="/" className={s.mobileWordmark} aria-hidden="true" tabIndex={-1}>
-          <Logo height={15} priority />
+          <Logo height={15} />
         </Link>
         <Link href="/bag" className={s.link}>
           Bag {count}
