@@ -11,8 +11,14 @@ import type { SanityImage as SanityImageValue } from "@/sanity/lib/types";
 import s from "./story.module.css";
 
 export const metadata: Metadata = {
-  title: "Our story — Șèdá",
+  title: "Our story",
   description: "Șèdá is a Yoruba word meaning to create. Contemporary Adire, made in Lagos.",
+  alternates: { canonical: "/story" },
+  openGraph: {
+    title: "Our story — Șèdá",
+    description: "Șèdá is a Yoruba word meaning to create. Contemporary Adire, made in Lagos.",
+    url: "/story",
+  },
 };
 
 type Story = {

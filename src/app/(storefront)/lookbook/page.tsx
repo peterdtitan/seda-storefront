@@ -13,8 +13,14 @@ import { LOOKBOOK_QUERY } from "@/sanity/lib/queries";
 import s from "./lookbook.module.css";
 
 export const metadata: Metadata = {
-  title: "Lookbook — Șèdá",
+  title: "Lookbook",
   description: "A visual diary of Drop 01 — on the street, in the studio, in the gallery.",
+  alternates: { canonical: "/lookbook" },
+  openGraph: {
+    title: "Lookbook — Șèdá",
+    description: "A visual diary of Drop 01 — on the street, in the studio, in the gallery.",
+    url: "/lookbook",
+  },
 };
 
 type Look = {

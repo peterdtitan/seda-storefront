@@ -19,7 +19,7 @@ import {
 } from "./tokens";
 
 export const metadata = {
-  title: "Șèdá — Styleguide",
+  title: "Styleguide",
   robots: { index: false, follow: false },
 };
 
