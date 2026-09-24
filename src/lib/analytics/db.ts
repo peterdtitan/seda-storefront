@@ -1,24 +1,15 @@
 import "server-only";
 
-import postgres from "postgres";
+import { isDatabaseConfigured, sql } from "@/lib/db";
 
-const connectionString = process.env.DATABASE_URL ?? "";
+export { sql };
 
-export const isAnalyticsConfigured = connectionString.length > 0;
+export const isAnalyticsConfigured = isDatabaseConfigured;
 
 let warned = false;
 
-// Same posture as the Sanity client: an unset DATABASE_URL must never fail a build or
-// a request. Analytics is telemetry, not a feature the shopper is waiting on.
-export const sql = isAnalyticsConfigured
-  ? postgres(connectionString, {
-      max: 3,
-      idle_timeout: 20,
-      connect_timeout: 10,
-      prepare: false,
-    })
-  : null;
-
+// Analytics is telemetry, not a feature the shopper is waiting on, so an unset
+// DATABASE_URL drops events rather than surfacing anything.
 export function warnUnconfigured() {
   if (!warned) {
     warned = true;

@@ -222,20 +222,29 @@ export function BagContents({ products }: { products: Product[] }) {
           <span className="seda-tabular">{formatNaira(subtotalKobo)}</span>
         </div>
 
-        <Cta
-          full
-          className={s.checkout}
-          disabled={overstocked}
-          onClick={() =>
-            track(EVENTS.checkoutStarted, {
-              quantity: lines.reduce((t, l) => t + l.quantity, 0),
-              valueKobo: subtotalKobo,
-              props: { lines: lines.length },
-            })
-          }
-        >
-          Checkout
-        </Cta>
+        {/* A disabled link is not a thing, so an overstocked bag keeps the button
+            form: it stays visible and unclickable rather than silently becoming a
+            dead link to a page that would reject it anyway. */}
+        {overstocked ? (
+          <Cta full className={s.checkout} disabled>
+            Checkout
+          </Cta>
+        ) : (
+          <Cta
+            full
+            href="/checkout"
+            className={s.checkout}
+            onClick={() =>
+              track(EVENTS.checkoutStarted, {
+                quantity: lines.reduce((t, l) => t + l.quantity, 0),
+                valueKobo: subtotalKobo,
+                props: { lines: lines.length },
+              })
+            }
+          >
+            Checkout
+          </Cta>
+        )}
 
         <p className={s.payNote}>Paystack · Bank transfer · Pay on delivery in Lagos</p>
       </aside>

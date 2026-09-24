@@ -1,0 +1,141 @@
+.page {
+  padding: 48px var(--gutter-page) 96px;
+}
+
+.title {
+  --disp-size: 44px;
+  margin-bottom: 32px;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 64px;
+  align-items: start;
+}
+
+.form {
+  display: grid;
+  gap: var(--space-4);
+  max-width: 520px;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+.label {
+  font: var(--type-label);
+  font-family: var(--font-ui);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.optional {
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--text-subtle);
+}
+
+.input {
+  font: var(--type-body);
+  font-family: var(--font-ui);
+  padding: 13px 14px;
+  background: var(--surface-card);
+  color: var(--text-body);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-none);
+}
+
+.input:focus-visible {
+  border-color: var(--border-strong);
+}
+
+.error {
+  font: var(--type-body);
+  font-family: var(--font-ui);
+  color: var(--seda-oxblood);
+  background: var(--surface-page-alt);
+  border-left: 2px solid var(--seda-oxblood);
+  padding: 12px 14px;
+  margin: 0;
+}
+
+.pay {
+  margin-top: var(--space-2);
+}
+
+.note {
+  font: var(--type-caption);
+  font-family: var(--font-ui);
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.summary {
+  background: var(--surface-page-alt);
+  padding: 28px;
+  position: sticky;
+  top: 24px;
+}
+
+.line {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.lineName {
+  font: var(--type-body);
+  font-family: var(--font-ui);
+}
+
+.lineMeta {
+  font: var(--type-caption);
+  font-family: var(--font-ui);
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  font: var(--type-body);
+  font-family: var(--font-ui);
+  color: var(--text-muted);
+  margin-top: var(--space-2);
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  font: var(--type-h4);
+  font-family: var(--font-display);
+  color: var(--text-heading);
+}
+
+@media (max-width: 900px) {
+  .page {
+    padding: 28px 20px 64px;
+  }
+
+  .title {
+    --disp-size: 28px;
+  }
+
+  .columns {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  /* The summary reads first on a phone: you check what you are paying for before
+     you start typing an address. */
+  .summary {
+    order: -1;
+    position: static;
+    padding: 20px;
+  }
+}
