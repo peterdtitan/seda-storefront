@@ -107,7 +107,7 @@ export default async function LookbookPage() {
               <div className={s.support}>
                 {feature.supportingImages!.slice(0, 2).map((image, i) => (
                   <div key={image.asset?._id ?? i} className={s.supportCell}>
-                    <SanityImage image={image} sizes="(max-width: 768px) 50vw, 33vw" fill />
+                    <SanityImage image={image} sizes="(max-width: 768px) 98vw, 33vw" fill />
                   </div>
                 ))}
               </div>
@@ -122,7 +122,7 @@ export default async function LookbookPage() {
                 <LookTrigger id={look._id} label={lookLabel(look)}>
                   <SanityImage
                     image={look.image}
-                    sizes="(max-width: 768px) 50vw, (max-width: 1100px) 50vw, 33vw"
+                    sizes="(max-width: 1100px) 50vw, 33vw"
                     fill
                     alt=""
                   />

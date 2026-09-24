@@ -149,7 +149,7 @@ export function ProductDetail({
             <div className={[s.hero, images.length < 2 ? s.heroAlone : ""].join(" ")}>
               <SanityImage
                 image={images[0]}
-                sizes="(max-width: 768px) 100vw, 45vw"
+                sizes="(max-width: 768px) 95vw, 22vw"
                 fill
                 priority
                 alt={images[0]?.alt || `${product.name} in ${colourway?.name ?? ""}`}
@@ -160,7 +160,7 @@ export function ProductDetail({
             <div key={image.asset?._id ?? i} className={s.secondary}>
               <SanityImage
                 image={image}
-                sizes="(max-width: 768px) 100vw, 22vw"
+                sizes="(max-width: 768px) 95vw, 22vw"
                 fill
                 alt={image?.alt || ""}
               />

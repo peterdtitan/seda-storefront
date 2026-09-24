@@ -132,14 +132,13 @@ export function ShopGrid({
         </div>
       ) : (
         <div className={s.grid}>
-          {visible.map((card, i) => (
+          {visible.map((card) => (
             <ProductCard
               key={card.key}
               card={card}
               height="300px"
-              sizes="(max-width: 768px) 50vw, (max-width: 1100px) 33vw, 25vw"
+              sizes="(max-width: 768px) 48vw, (max-width: 1100px) 29vw, 23vw"
               layout="stacked"
-              priority={i < 4}
             />
           ))}
         </div>

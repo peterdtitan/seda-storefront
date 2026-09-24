@@ -72,7 +72,7 @@ export default async function StoryPage() {
           <BrandBody className={s.missionBody}>{copy?.vision}</BrandBody>
         </div>
         <div className={s.missionImage}>
-          <SanityImage image={copy?.missionImage} sizes="(max-width: 768px) 100vw, 50vw" fill />
+          <SanityImage image={copy?.missionImage} sizes="(max-width: 768px) 95vw, 43vw" fill />
         </div>
       </section>
 
@@ -102,7 +102,7 @@ export default async function StoryPage() {
               <div className={s.processImage}>
                 <SanityImage
                   image={step.image}
-                  sizes="(max-width: 768px) 100vw, (max-width: 1100px) 50vw, 25vw"
+                  sizes="(max-width: 768px) 95vw, (max-width: 1100px) 44vw, 22vw"
                   fill
                   alt=""
                 />
