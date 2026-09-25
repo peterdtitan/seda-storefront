@@ -2,9 +2,12 @@ import type { Metadata } from "next";
 
 import { Cta, Outline } from "@/components/ui/Button";
 import { StateMessage } from "@/components/ui/StateMessage";
+import { fulfilOrder } from "@/lib/orders/fulfil";
 import { findOrder, markFailed, markPaid } from "@/lib/orders/store";
 import { formatNaira } from "@/lib/money";
 import { verifyTransaction } from "@/lib/paystack/client";
+
+import { ClearBag } from "./ClearBag";
 
 export const metadata: Metadata = {
   title: "Order",
@@ -39,7 +42,7 @@ export default async function CheckoutCallback({ searchParams }: { searchParams:
   const verified = await verifyTransaction(reference);
 
   if (verified?.status === "success") {
-    await markPaid({
+    const outcome = await markPaid({
       reference,
       amountKobo: verified.amountKobo,
       paystackStatus: verified.status,
@@ -48,6 +51,16 @@ export default async function CheckoutCallback({ searchParams }: { searchParams:
       gatewayResponse: verified.gatewayResponse,
       raw: verified,
     });
+
+    // The shopper often lands here before Paystack's webhook arrives, so this is
+    // frequently the first thing to learn about the payment.
+    if (outcome === "paid" || outcome === "already") {
+      await fulfilOrder({
+        reference,
+        totalKobo: verified.amountKobo,
+        firstTransition: outcome === "paid",
+      });
+    }
   } else if (verified && verified.status !== "ongoing" && verified.status !== "pending") {
     await markFailed(reference, verified.gatewayResponse);
   }
@@ -56,19 +69,22 @@ export default async function CheckoutCallback({ searchParams }: { searchParams:
 
   if (order?.status === "paid") {
     return (
-      <StateMessage
-        as="h1"
-        eyebrow="Thank you"
-        title="Your order is confirmed"
-        body={
-          <>
-            We have your payment of {formatNaira(Number(order.total_kobo))} and a confirmation is on
-            its way to {order.email}. Your reference is {order.reference}.
-          </>
-        }
-      >
-        <Cta href="/shop">Continue shopping</Cta>
-      </StateMessage>
+      <>
+        <ClearBag />
+        <StateMessage
+          as="h1"
+          eyebrow="Thank you"
+          title="Your order is confirmed"
+          body={
+            <>
+              We have your payment of {formatNaira(Number(order.total_kobo))} and a confirmation is
+              on its way to {order.email}. Your reference is {order.reference}.
+            </>
+          }
+        >
+          <Cta href="/shop">Continue shopping</Cta>
+        </StateMessage>
+      </>
     );
   }
 

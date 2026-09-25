@@ -22,10 +22,13 @@ export function newReference(): string {
   return `seda_${Date.now().toString(36)}_${randomBytes(6).toString("hex")}`;
 }
 
+export type Attribution = { visitorId: string | null; sessionId: string | null };
+
 export async function createPendingOrder(input: {
   reference: string;
   customer: Customer;
   lines: PricedLine[];
+  attribution?: Attribution;
   subtotalKobo: number;
   deliveryKobo: number;
   totalKobo: number;
@@ -37,12 +40,13 @@ export async function createPendingOrder(input: {
     const [order] = await tx<{ id: string }[]>`
       insert into orders (
         reference, status, subtotal_kobo, delivery_kobo, total_kobo,
-        email, name, phone, address, city, state
+        email, name, phone, address, city, state, visitor_id, session_id
       ) values (
         ${input.reference}, 'pending', ${input.subtotalKobo}, ${input.deliveryKobo},
         ${input.totalKobo}, ${input.customer.email}, ${input.customer.name},
         ${input.customer.phone ?? null}, ${input.customer.address ?? null},
-        ${input.customer.city ?? null}, ${input.customer.state ?? null}
+        ${input.customer.city ?? null}, ${input.customer.state ?? null},
+        ${input.attribution?.visitorId ?? null}, ${input.attribution?.sessionId ?? null}
       )
       returning id
     `;
@@ -155,4 +159,69 @@ export async function recordEventOnce(input: {
     returning id
   `;
   return rows.length > 0;
+}
+
+/** The session that placed the order, for the events recorded once it is paid.
+ * Null for an order placed before attribution existed, or with storage blocked. */
+export async function orderAttribution(reference: string): Promise<Attribution> {
+  const sql = requireSql();
+  const [row] = await sql<{ visitor_id: string | null; session_id: string | null }[]>`
+    select visitor_id, session_id from orders where reference = ${reference}
+  `;
+  return { visitorId: row?.visitor_id ?? null, sessionId: row?.session_id ?? null };
+}
+
+export type OrderLine = {
+  product_slug: string;
+  colour_slug: string;
+  size: string;
+  quantity: number;
+  product_name: string;
+  line_kobo: string;
+};
+
+export async function orderLines(reference: string): Promise<OrderLine[]> {
+  const sql = requireSql();
+  return sql<OrderLine[]>`
+    select i.product_slug, i.colour_slug, i.size, i.quantity, i.product_name, i.line_kobo
+    from order_items i
+    join orders o on o.id = i.order_id
+    where o.reference = ${reference}
+  `;
+}
+
+/** Claims the right to adjust stock for this order, once.
+ *
+ * The webhook and the callback page both reach fulfilment, and Paystack retries, so
+ * this runs concurrently by design. The update only matches a paid order whose stock
+ * has not been claimed, so exactly one caller gets a row back and the rest get none. */
+export async function claimStockAdjustment(reference: string): Promise<boolean> {
+  const sql = requireSql();
+  const rows = await sql<{ id: string }[]>`
+    update orders set stock_adjusted_at = now(), stock_error = null
+    where reference = ${reference} and status = 'paid' and stock_adjusted_at is null
+    returning id
+  `;
+  return rows.length > 0;
+}
+
+/** Hands the claim back so a later attempt can retry, and leaves the reason on the
+ * order so an unfulfilled sale is visible rather than silent. */
+export async function releaseStockAdjustment(reference: string, message: string) {
+  const sql = requireSql();
+  await sql`
+    update orders set stock_adjusted_at = null, stock_error = ${message.slice(0, 500)}
+    where reference = ${reference}
+  `;
+}
+
+/** Records a problem without giving the claim back. Used when stock was adjusted but
+ * something about it needs a human — an oversell, say. Releasing the claim here would
+ * let the next webhook decrement the same order a second time. */
+export async function noteStockIssue(reference: string, message: string) {
+  const sql = requireSql();
+  await sql`
+    update orders set stock_error = ${message.slice(0, 500)}
+    where reference = ${reference}
+  `;
 }

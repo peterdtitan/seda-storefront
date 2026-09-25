@@ -29,6 +29,11 @@ export async function startCheckout(
   const city = field(formData, "city", 80);
   const state = field(formData, "state", 80);
 
+  // Carried from browser storage so the conversion lands on the session that browsed.
+  // Absent when storage is blocked, which is survivable: the order still stands.
+  const visitorId = field(formData, "visitorId", 64) || null;
+  const sessionId = field(formData, "sessionId", 64) || null;
+
   if (!name || !EMAIL.test(email) || !address || !city) {
     return { status: "error", message: "Please fill in your name, email, address and city." };
   }
@@ -58,6 +63,7 @@ export async function startCheckout(
       reference,
       customer: { name, email, phone, address, city, state },
       lines: priced.lines,
+      attribution: { visitorId, sessionId },
       subtotalKobo: priced.subtotalKobo,
       deliveryKobo: priced.deliveryKobo,
       totalKobo: priced.totalKobo,
