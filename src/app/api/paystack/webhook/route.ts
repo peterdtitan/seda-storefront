@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 
-import { markFailed, markPaid, recordEventOnce } from "@/lib/orders/store";
+import { EVENTS } from "@/lib/analytics/events";
+import { recordEvents } from "@/lib/analytics/record";
+import { fulfilOrder } from "@/lib/orders/fulfil";
+import { markFailed, markPaid, orderAttribution, recordEventOnce } from "@/lib/orders/store";
 import { isValidSignature } from "@/lib/paystack/signature";
 
 export const runtime = "nodejs";
@@ -25,7 +28,6 @@ export async function POST(request: Request) {
   const raw = await request.text();
 
   if (!isValidSignature(raw, request.headers.get("x-paystack-signature"))) {
-    // Anyone can POST here. Without this check a forged body marks orders paid.
     return new NextResponse("invalid signature", { status: 401 });
   }
 
@@ -52,7 +54,7 @@ export async function POST(request: Request) {
     if (!isNew) return NextResponse.json({ received: true, duplicate: true });
 
     if (body.event === "charge.success" && reference) {
-      await markPaid({
+      const outcome = await markPaid({
         reference,
         amountKobo: body.data?.amount ?? 0,
         paystackStatus: body.data?.status ?? "success",
@@ -61,8 +63,28 @@ export async function POST(request: Request) {
         gatewayResponse: body.data?.gateway_response ?? null,
         raw: body,
       });
+
+      // "already" still fulfils: the callback page may have marked it paid while
+      // stock adjustment was left undone, and fulfilOrder claims its own work.
+      if (outcome === "paid" || outcome === "already") {
+        await fulfilOrder({
+          reference,
+          totalKobo: body.data?.amount ?? 0,
+          firstTransition: outcome === "paid",
+        });
+      }
     } else if (body.event === "charge.failed" && reference) {
       await markFailed(reference, body.data?.gateway_response ?? null);
+      const who = await orderAttribution(reference);
+      await recordEvents([
+        {
+          name: EVENTS.paymentFailed,
+          visitorId: who.visitorId ?? `order:${reference}`,
+          sessionId: who.sessionId ?? `order:${reference}`,
+          valueKobo: body.data?.amount ?? 0,
+          props: { reference, reason: body.data?.gateway_response ?? "unknown" },
+        },
+      ]);
     }
 
     return NextResponse.json({ received: true });

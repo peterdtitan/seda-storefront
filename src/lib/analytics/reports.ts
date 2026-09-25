@@ -24,6 +24,8 @@ export type FunnelCounts = {
   addsToBag: number;
   bagViews: number;
   checkoutsStarted: number;
+  ordersPaid: number;
+  revenueKobo: number;
 };
 
 const EMPTY_FUNNEL: FunnelCounts = {
@@ -31,6 +33,8 @@ const EMPTY_FUNNEL: FunnelCounts = {
   addsToBag: 0,
   bagViews: 0,
   checkoutsStarted: 0,
+  ordersPaid: 0,
+  revenueKobo: 0,
 };
 
 function unavailable<T>(fallback: T): T {
@@ -75,13 +79,22 @@ export async function funnel(days = 30): Promise<FunnelCounts> {
   if (!sql) return unavailable(EMPTY_FUNNEL);
 
   const [row] = await sql<
-    { product_views: string; adds: string; bag_views: string; checkouts: string }[]
+    {
+      product_views: string;
+      adds: string;
+      bag_views: string;
+      checkouts: string;
+      paid: string;
+      revenue: string;
+    }[]
   >`
     select
       count(*) filter (where name = ${EVENTS.productViewed})   as product_views,
       count(*) filter (where name = ${EVENTS.addedToBag})      as adds,
       count(*) filter (where name = ${EVENTS.bagViewed})       as bag_views,
-      count(*) filter (where name = ${EVENTS.checkoutStarted}) as checkouts
+      count(*) filter (where name = ${EVENTS.checkoutStarted}) as checkouts,
+      count(*) filter (where name = ${EVENTS.paymentSucceeded}) as paid,
+      coalesce(sum(value_kobo) filter (where name = ${EVENTS.paymentSucceeded}), 0) as revenue
     from analytics_events
     where occurred_at >= now() - make_interval(days => ${days})
   `;
@@ -91,6 +104,8 @@ export async function funnel(days = 30): Promise<FunnelCounts> {
     addsToBag: Number(row?.adds ?? 0),
     bagViews: Number(row?.bag_views ?? 0),
     checkoutsStarted: Number(row?.checkouts ?? 0),
+    ordersPaid: Number(row?.paid ?? 0),
+    revenueKobo: Number(row?.revenue ?? 0),
   };
 }
 
@@ -100,7 +115,9 @@ export async function traffic(days = 30): Promise<TrafficPoint[]> {
   const rows = await sql<{ day: string; sessions: string; views: string }[]>`
     select
       to_char(date_trunc('day', occurred_at), 'YYYY-MM-DD') as day,
-      count(distinct session_id) as sessions,
+      -- Sessions are counted from page views alone. Anything recorded server side
+      -- carries an id no browser ever held, and would otherwise count as a visit.
+      count(distinct session_id) filter (where name = ${EVENTS.pageViewed}) as sessions,
       count(*) filter (where name = ${EVENTS.pageViewed}) as views
     from analytics_events
     where occurred_at >= now() - make_interval(days => ${days})

@@ -27,6 +27,31 @@ function readOrCreate(store: "local" | "session", key: string): string {
   }
 }
 
+/** The ids the checkout form hands to the server, so a payment recorded server side
+ * lands on the same session that browsed. */
+export function identity(): { visitorId: string; sessionId: string } {
+  if (typeof window === "undefined") return { visitorId: "", sessionId: "" };
+  return {
+    visitorId: readOrCreate("local", VISITOR_KEY),
+    sessionId: readOrCreate("session", SESSION_KEY),
+  };
+}
+
+const CAMPAIGN_KEYS = ["utm_source", "utm_medium", "utm_campaign"] as const;
+
+// The whole query string used to go into path, which put the Paystack reference from
+// the callback URL into a telemetry row and gave every one of them a path of its own.
+// Only the campaign survives, and it goes in props where it can be grouped on.
+function campaign(): Record<string, string> {
+  const params = new URLSearchParams(window.location.search);
+  const found: Record<string, string> = {};
+  for (const key of CAMPAIGN_KEYS) {
+    const value = params.get(key);
+    if (value) found[key] = value.slice(0, 64);
+  }
+  return found;
+}
+
 let queue: Record<string, unknown>[] = [];
 let flushTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -62,13 +87,15 @@ function flush() {
 export function track(name: EventName, payload: Omit<EventPayload, "name"> = {}) {
   if (typeof window === "undefined") return;
 
+  const marks = campaign();
+
   queue.push({
     ...payload,
     name,
-    visitorId: readOrCreate("local", VISITOR_KEY),
-    sessionId: readOrCreate("session", SESSION_KEY),
-    path: payload.path ?? window.location.pathname + window.location.search,
+    ...identity(),
+    path: payload.path ?? window.location.pathname,
     referrer: payload.referrer ?? (document.referrer || undefined),
+    props: { ...marks, ...payload.props },
   });
 
   // A short debounce coalesces the burst a product page fires on mount without

@@ -1,9 +1,10 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import { useFormStatus } from "react-dom";
 
 import { Cta } from "@/components/ui/Button";
+import { identity } from "@/lib/analytics/track";
 
 import { startCheckout, type CheckoutState } from "./actions";
 import s from "./checkout.module.css";
@@ -36,8 +37,22 @@ export function CheckoutForm({ total }: { total: string }) {
     status: "idle",
   });
 
+  const visitorRef = useRef<HTMLInputElement>(null);
+  const sessionRef = useRef<HTMLInputElement>(null);
+
+  // Written to the DOM after hydration rather than rendered: the ids live in browser
+  // storage, so putting them in the server-rendered markup would mismatch.
+  useEffect(() => {
+    const who = identity();
+    if (visitorRef.current) visitorRef.current.value = who.visitorId;
+    if (sessionRef.current) sessionRef.current.value = who.sessionId;
+  }, []);
+
   return (
     <form action={action} className={s.form}>
+      <input type="hidden" name="visitorId" ref={visitorRef} />
+      <input type="hidden" name="sessionId" ref={sessionRef} />
+
       {FIELDS.map((f) => (
         <div key={f.name} className={s.field}>
           <label htmlFor={`checkout-${f.name}`} className={s.label}>
