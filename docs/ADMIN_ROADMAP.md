@@ -41,9 +41,19 @@ Orders, payments, customers, roles and analytics events are transactional. They 
 constraints, transactions, real joins, and row-level authorisation. Sanity gives none
 of those.
 
-**Recommendation: Supabase Postgres**, which also brings Auth and row-level security,
-and which this codebase's author already runs elsewhere. Sanity keeps the catalogue;
-Postgres holds everything that has money or a person attached to it.
+**Decided: Neon Postgres.** Sanity keeps the catalogue; Postgres holds everything that
+has money or a person attached to it.
+
+Supabase was the original recommendation because it bundles Auth and row-level
+security. It lost on two points. Its free tier pauses a project after about a week of
+inactivity, and a paused database means checkout throws — so production would have
+meant $25/mo regardless of traffic. And the bundling is only a saving if the auth is
+actually used; deciding the database and the auth provider in one go meant deciding
+auth before we had looked at it.
+
+Nothing in the app is provider-specific. Queries are raw SQL over the standard
+Postgres wire protocol (`postgres`, porsager), so moving between Neon, Supabase or any
+other host is a connection-string change and no code.
 
 The seam: an order line stores the Sanity product id, the colourway key, the size, and
 **the price in kobo as it was at purchase**. Never a live lookup. A price edit must
@@ -60,8 +70,15 @@ or do they also want GA4 / Plausible? That changes whether `track()` fans out.
 it. The roles above do not map to Sanity's, and the refunds and delivery roles have no
 business in a CMS at all.
 
-Admin and superuser authenticate against Supabase Auth. A content manager may *also*
-hold a Sanity seat; that is a second, separate grant.
+**Open: which auth provider.** Neon is a database only, so this is now a separate
+decision rather than one inherited from the database. The candidates are Auth.js
+(self-hosted, no per-seat cost, more to build and maintain) or a hosted provider such
+as Clerk or WorkOS (less to build, priced per user — and the user count here is small,
+a handful of staff rather than customers).
+
+Whichever it is, sessions and roles live in Postgres next to the orders, so
+authorisation is a join rather than a call to another service. A content manager may
+*also* hold a Sanity seat; that is a second, separate grant.
 
 ### 4. Subdomain routing
 `admin.wearseda.com` should be the **same Next app**, with middleware rewriting on
