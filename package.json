@@ -13,6 +13,8 @@
     "typecheck": "tsc --noEmit",
     "sanity:deploy": "sanity deploy",
     "seed": "sanity exec scripts/seed.ts --with-user-token",
+    "db:migrate": "node scripts/migrate.mjs",
+    "db:status": "node scripts/migrate.mjs --status",
     "env:push": "bash scripts/vercel-env.sh"
   },
   "dependencies": {
@@ -38,7 +40,7 @@
     "vercel": "^59.23.2"
   },
   "packageManager": "pnpm@12.5.1",
-  "description": "Șèdá storefront — contemporary Adire, Lagos.",
+  "description": "\u0218\u00e8d\u00e1 storefront \u2014 contemporary Adire, Lagos.",
   "engines": {
     "node": ">=24.0.0 <25",
     "pnpm": ">=10"
