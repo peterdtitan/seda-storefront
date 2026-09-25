@@ -1,11 +1,3 @@
-/**
- * The client photography, keyed the way the design reference keys it. Files live in
- * the handoff bundle, NOT in this repo: the spec is explicit that photography is
- * uploaded to the CMS and only the logos are committed.
- *
- * Override the location with SEDA_ASSETS_DIR if the bundle is not a sibling.
- */
-
 import path from "node:path";
 
 const DEFAULT_ASSETS_DIR = path.join(
