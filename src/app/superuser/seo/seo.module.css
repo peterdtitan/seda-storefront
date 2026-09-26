@@ -1,0 +1,86 @@
+.facts {
+  margin: 0;
+}
+
+.fact {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 12px;
+  padding: 8px 0;
+  font-size: var(--fs-sm);
+  border-bottom: 1px solid rgb(255 250 232 / 12%);
+}
+
+.fact:last-child {
+  border-bottom: 0;
+}
+
+.fact dt,
+.fact dd {
+  margin: 0;
+}
+
+.fact dt {
+  color: rgb(255 250 232 / 60%);
+}
+
+.fact dd {
+  overflow-wrap: anywhere;
+  line-height: 1.55;
+  color: var(--seda-cream);
+}
+
+.pair {
+  /* An implicit grid track is sized to its widest child, so one wide table pushes
+     the whole column past the viewport. minmax(0, 1fr) lets it shrink. */
+  grid-template-columns: minmax(0, 1fr);
+  display: grid;
+  gap: 0;
+}
+
+.paths {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.path {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 7px 0;
+  font-size: var(--fs-sm);
+  color: var(--seda-cream);
+  border-bottom: 1px solid rgb(255 250 232 / 12%);
+}
+
+.path:last-child {
+  border-bottom: 0;
+}
+
+.pathNote {
+  font-size: var(--fs-xs, 0.75rem);
+  color: rgb(255 250 232 / 48%);
+  text-align: right;
+}
+
+.body {
+  margin: 0 0 10px;
+  max-width: 70ch;
+  font-size: var(--fs-sm);
+  line-height: 1.65;
+  color: rgb(255 250 232 / 82%);
+}
+
+.body:last-child {
+  margin-bottom: 0;
+}
+
+@media (width >= 1100px) {
+  .pair {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    align-items: start;
+  }
+}

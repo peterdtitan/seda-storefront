@@ -1,0 +1,309 @@
+/* Mobile is the base case. The delivery and customer-service roles work off a phone,
+   so the wide layout is the enhancement, not the other way round. */
+
+.shell {
+  min-height: 100svh;
+  background: var(--surface-page-alt, var(--surface-page));
+}
+
+/* ---------- top bar (narrow only) ---------- */
+
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 16px;
+  background: var(--surface-inverse);
+  border-bottom: 1px solid var(--border-on-inverse);
+}
+
+.menuButton {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  /* 44px of touch target, per WCAG 2.2 target size. */
+  min-height: 44px;
+  padding: 0 10px 0 0;
+  font: var(--type-ui-label);
+  color: var(--text-on-inverse);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.burger {
+  position: relative;
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: currentColor;
+}
+
+.burger::before,
+.burger::after {
+  position: absolute;
+  left: 0;
+  width: 18px;
+  height: 2px;
+  content: "";
+  background: currentColor;
+}
+
+.burger::before {
+  top: -6px;
+}
+
+.burger::after {
+  top: 6px;
+}
+
+.mark {
+  /* The global `a` rule underlines with border-bottom, not text-decoration, so
+     structural links have to switch it off rather than set text-decoration: none. */
+  border-bottom: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  letter-spacing: 0.16em;
+  color: var(--text-on-inverse);
+  text-decoration: none;
+}
+
+.barTier {
+  margin-left: auto;
+  font-size: var(--fs-xs, 0.75rem);
+  letter-spacing: 0.1em;
+  color: var(--text-on-inverse-muted);
+  text-transform: uppercase;
+}
+
+/* ---------- sidebar / drawer ---------- */
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  width: min(84vw, 300px);
+  padding: 20px 0 20px;
+  overflow-y: auto;
+  background: var(--surface-inverse);
+  /* visibility, not just transform: a translated-away drawer is still in the tab
+     order, so a keyboard walks into links nobody can see. */
+  visibility: hidden;
+  transform: translateX(-100%);
+  transition:
+    transform var(--dur-md, 240ms) var(--ease-out, ease),
+    visibility var(--dur-md, 240ms);
+}
+
+.shell[data-open] .sidebar {
+  visibility: visible;
+  transform: translateX(0);
+}
+
+.drawerHead {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px 16px 24px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--border-on-inverse);
+}
+
+.drawerMark {
+  border-bottom: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  letter-spacing: 0.16em;
+  color: var(--text-on-inverse);
+}
+
+.closeButton {
+  min-height: 44px;
+  padding: 0 4px;
+  font: var(--type-ui-label);
+  color: var(--text-on-inverse-muted);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.closeButton:hover {
+  color: var(--text-on-inverse);
+}
+
+.sidebarMark {
+  display: none;
+}
+
+.nav {
+  flex: 1;
+}
+
+.navList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.navLink {
+  border-bottom: 0;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 24px;
+  font: var(--type-ui-label);
+  color: var(--text-on-inverse-muted);
+  text-decoration: none;
+}
+
+.navLink:hover {
+  color: var(--text-on-inverse);
+  background: rgb(255 250 232 / 8%);
+}
+
+.navLink[aria-current="page"] {
+  color: var(--text-on-inverse);
+  background: rgb(255 250 232 / 12%);
+  box-shadow: inset 3px 0 0 var(--seda-ochre);
+}
+
+.navExternal {
+  font-size: 0.8em;
+  opacity: 0.7;
+}
+
+.who {
+  display: grid;
+  gap: 2px;
+  padding: 16px 24px 0;
+  margin-top: 16px;
+  border-top: 1px solid var(--border-on-inverse);
+}
+
+.whoName {
+  font: var(--type-body);
+  font-size: var(--fs-sm);
+  color: var(--text-on-inverse);
+}
+
+.whoRoles {
+  font-size: var(--fs-xs, 0.75rem);
+  color: var(--text-on-inverse-muted);
+}
+
+.signOut {
+  min-height: 44px;
+  padding: 0;
+  font: var(--type-ui-label);
+  color: var(--text-on-inverse-muted);
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.signOut:hover {
+  color: var(--text-on-inverse);
+}
+
+/* ---------- scrim ---------- */
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  display: none;
+  padding: 0;
+  background: var(--surface-overlay);
+  border: 0;
+}
+
+.shell[data-open] .scrim {
+  display: block;
+}
+
+/* ---------- content ---------- */
+
+.main {
+  padding: 20px 16px 64px;
+  animation: enter var(--dur-md, 260ms) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1));
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+}
+
+/* ---------- wide: the drawer becomes furniture ---------- */
+
+@media (width >= 900px) {
+  .shell {
+    display: grid;
+    grid-template-columns: 248px 1fr;
+  }
+
+  .bar,
+  .scrim {
+    display: none;
+  }
+
+  .sidebar {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    height: 100svh;
+    width: auto;
+    padding-top: 28px;
+    visibility: visible;
+    transform: none;
+    transition: none;
+  }
+
+  .drawerHead {
+    display: none;
+  }
+
+  .sidebarMark {
+    border-bottom: 0;
+    display: block;
+    padding: 0 24px 24px;
+    font-family: var(--font-display);
+    font-size: var(--fs-lg);
+    letter-spacing: 0.16em;
+    color: var(--text-on-inverse);
+    text-decoration: none;
+  }
+
+  .main {
+    padding: 36px 40px 80px;
+  }
+}
+
+/* Pressed states, so a tap on a phone feels like it landed before the server
+   answers. */
+.navLink:active {
+  background: rgb(255 250 232 / 18%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar {
+    transition-duration: 1ms;
+  }
+
+  .main {
+    animation: none;
+  }
+}

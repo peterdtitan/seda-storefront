@@ -46,3 +46,6 @@ next-env.d.ts
 # sanity
 /dist
 .sanity/
+
+# dev-only magic links, written when RESEND_API_KEY is unset
+.dev-magic-links.json

@@ -1,0 +1,33 @@
+.panel {
+  max-width: 52ch;
+  padding: 24px;
+  background: var(--surface-card);
+  border: 1px solid var(--border-hairline);
+}
+
+.title {
+  margin: 0 0 12px;
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: 400;
+  color: var(--text-heading);
+}
+
+.body {
+  margin: 0 0 12px;
+  font: var(--type-body);
+  line-height: 1.6;
+  color: var(--text-body);
+}
+
+.code {
+  padding: 1px 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9em;
+  background: var(--surface-sunken);
+}
+
+.back {
+  font: var(--type-ui-label);
+  color: var(--text-link);
+}

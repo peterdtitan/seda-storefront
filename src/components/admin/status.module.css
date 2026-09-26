@@ -1,0 +1,37 @@
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: var(--fs-xs, 0.75rem);
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  text-transform: lowercase;
+  white-space: nowrap;
+  background: var(--surface-sunken);
+  border-radius: 999px;
+}
+
+/* Colour carries meaning here, so each one also reads plainly as a word — nobody has
+   to learn that green means paid. */
+.badge[data-value="paid"],
+.badge[data-value="delivered"] {
+  color: #3f4a1f;
+  background: #eef0e0;
+}
+
+.badge[data-value="pending"],
+.badge[data-value="packed"] {
+  color: #6b5312;
+  background: #f6eed8;
+}
+
+.badge[data-value="failed"],
+.badge[data-value="refunded"],
+.badge[data-value="cancelled"] {
+  color: #7a1219;
+  background: #f7e3e4;
+}
+
+.badge[data-value="out_for_delivery"] {
+  color: #0a3a52;
+  background: #dfecf3;
+}

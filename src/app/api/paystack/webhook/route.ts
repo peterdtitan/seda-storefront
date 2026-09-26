@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { EVENTS } from "@/lib/analytics/events";
 import { recordEvents } from "@/lib/analytics/record";
 import { fulfilOrder } from "@/lib/orders/fulfil";
+import { recordRefundOutcome } from "@/lib/orders/refunds";
 import { markFailed, markPaid, orderAttribution, recordEventOnce } from "@/lib/orders/store";
 import { isValidSignature } from "@/lib/paystack/signature";
 
@@ -19,6 +20,8 @@ type PaystackWebhook = {
     paid_at?: string | null;
     channel?: string | null;
     gateway_response?: string | null;
+    // refund.* carries the refund's own id and the transaction it belongs to.
+    transaction_reference?: string;
   };
 };
 
@@ -71,6 +74,17 @@ export async function POST(request: Request) {
           reference,
           totalKobo: body.data?.amount ?? 0,
           firstTransition: outcome === "paid",
+        });
+      }
+    } else if (body.event.startsWith("refund.")) {
+      // Paystack is the only thing that knows whether the money actually went back,
+      // so the refund row stays pending until this arrives.
+      const providerId = body.data?.id ? String(body.data.id) : null;
+      if (providerId) {
+        await recordRefundOutcome({
+          providerId,
+          status: body.event === "refund.processed" ? "processed" : "failed",
+          raw: body,
         });
       }
     } else if (body.event === "charge.failed" && reference) {

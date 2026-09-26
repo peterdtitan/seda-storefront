@@ -1,0 +1,453 @@
+.head {
+  margin-bottom: 20px;
+}
+
+.title {
+  margin: 0 0 4px;
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--text-heading);
+}
+
+.lede {
+  margin: 0;
+  font: var(--type-body);
+  color: var(--text-muted);
+}
+
+.quiet {
+  margin: 0;
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.footnote {
+  margin: 12px 0 0;
+  font-size: var(--fs-xs, 0.75rem);
+  line-height: 1.55;
+  color: var(--text-subtle);
+}
+
+.code {
+  padding: 1px 5px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.92em;
+  background: var(--surface-sunken);
+}
+
+/* ---------- tiles ---------- */
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+}
+
+.tile {
+  display: grid;
+  gap: 2px;
+  padding: 14px 16px;
+  background: var(--surface-card);
+  border: 1px solid var(--border-hairline);
+}
+
+.tileLabel {
+  font-size: var(--fs-xs, 0.75rem);
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.tileValue {
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  line-height: 1.15;
+  color: var(--text-heading);
+  font-variant-numeric: tabular-nums;
+}
+
+.tileNote {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- cards ---------- */
+
+.card {
+  padding: 16px;
+  margin-bottom: 16px;
+  background: var(--surface-card);
+  border: 1px solid var(--border-hairline);
+}
+
+.cardTitle {
+  margin: 0 0 12px;
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: 400;
+  color: var(--text-heading);
+}
+
+.pair {
+  display: grid;
+  gap: 0;
+}
+
+/* ---------- funnel ---------- */
+
+.funnel {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stage {
+  display: grid;
+  grid-template-areas:
+    "label label"
+    "bar   value";
+  grid-template-columns: 1fr auto;
+  gap: 4px 10px;
+  align-items: center;
+  padding: 7px 0;
+}
+
+.stageLabel {
+  grid-area: label;
+  font-size: var(--fs-sm);
+  color: var(--text-body);
+}
+
+.stageBarWrap {
+  grid-area: bar;
+  height: 10px;
+  background: var(--surface-sunken);
+}
+
+.stageBar {
+  display: block;
+  height: 100%;
+  background: var(--surface-inverse);
+}
+
+.stageValue {
+  grid-area: value;
+  font-size: var(--fs-sm);
+  color: var(--text-body);
+  font-variant-numeric: tabular-nums;
+}
+
+.stageRate {
+  grid-area: value;
+  display: none;
+}
+
+/* ---------- traffic sparkline ---------- */
+
+.spark {
+  display: flex;
+  gap: 2px;
+  align-items: flex-end;
+  height: 110px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sparkDay {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  min-width: 0;
+}
+
+.sparkBar {
+  width: 100%;
+  min-height: 2px;
+  background: var(--surface-inverse);
+}
+
+/* A day with nothing still gets a mark, so the gap reads as "no traffic" rather
+   than as a chart that failed to draw. */
+.sparkBar[data-zero] {
+  background: var(--border-hairline);
+}
+
+.sparkLabel {
+  margin-top: 4px;
+  overflow: hidden;
+  font-size: 9px;
+  color: var(--text-subtle);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- tables ---------- */
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  padding: 0 0 8px;
+  font-size: var(--fs-xs, 0.75rem);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  text-align: left;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border-hairline);
+}
+
+.table td {
+  padding: 9px 0;
+  font-size: var(--fs-sm);
+  color: var(--text-body);
+  border-bottom: 1px solid var(--border-hairline);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.table th + th,
+.table td + td {
+  padding-left: 10px;
+  text-align: right;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.sub {
+  display: block;
+  font-size: var(--fs-xs, 0.75rem);
+  color: var(--text-subtle);
+}
+
+@media (width >= 700px) {
+  .tiles {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .stage {
+    grid-template-areas: "label bar value rate";
+    grid-template-columns: 160px 1fr 70px 60px;
+    gap: 12px;
+  }
+
+  .stageValue {
+    grid-area: value;
+    text-align: right;
+  }
+
+  .stageRate {
+    display: block;
+    grid-area: rate;
+    font-size: var(--fs-sm);
+    color: var(--text-muted);
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .sparkLabel {
+    font-size: 10px;
+  }
+}
+
+@media (width >= 1100px) {
+  .pair {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    align-items: start;
+  }
+
+  .pair .card {
+    margin-bottom: 16px;
+  }
+}
+
+/* ---------- next steps ---------- */
+
+.cardHead {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.cardNote {
+  font-size: var(--fs-xs, 0.75rem);
+  color: var(--text-subtle);
+}
+
+.steps {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  display: grid;
+  gap: 4px;
+  padding: 14px 16px;
+  background: var(--surface-page);
+  border-left: 3px solid var(--border-hairline);
+}
+
+.step[data-tone="act"] {
+  border-left-color: var(--status-danger);
+}
+
+.step[data-tone="watch"] {
+  border-left-color: var(--status-warning);
+}
+
+.step[data-tone="good"] {
+  border-left-color: var(--status-success);
+}
+
+.stepTone {
+  font-size: var(--fs-xs, 0.75rem);
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.stepTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--text-heading);
+}
+
+.stepWhy {
+  margin: 0;
+  max-width: 68ch;
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.stepTodo {
+  margin: 2px 0 0;
+  max-width: 68ch;
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+  color: var(--text-body);
+}
+
+.stepLink {
+  justify-self: start;
+  margin-top: 4px;
+  font: var(--type-ui-label);
+  font-size: var(--fs-sm);
+  color: var(--text-link);
+}
+
+/* ---------- funnel: animated fill, leak marked ---------- */
+
+.stageBar {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: var(--surface-inverse);
+  animation: fill var(--dur-lg, 620ms) var(--ease-out, ease) forwards;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+
+@keyframes fill {
+  to {
+    width: var(--to);
+  }
+}
+
+.stage[data-leak] .stageBar {
+  background: var(--status-danger);
+}
+
+.stage[data-leak] .stageLabel::after {
+  display: block;
+  font-size: var(--fs-xs, 0.75rem);
+  color: var(--status-danger);
+  /* Its own line rather than trailing the label: at the narrow column width it
+     wrapped mid-phrase, which read as two labels. */
+  content: "widest gap";
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stageBar {
+    animation-duration: 1ms;
+    animation-delay: 0ms;
+  }
+}
+
+/* ---------- layout ---------- */
+
+.grid {
+  /* An implicit grid track is sized to its widest child, so one wide table pushes
+     the whole column past the viewport. minmax(0, 1fr) lets it shrink. */
+  grid-template-columns: minmax(0, 1fr);
+  display: grid;
+  gap: 0;
+}
+
+.stats {
+  margin: 0;
+}
+
+.stat {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: var(--fs-sm);
+  border-bottom: 1px solid var(--border-hairline);
+}
+
+.stat:last-child {
+  border-bottom: 0;
+}
+
+.stat dt,
+.stat dd {
+  margin: 0;
+}
+
+.stat dt {
+  color: var(--text-muted);
+}
+
+.stat dd {
+  color: var(--text-body);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (width >= 1100px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    align-items: start;
+  }
+
+  .grid .card {
+    margin-bottom: 16px;
+  }
+}

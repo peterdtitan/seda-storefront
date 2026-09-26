@@ -21,7 +21,18 @@ export default function robots(): MetadataRoute.Robots {
         // The bag and checkout are per-visitor and empty to a crawler; the rest is
         // not public work. Both also carry noindex, which is what actually keeps
         // them out of an index — this just saves the crawl.
-        disallow: ["/studio", "/studio/", "/styleguide", "/bag", "/checkout", "/api/"],
+        disallow: [
+          "/studio",
+          "/studio/",
+          "/styleguide",
+          "/admin",
+          "/admin/",
+          "/superuser",
+          "/superuser/",
+          "/bag",
+          "/checkout",
+          "/api/",
+        ],
       },
     ],
     sitemap: absoluteUrl("/sitemap.xml"),

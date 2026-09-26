@@ -1,0 +1,258 @@
+.head {
+  margin-bottom: 20px;
+}
+
+.title {
+  margin: 0 0 4px;
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--text-heading);
+}
+
+.lede {
+  margin: 0;
+  font: var(--type-body);
+  color: var(--text-muted);
+}
+
+.quiet {
+  margin: 0;
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+}
+
+.tile {
+  display: grid;
+  gap: 2px;
+  padding: 14px 16px;
+  background: var(--surface-card);
+  border: 1px solid var(--border-hairline);
+}
+
+.tileLabel {
+  font-size: var(--fs-xs, 0.75rem);
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.tileValue {
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  line-height: 1.15;
+  color: var(--text-heading);
+  font-variant-numeric: tabular-nums;
+}
+
+.tileNote {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.card {
+  padding: 16px;
+  margin-bottom: 16px;
+  background: var(--surface-card);
+  border: 1px solid var(--border-hairline);
+}
+
+.cardTitle {
+  margin: 0 0 12px;
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: 400;
+  color: var(--text-heading);
+}
+
+/* ---------- rows ---------- */
+
+.rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  display: grid;
+  grid-template-areas:
+    "main   money"
+    "status who";
+  grid-template-columns: 1fr auto;
+  gap: 4px 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-hairline);
+}
+
+.row:last-child {
+  border-bottom: 0;
+}
+
+.rowMain {
+  display: grid;
+  grid-area: main;
+  gap: 1px;
+  min-width: 0;
+  border-bottom: 0;
+}
+
+.rowName {
+  font: var(--type-body);
+  color: var(--text-body);
+}
+
+.rowSub {
+  overflow: hidden;
+  font-size: var(--fs-xs, 0.75rem);
+  color: var(--text-subtle);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rowStatus {
+  grid-area: status;
+  justify-self: start;
+  padding: 2px 8px;
+  font-size: var(--fs-xs, 0.75rem);
+  color: var(--text-muted);
+  background: var(--surface-sunken);
+  border-radius: 999px;
+}
+
+.rowStatus[data-status="processed"] {
+  color: #3f4a1f;
+  background: #eef0e0;
+}
+
+.rowStatus[data-status="pending"] {
+  color: #6b5312;
+  background: #f6eed8;
+}
+
+.rowStatus[data-status="failed"] {
+  color: #7a1219;
+  background: #f7e3e4;
+}
+
+.rowMoney {
+  grid-area: money;
+  font: var(--type-body);
+  color: var(--text-body);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.partial {
+  font-size: var(--fs-xs, 0.75rem);
+  color: var(--text-subtle);
+}
+
+.rowWho {
+  display: grid;
+  grid-area: who;
+  gap: 1px;
+  font-size: var(--fs-xs, 0.75rem);
+  color: var(--text-subtle);
+  text-align: right;
+}
+
+.rowWhen {
+  color: var(--text-subtle);
+}
+
+.rowError {
+  grid-column: 1 / -1;
+  font-size: var(--fs-xs, 0.75rem);
+  color: var(--status-danger);
+}
+
+/* ---------- the form, used on an order ---------- */
+
+.form {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+}
+
+.field {
+  display: grid;
+  gap: 4px;
+  width: 100%;
+  max-width: 340px;
+}
+
+.label {
+  font-size: var(--fs-xs, 0.75rem);
+  color: var(--text-muted);
+}
+
+.input {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  font: var(--type-body);
+  color: var(--text-body);
+  background: var(--surface-page);
+  border: 1px solid var(--border-hairline);
+  border-radius: 3px;
+}
+
+.submit {
+  min-height: 44px;
+  padding: 0 18px;
+  font: var(--type-ui-label);
+  color: #fff;
+  background: var(--status-danger);
+  border: 0;
+  cursor: pointer;
+}
+
+.submit:hover {
+  filter: brightness(0.92);
+}
+
+.submit:disabled {
+  color: var(--action-disabled-fg);
+  background: var(--action-disabled-bg);
+  cursor: default;
+}
+
+.good,
+.bad {
+  margin: 0;
+  max-width: 48ch;
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+}
+
+.good {
+  color: var(--text-body);
+}
+
+.bad {
+  color: var(--status-danger);
+}
+
+@media (width >= 700px) {
+  .tiles {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .row {
+    grid-template-areas: "main status money who";
+    grid-template-columns: minmax(0, 2fr) auto minmax(120px, auto) 200px;
+    gap: 16px;
+    align-items: center;
+  }
+}
