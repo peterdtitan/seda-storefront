@@ -1,0 +1,143 @@
+.head {
+  margin-bottom: 20px;
+}
+
+.title {
+  margin: 0 0 4px;
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--text-heading);
+}
+
+.lede {
+  margin: 0;
+  font: var(--type-body);
+  color: var(--text-muted);
+}
+
+.clear {
+  padding: 24px 16px;
+  font: var(--type-body);
+  color: var(--text-muted);
+  background: var(--surface-card);
+  border: 1px solid var(--border-hairline);
+}
+
+/* One column on a phone, so the queue you are working reads top to bottom rather
+   than as three short stacks you have to scroll past each other. */
+.queues {
+  /* An implicit grid track is sized to its widest child, so one wide table pushes
+     the whole column past the viewport. minmax(0, 1fr) lets it shrink. */
+  grid-template-columns: minmax(0, 1fr);
+  display: grid;
+  gap: 16px;
+}
+
+.queue {
+  padding: 16px;
+  background: var(--surface-card);
+  border: 1px solid var(--border-hairline);
+}
+
+.queueHead {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.queueTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: 400;
+  color: var(--text-heading);
+}
+
+.queueCount {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  color: var(--text-heading);
+  font-variant-numeric: tabular-nums;
+}
+
+.queueBlurb {
+  margin: 2px 0 14px;
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.queueEmpty {
+  margin: 0;
+  font-size: var(--fs-sm);
+  color: var(--text-subtle);
+}
+
+.cards {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: grid;
+  gap: 3px;
+  padding: 12px 14px;
+  background: var(--surface-page);
+  border: 1px solid var(--border-hairline);
+  border-bottom: 1px solid var(--border-hairline);
+}
+
+.card:hover {
+  border-color: var(--text-heading);
+}
+
+.cardName {
+  font: var(--type-body);
+  color: var(--text-body);
+}
+
+.cardMeta {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.cardFoot {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.cardWhen {
+  font-size: var(--fs-xs, 0.75rem);
+  color: var(--text-subtle);
+}
+
+.cardFlag {
+  margin-top: 4px;
+  font-size: var(--fs-xs, 0.75rem);
+  color: var(--status-danger);
+}
+
+.queueMore {
+  display: inline-block;
+  margin-top: 12px;
+  font: var(--type-ui-label);
+  font-size: var(--fs-sm);
+  color: var(--text-link);
+}
+
+@media (width >= 900px) {
+  .queues {
+    grid-template-columns: repeat(3, 1fr);
+    align-items: start;
+  }
+}

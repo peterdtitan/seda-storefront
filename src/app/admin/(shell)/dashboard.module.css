@@ -1,0 +1,271 @@
+.head {
+  margin-bottom: 24px;
+}
+
+.title {
+  margin: 0 0 4px;
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--text-heading);
+}
+
+.lede {
+  margin: 0;
+  font: var(--type-body);
+  color: var(--text-muted);
+}
+
+/* ---------- tiles ---------- */
+
+.tiles {
+  display: grid;
+  gap: 12px;
+  /* Two up on a phone: four single-column tiles would push the order list below the
+     fold on every handset. */
+  grid-template-columns: repeat(2, 1fr);
+  margin: 0 0 20px;
+  padding: 0;
+  list-style: none;
+}
+
+.tile {
+  display: grid;
+  gap: 2px;
+  height: 100%;
+  padding: 14px 16px;
+  background: var(--surface-card);
+  /* The shorthand also overrides the global a { border-bottom } underline. */
+  border: 1px solid var(--border-hairline);
+}
+
+.tile:hover {
+  border-color: var(--text-heading);
+}
+
+.tile[data-urgent] {
+  border-left: 3px solid var(--seda-ochre);
+}
+
+.tileLabel {
+  /* Exactly two lines, wrapped or not, so the numbers beside each other start at the
+     same height. min-height was not enough: a wrapped label is two line-boxes tall,
+     which is more than the minimum. */
+  height: 2.5em;
+  overflow: hidden;
+  line-height: 1.25;
+  font-size: var(--fs-xs, 0.75rem);
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.tileValue {
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  line-height: 1.1;
+  color: var(--text-heading);
+  font-variant-numeric: tabular-nums;
+}
+
+.tileNote {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- flags ---------- */
+
+.flags {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 20px;
+  padding: 0;
+  list-style: none;
+}
+
+.flag {
+  padding: 12px 14px;
+  font: var(--type-body);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  color: var(--text-body);
+  background: var(--surface-card);
+  border-left: 3px solid var(--status-warning);
+}
+
+.flag[data-tone="danger"] {
+  border-left-color: var(--status-danger);
+}
+
+/* ---------- panel ---------- */
+
+.panel {
+  background: var(--surface-card);
+  border: 1px solid var(--border-hairline);
+}
+
+.panelHead {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid var(--border-hairline);
+}
+
+.panelTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: 400;
+  color: var(--text-heading);
+}
+
+.panelLink {
+  font: var(--type-ui-label);
+  font-size: var(--fs-sm);
+  color: var(--text-link);
+}
+
+.empty {
+  margin: 0;
+  padding: 24px 16px;
+  font: var(--type-body);
+  color: var(--text-muted);
+}
+
+/* ---------- order rows ---------- */
+
+.orders {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.order {
+  display: grid;
+  /* Phone: name and total on the first line, badges and date beneath. */
+  grid-template-areas:
+    "main  total"
+    "meta  when";
+  grid-template-columns: 1fr auto;
+  gap: 4px 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-hairline);
+}
+
+.order:last-child {
+  border-bottom: 0;
+}
+
+.orderMain {
+  border-bottom: 0;
+  display: grid;
+  grid-area: main;
+  gap: 1px;
+  min-width: 0;
+  text-decoration: none;
+}
+
+.orderName {
+  font: var(--type-body);
+  color: var(--text-body);
+}
+
+.orderRef {
+  overflow: hidden;
+  font-size: var(--fs-xs, 0.75rem);
+  color: var(--text-subtle);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.orderMeta {
+  display: flex;
+  flex-wrap: wrap;
+  grid-area: meta;
+  gap: 6px;
+  align-items: center;
+}
+
+.orderTotal {
+  grid-area: total;
+  font: var(--type-body);
+  color: var(--text-body);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.orderWhen {
+  grid-area: when;
+  font-size: var(--fs-xs, 0.75rem);
+  color: var(--text-subtle);
+  text-align: right;
+}
+
+.badge {
+  padding: 2px 8px;
+  font-size: var(--fs-xs, 0.75rem);
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  text-transform: lowercase;
+  background: var(--surface-sunken);
+  border-radius: 999px;
+}
+
+.badge[data-status="paid"] {
+  color: #3f4a1f;
+  background: #eef0e0;
+}
+
+.badge[data-status="pending"] {
+  color: #6b5312;
+  background: #f6eed8;
+}
+
+.badge[data-status="failed"],
+.badge[data-status="refunded"] {
+  color: #7a1219;
+  background: #f7e3e4;
+}
+
+.badge[data-fulfilment="out_for_delivery"] {
+  color: #0a3a52;
+  background: #dfecf3;
+}
+
+.badge[data-fulfilment="delivered"] {
+  color: #3f4a1f;
+  background: #eef0e0;
+}
+
+/* ---------- wide ---------- */
+
+@media (width >= 700px) {
+  .tiles {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .order {
+    grid-template-areas: "main meta total when";
+    grid-template-columns: minmax(0, 2fr) auto minmax(90px, auto) 64px;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .orderMeta {
+    justify-content: flex-end;
+  }
+}
+
+@media (width >= 900px) {
+  .tiles {
+    gap: 16px;
+  }
+
+  .tile {
+    padding: 18px 20px;
+  }
+}

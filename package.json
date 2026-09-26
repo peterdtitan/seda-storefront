@@ -15,16 +15,19 @@
     "seed": "sanity exec scripts/seed.ts --with-user-token",
     "db:migrate": "node scripts/migrate.mjs",
     "db:status": "node scripts/migrate.mjs --status",
+    "admin:invite": "node scripts/admin-invite.mjs",
     "env:push": "bash scripts/vercel-env.sh"
   },
   "dependencies": {
     "@sanity/image-url": "^2.1.1",
     "@sanity/vision": "^6.15.0",
     "next": "16.3.5",
+    "next-auth": "5.0.0-beta.32",
     "next-sanity": "^13.3.4",
     "postgres": "^3.4.9",
     "react": "19.2.8",
     "react-dom": "19.2.8",
+    "resend": "^6.28.1",
     "sanity": "^6.15.0",
     "styled-components": "^6.5.3"
   },

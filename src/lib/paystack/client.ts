@@ -115,3 +115,81 @@ export async function verifyTransaction(reference: string): Promise<VerifiedTran
     gatewayResponse: body.data.gateway_response,
   };
 }
+
+export type RefundResult =
+  | { ok: true; providerId: string; status: string; amountKobo: number }
+  | { ok: false; message: string };
+
+/** Paystack refunds by transaction reference. Omitting the amount refunds the lot;
+ * passing one refunds part of it, and they refuse anything over what was collected. */
+export async function refundTransaction(input: {
+  reference: string;
+  amountKobo?: number;
+  merchantNote: string;
+}): Promise<RefundResult> {
+  if (!isPaystackConfigured) return { ok: false, message: "Paystack is not set up." };
+
+  const body = await call<{ id: number | string; status: string; amount: number }>("/refund", {
+    method: "POST",
+    body: JSON.stringify({
+      transaction: input.reference,
+      ...(input.amountKobo ? { amount: input.amountKobo } : {}),
+      merchant_note: input.merchantNote.slice(0, 250),
+    }),
+  });
+
+  if (!body?.status || !body.data) {
+    return { ok: false, message: body?.message ?? "Paystack would not take the refund." };
+  }
+
+  return {
+    ok: true,
+    providerId: String(body.data.id),
+    status: body.data.status,
+    amountKobo: body.data.amount,
+  };
+}
+
+export type Balance = { currency: string; balanceKobo: number };
+
+export async function fetchBalance(): Promise<Balance[]> {
+  if (!isPaystackConfigured) return [];
+  const body = await call<{ currency: string; balance: number }[]>("/balance");
+  if (!body?.status || !Array.isArray(body.data)) return [];
+  return body.data.map((row) => ({ currency: row.currency, balanceKobo: row.balance }));
+}
+
+export type Settlement = {
+  id: string;
+  status: string;
+  currency: string;
+  amountKobo: number;
+  settledAt: string | null;
+  createdAt: string;
+};
+
+/** What Paystack has already paid into the bank account, and what is queued. In
+ * Nigeria this happens on their schedule rather than on request, which is why this
+ * screen reports rather than asks. */
+export async function fetchSettlements(): Promise<Settlement[]> {
+  if (!isPaystackConfigured) return [];
+  const body = await call<
+    {
+      id: number | string;
+      status: string;
+      currency: string;
+      total_amount: number;
+      settled_date: string | null;
+      createdAt: string;
+    }[]
+  >("/settlement?perPage=20");
+  if (!body?.status || !Array.isArray(body.data)) return [];
+  return body.data.map((row) => ({
+    id: String(row.id),
+    status: row.status,
+    currency: row.currency,
+    amountKobo: row.total_amount,
+    settledAt: row.settled_date,
+    createdAt: row.createdAt,
+  }));
+}

@@ -1,0 +1,269 @@
+.title {
+  margin: 0 0 4px;
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--seda-cream);
+}
+
+.lede {
+  margin: 0 0 20px;
+  font: var(--type-body);
+  color: rgb(255 250 232 / 66%);
+}
+
+.quiet {
+  margin: 0;
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+  color: rgb(255 250 232 / 62%);
+}
+
+.footnote {
+  margin: 10px 0 0;
+  font-size: var(--fs-xs, 0.75rem);
+  color: rgb(255 250 232 / 48%);
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+}
+
+.tile {
+  display: grid;
+  gap: 2px;
+  padding: 14px 16px;
+  background: rgb(255 250 232 / 5%);
+  border: 1px solid rgb(255 250 232 / 14%);
+}
+
+.tileLabel {
+  height: 1.3em;
+  font-size: var(--fs-xs, 0.75rem);
+  letter-spacing: 0.06em;
+  color: rgb(255 250 232 / 60%);
+  text-transform: uppercase;
+}
+
+.tileValue {
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  line-height: 1.15;
+  color: var(--seda-cream);
+  font-variant-numeric: tabular-nums;
+}
+
+.tileNote {
+  font-size: var(--fs-sm);
+  color: rgb(255 250 232 / 60%);
+  font-variant-numeric: tabular-nums;
+}
+
+.panel {
+  padding: 16px;
+  margin-bottom: 16px;
+  background: rgb(255 250 232 / 5%);
+  border: 1px solid rgb(255 250 232 / 14%);
+}
+
+.panelHead {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.panelTitle {
+  margin: 0 0 10px;
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: 400;
+  color: var(--seda-cream);
+}
+
+.count {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  color: var(--seda-cream);
+  font-variant-numeric: tabular-nums;
+}
+
+.pair {
+  /* An implicit grid track is sized to its widest child, so one wide table pushes
+     the whole column past the viewport. minmax(0, 1fr) lets it shrink. */
+  grid-template-columns: minmax(0, 1fr);
+  display: grid;
+  gap: 0;
+}
+
+/* ---------- services ---------- */
+
+.services {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.service {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid rgb(255 250 232 / 12%);
+}
+
+.service:last-child {
+  border-bottom: 0;
+}
+
+.serviceName {
+  font-size: var(--fs-sm);
+  color: var(--seda-cream);
+}
+
+.serviceState {
+  padding: 2px 8px;
+  font-size: var(--fs-xs, 0.75rem);
+  color: #f7c9cb;
+  background: rgb(163 29 38 / 34%);
+  border-radius: 999px;
+}
+
+.service[data-good] .serviceState {
+  color: #dbe6c2;
+  background: rgb(138 138 74 / 34%);
+}
+
+/* ---------- wounds ---------- */
+
+.wounds {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wound {
+  display: grid;
+  grid-template-areas:
+    "kind  when"
+    "detail detail"
+    "ref   ref";
+  grid-template-columns: auto 1fr;
+  gap: 3px 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgb(255 250 232 / 12%);
+}
+
+.wound:last-child {
+  border-bottom: 0;
+}
+
+.woundKind {
+  grid-area: kind;
+  justify-self: start;
+  padding: 2px 8px;
+  font-size: var(--fs-xs, 0.75rem);
+  color: #f7c9cb;
+  background: rgb(163 29 38 / 34%);
+  border-radius: 999px;
+}
+
+.woundKind[data-kind="email"] {
+  color: #f0dcb0;
+  background: rgb(199 158 50 / 30%);
+}
+
+.woundDetail {
+  grid-area: detail;
+  font-size: var(--fs-sm);
+  color: var(--seda-cream);
+}
+
+.woundRef {
+  grid-area: ref;
+  font-size: var(--fs-xs, 0.75rem);
+  color: rgb(255 250 232 / 48%);
+}
+
+.woundWhen {
+  grid-area: when;
+  font-size: var(--fs-xs, 0.75rem);
+  color: rgb(255 250 232 / 48%);
+  text-align: right;
+}
+
+/* ---------- generic rows ---------- */
+
+.rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 9px 0;
+  border-bottom: 1px solid rgb(255 250 232 / 12%);
+}
+
+.row:last-child {
+  border-bottom: 0;
+}
+
+.rowMain {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+  font-size: var(--fs-sm);
+  color: var(--seda-cream);
+}
+
+.rowSide {
+  display: grid;
+  gap: 1px;
+  font-size: var(--fs-sm);
+  color: rgb(255 250 232 / 72%);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.rowSub {
+  font-size: var(--fs-xs, 0.75rem);
+  color: rgb(255 250 232 / 48%);
+}
+
+@media (width >= 700px) {
+  .tiles {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .wound {
+    grid-template-areas: "kind detail ref when";
+    grid-template-columns: auto 1fr 150px 130px;
+    align-items: baseline;
+  }
+}
+
+@media (width >= 1100px) {
+  .pair {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    align-items: start;
+  }
+
+  .pair .panel {
+    margin-bottom: 16px;
+  }
+}

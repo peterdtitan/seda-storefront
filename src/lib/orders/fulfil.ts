@@ -11,6 +11,7 @@ import {
   releaseStockAdjustment,
 } from "./store";
 import { decrementStock } from "./stock";
+import { sendOrderConfirmation } from "./fulfilment";
 
 /**
  * Everything that happens once, after an order is known to be paid.
@@ -53,6 +54,15 @@ export async function fulfilOrder(input: {
   }
 
   await adjustStock(reference, lines);
+
+  // Claimed through email_deliveries, so the webhook and the callback page racing each
+  // other still produces one receipt. Last on purpose: a mail provider having a bad
+  // afternoon must not cost us the stock adjustment or the conversion event.
+  try {
+    await sendOrderConfirmation(reference);
+  } catch (error) {
+    console.error("[orders] confirmation email failed", { reference, error });
+  }
 }
 
 async function adjustStock(reference: string, lines: Awaited<ReturnType<typeof orderLines>>) {

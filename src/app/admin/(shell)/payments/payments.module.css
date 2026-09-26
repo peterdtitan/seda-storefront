@@ -1,0 +1,345 @@
+.head {
+  margin-bottom: 20px;
+}
+
+.title {
+  margin: 0 0 4px;
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--text-heading);
+}
+
+.lede {
+  margin: 0;
+  font: var(--type-body);
+  color: var(--text-muted);
+}
+
+.quiet {
+  margin: 0 0 12px;
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.bad {
+  padding: 12px 14px;
+  margin: 0 0 16px;
+  font-size: var(--fs-sm);
+  color: var(--status-danger);
+  background: var(--surface-card);
+  border-left: 3px solid var(--status-danger);
+}
+
+.testNote {
+  padding: 12px 14px;
+  margin: 0 0 16px;
+  font-size: var(--fs-sm);
+  color: var(--text-body);
+  background: var(--surface-card);
+  border-left: 3px solid var(--status-warning);
+}
+
+/* ---------- tiles ---------- */
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+}
+
+.tile {
+  display: grid;
+  gap: 2px;
+  padding: 14px 16px;
+  background: var(--surface-card);
+  border: 1px solid var(--border-hairline);
+}
+
+.tileLabel {
+  height: 1.3em;
+  font-size: var(--fs-xs, 0.75rem);
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.tileValue {
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  line-height: 1.15;
+  color: var(--text-heading);
+  font-variant-numeric: tabular-nums;
+}
+
+.tileNote {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+/* ---------- cards ---------- */
+
+.card {
+  padding: 16px;
+  margin-bottom: 16px;
+  background: var(--surface-card);
+  border: 1px solid var(--border-hairline);
+}
+
+.cardHead {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.cardTitle {
+  margin: 0 0 6px;
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: 400;
+  color: var(--text-heading);
+}
+
+.count {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  color: var(--text-heading);
+  font-variant-numeric: tabular-nums;
+}
+
+.allLink {
+  font: var(--type-ui-label);
+  font-size: var(--fs-sm);
+  color: var(--text-link);
+}
+
+.concerns {
+  /* An implicit grid track is sized to its widest child, so one wide table pushes
+     the whole column past the viewport. minmax(0, 1fr) lets it shrink. */
+  grid-template-columns: minmax(0, 1fr);
+  display: grid;
+  gap: 0;
+}
+
+/* ---------- flagged rows ---------- */
+
+.flagList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.flagRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-hairline);
+}
+
+.flagRow:last-child {
+  border-bottom: 0;
+}
+
+.flagRef {
+  font: var(--type-body);
+  font-size: var(--fs-sm);
+  color: var(--text-link);
+  border-bottom: 0;
+}
+
+.flagMoney {
+  font-size: var(--fs-sm);
+  color: var(--text-body);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.flagWhen {
+  font-size: var(--fs-xs, 0.75rem);
+  color: var(--text-subtle);
+}
+
+.flagDetail {
+  grid-column: 1 / -1;
+  font-size: var(--fs-xs, 0.75rem);
+  color: var(--status-danger);
+}
+
+/* ---------- reconcile ---------- */
+
+.reconcile {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+}
+
+.check {
+  min-height: 44px;
+  padding: 0 18px;
+  font: var(--type-ui-label);
+  color: var(--action-primary-fg);
+  background: var(--action-primary-bg);
+  border: 0;
+  cursor: pointer;
+}
+
+.check:hover {
+  background: var(--action-primary-bg-hover);
+}
+
+.check:disabled {
+  color: var(--action-disabled-fg);
+  background: var(--action-disabled-bg);
+  cursor: default;
+}
+
+.result {
+  width: 100%;
+}
+
+.resultHead {
+  margin: 0 0 10px;
+  font: var(--type-body);
+  font-size: var(--fs-sm);
+  color: var(--text-body);
+}
+
+.findings {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.finding {
+  display: grid;
+  gap: 2px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  background: var(--surface-page);
+  border-left: 3px solid var(--border-hairline);
+}
+
+.finding[data-action="recovered"] {
+  border-left-color: var(--status-success);
+}
+
+.finding[data-action="mismatch"] {
+  border-left-color: var(--status-danger);
+}
+
+.finding[data-action="marked_failed"],
+.finding[data-action="unknown"] {
+  border-left-color: var(--status-warning);
+}
+
+.findingRef {
+  font-size: var(--fs-xs, 0.75rem);
+  color: var(--text-subtle);
+}
+
+.findingWhat {
+  font-size: var(--fs-sm);
+  color: var(--text-body);
+}
+
+.findingNote {
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+/* ---------- recent ---------- */
+
+.rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  display: grid;
+  grid-template-areas:
+    "main  money"
+    "badge when";
+  grid-template-columns: 1fr auto;
+  gap: 4px 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-hairline);
+}
+
+.row:last-child {
+  border-bottom: 0;
+}
+
+.rowMain {
+  display: grid;
+  grid-area: main;
+  gap: 1px;
+  min-width: 0;
+  border-bottom: 0;
+}
+
+.rowName {
+  font: var(--type-body);
+  color: var(--text-body);
+}
+
+.rowSub {
+  font-size: var(--fs-xs, 0.75rem);
+  color: var(--text-subtle);
+}
+
+.rowBadge {
+  grid-area: badge;
+}
+
+.rowMoney {
+  grid-area: money;
+  font: var(--type-body);
+  color: var(--text-body);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.rowWhen {
+  grid-area: when;
+  font-size: var(--fs-xs, 0.75rem);
+  color: var(--text-subtle);
+  text-align: right;
+}
+
+@media (width >= 700px) {
+  .tiles {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .row {
+    grid-template-areas: "main badge money when";
+    grid-template-columns: minmax(0, 2fr) auto minmax(100px, auto) 120px;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .rowBadge {
+    text-align: right;
+  }
+}
+
+@media (width >= 1100px) {
+  .concerns {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    align-items: start;
+  }
+
+  .concerns .card {
+    margin-bottom: 0;
+  }
+}

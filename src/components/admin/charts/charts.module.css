@@ -1,0 +1,277 @@
+/* Charts draw themselves in once, on load. Cloth, not rubber: everything eases out
+   and nothing overshoots, matching the storefront's motion. */
+
+.figure {
+  margin: 0;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.grid {
+  stroke: var(--border-hairline);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.area {
+  fill: var(--surface-inverse);
+  opacity: 0;
+  animation: fade var(--dur-lg, 520ms) var(--ease-out, ease) forwards;
+  animation-delay: 220ms;
+}
+
+.line {
+  fill: none;
+  stroke: var(--surface-inverse);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  /* The dash length is a guess large enough for any path this chart draws; the
+     animation walks it from fully dashed to fully drawn. */
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+  animation: draw 900ms var(--ease-out, ease) forwards;
+}
+
+.line[data-second] {
+  stroke: var(--seda-ochre);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 4;
+  animation: fade 600ms var(--ease-out, ease) forwards;
+  animation-delay: 400ms;
+  opacity: 0;
+}
+
+.axis {
+  position: relative;
+  height: 14px;
+  margin-top: 2px;
+}
+
+.axis span {
+  position: absolute;
+  font-size: 10px;
+  color: var(--text-subtle);
+  transform: translateX(-50%);
+  font-variant-numeric: tabular-nums;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  align-items: baseline;
+  margin-top: 8px;
+  font-size: var(--fs-xs, 0.75rem);
+  color: var(--text-muted);
+}
+
+.key::before {
+  display: inline-block;
+  width: 10px;
+  height: 2px;
+  margin-right: 6px;
+  vertical-align: middle;
+  content: "";
+  background: var(--surface-inverse);
+}
+
+.key[data-second]::before {
+  background: var(--seda-ochre);
+}
+
+.keyPeak {
+  margin-left: 5px;
+  color: var(--text-subtle);
+  font-variant-numeric: tabular-nums;
+}
+
+.peak {
+  margin-left: auto;
+  font-style: italic;
+  color: var(--text-subtle);
+}
+
+/* ---------- bars ---------- */
+
+.bars {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "label value"
+    "track track";
+  gap: 3px 10px;
+  align-items: baseline;
+  padding: 7px 0;
+}
+
+.barLabel {
+  display: grid;
+  grid-area: label;
+  gap: 1px;
+  min-width: 0;
+  overflow: hidden;
+  font-size: var(--fs-sm);
+  color: var(--text-body);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.barNote {
+  font-size: var(--fs-xs, 0.75rem);
+  color: var(--text-subtle);
+}
+
+.barTrack {
+  grid-area: track;
+  height: 8px;
+  background: var(--surface-sunken);
+}
+
+.barFill {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: var(--surface-inverse);
+  animation: grow var(--dur-lg, 620ms) var(--ease-out, ease) forwards;
+  /* Staggered so the set reads as a sequence rather than a single block appearing. */
+  animation-delay: calc(var(--i, 0) * 45ms);
+}
+
+.barValue {
+  grid-area: value;
+  font-size: var(--fs-sm);
+  color: var(--text-body);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- donut ---------- */
+
+.donutFigure {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  justify-items: center;
+}
+
+.donut {
+  width: 100%;
+  max-width: 190px;
+  height: auto;
+}
+
+.arc {
+  fill: none;
+  stroke-width: 18;
+  stroke-dasharray: var(--dash) var(--gap);
+  stroke-dashoffset: var(--offset);
+  transform-origin: 80px 80px;
+  opacity: 0;
+  animation: spin 620ms var(--ease-out, ease) forwards;
+  animation-delay: calc(var(--i, 0) * 90ms);
+}
+
+.donutTotal {
+  font-family: var(--font-display);
+  font-size: 20px;
+  fill: var(--text-heading);
+  text-anchor: middle;
+}
+
+.donutLabel {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  fill: var(--text-muted);
+  text-anchor: middle;
+  text-transform: uppercase;
+}
+
+.donutKeys {
+  display: grid;
+  gap: 5px;
+  width: 100%;
+}
+
+.donutKey {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: var(--fs-sm);
+  color: var(--text-body);
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+}
+
+.donutShare {
+  margin-left: auto;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes grow {
+  to {
+    width: var(--to);
+  }
+}
+
+@keyframes fade {
+  to {
+    opacity: 0.08;
+  }
+}
+
+.line[data-second] {
+  animation-name: fadeFull;
+}
+
+@keyframes fadeFull {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes spin {
+  from {
+    opacity: 0;
+    transform: rotate(-6deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: rotate(0);
+  }
+}
+
+/* A chart that redraws itself on every navigation is a chart nobody can read. */
+@media (prefers-reduced-motion: reduce) {
+  .area,
+  .line,
+  .line[data-second],
+  .barFill,
+  .arc {
+    animation-duration: 1ms;
+    animation-delay: 0ms;
+  }
+}
