@@ -2,7 +2,7 @@ import "server-only";
 
 import { createHash, randomBytes } from "node:crypto";
 
-import { requireSql } from "@/lib/db";
+import { readWithRetry, requireSql } from "@/lib/db";
 
 export type Tier = "staff" | "superuser";
 export type Role = "content" | "refunds" | "delivery" | "finance" | "owner";
@@ -102,18 +102,24 @@ export type SessionAndUser = { expiresAt: Date; user: StaffUser };
  *
  * Auth.js asks for these separately, and on a database strategy it asks on every
  * request. Two sequential queries to Neon is most of a page's latency before any of
- * its own data is fetched. */
+ * its own data is fetched.
+ *
+ * Retried once on a connection failure. Auth.js turns anything thrown here into "no
+ * session", so a momentary blip reaching Neon does not read as an expired login and
+ * bounce somebody to the sign-in form mid-shift. */
 export async function findSessionWithUser(token: string): Promise<SessionAndUser | null> {
   const sql = requireSql();
-  const [row] = await sql<(UserRow & { expires_at: Date })[]>`
-    select u.id::text, u.email, u.name, u.tier, u.status, s.expires_at,
-           array_remove(array_agg(r.role), null) as roles
-    from admin_sessions s
-    join admin_users u on u.id = s.user_id
-    left join admin_roles r on r.user_id = u.id
-    where s.token_hash = ${hashToken(token)} and s.expires_at > now()
-    group by u.id, s.expires_at
-  `;
+  const [row] = await readWithRetry(
+    () => sql<(UserRow & { expires_at: Date })[]>`
+      select u.id::text, u.email, u.name, u.tier, u.status, s.expires_at,
+             array_remove(array_agg(r.role), null) as roles
+      from admin_sessions s
+      join admin_users u on u.id = s.user_id
+      left join admin_roles r on r.user_id = u.id
+      where s.token_hash = ${hashToken(token)} and s.expires_at > now()
+      group by u.id, s.expires_at
+    `,
+  );
 
   const user = toUser(row);
   if (!user) return null;
