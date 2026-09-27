@@ -1,0 +1,565 @@
+/* One stylesheet for every catalogue screen. The forms share so much structure that
+   splitting it per component only produced four copies of the same field rule. */
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.title {
+  margin: 0 0 4px;
+  font-family: var(--font-display);
+  font-size: var(--fs-2xl);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--text-heading);
+}
+
+.lede {
+  margin: 0;
+  max-width: 64ch;
+  font: var(--type-body);
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+/* ---------- section nav ---------- */
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding-bottom: 12px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--border-hairline);
+}
+
+.tab {
+  min-height: 36px;
+  padding: 7px 13px;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: 3px;
+}
+
+.tab:hover {
+  color: var(--text-heading);
+  background: var(--surface-sunken);
+}
+
+.tab[aria-current="page"] {
+  color: var(--text-heading);
+  background: var(--surface-sunken);
+  border-color: var(--border-hairline);
+}
+
+/* ---------- cards ---------- */
+
+.card {
+  padding: 16px;
+  margin-bottom: 16px;
+  background: var(--surface-card);
+  border: 1px solid var(--border-hairline);
+}
+
+.cardHead {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.cardTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: 400;
+  color: var(--text-heading);
+}
+
+.cardNote {
+  margin: 0;
+  max-width: 62ch;
+  font-size: var(--fs-xs, 0.75rem);
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+/* ---------- fields ---------- */
+
+.grid {
+  display: grid;
+  /* minmax(0,…) rather than 1fr: an implicit track sizes to its widest child, and a
+     long slug in a text input pushed the whole form past 320px. */
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+  gap: 14px;
+}
+
+.field {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.wide {
+  grid-column: 1 / -1;
+}
+
+.label {
+  font-size: var(--fs-xs, 0.75rem);
+  color: var(--text-muted);
+}
+
+.req {
+  color: var(--status-danger);
+}
+
+.hint {
+  font-size: var(--fs-xs, 0.75rem);
+  line-height: 1.45;
+  color: var(--text-subtle);
+}
+
+.input,
+.textarea,
+.select {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  font: var(--type-body);
+  color: var(--text-body);
+  background: var(--surface-page);
+  border: 1px solid var(--border-hairline);
+  border-radius: 3px;
+}
+
+.textarea {
+  min-height: 84px;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.input:focus-visible,
+.textarea:focus-visible,
+.select:focus-visible {
+  outline: 2px solid var(--text-heading);
+  outline-offset: 1px;
+}
+
+.input[aria-invalid="true"],
+.textarea[aria-invalid="true"],
+.select[aria-invalid="true"] {
+  border-color: var(--status-danger);
+}
+
+.error {
+  font-size: var(--fs-xs, 0.75rem);
+  line-height: 1.45;
+  color: var(--status-danger);
+}
+
+.check {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: start;
+  min-height: 44px;
+  align-content: center;
+  font-size: var(--fs-sm);
+  color: var(--text-body);
+  cursor: pointer;
+}
+
+.check input {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+}
+
+/* A hex field: the swatch is the preview, the text box is the value. */
+.hexRow {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 8px;
+  align-items: center;
+}
+
+.swatch {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: none;
+  border: 1px solid var(--border-hairline);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+/* ---------- buttons ---------- */
+
+.primary {
+  min-height: 44px;
+  padding: 0 18px;
+  font: var(--type-ui-label);
+  color: var(--action-primary-fg);
+  background: var(--action-primary-bg);
+  border: 0;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.primary:hover {
+  background: var(--action-primary-bg-hover);
+}
+
+.primary:disabled {
+  color: var(--action-disabled-fg);
+  background: var(--action-disabled-bg);
+  cursor: default;
+}
+
+.small,
+.ghost {
+  min-height: 36px;
+  padding: 0 12px;
+  font-size: var(--fs-sm);
+  color: var(--text-link);
+  text-decoration: none;
+  background: none;
+  border: 1px solid var(--border-hairline);
+  border-radius: 3px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.small:hover,
+.ghost:hover {
+  border-color: var(--text-heading);
+}
+
+.small:disabled {
+  color: var(--text-subtle);
+  cursor: default;
+}
+
+.danger {
+  color: var(--status-danger);
+}
+
+.danger:hover {
+  border-color: var(--status-danger);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+/* The save bar sticks, because the product form is long and the button was three
+   screens below the field somebody had just changed. */
+.saveBar {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 16px;
+  margin: 18px -16px -16px;
+  background: var(--surface-card);
+  border-top: 1px solid var(--border-hairline);
+}
+
+.saveBar[data-dirty="true"] {
+  border-top-color: var(--text-heading);
+}
+
+.status {
+  margin: 0;
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+}
+
+.good {
+  color: var(--text-body);
+}
+
+.bad {
+  color: var(--status-danger);
+}
+
+.dirty {
+  font-size: var(--fs-xs, 0.75rem);
+  color: var(--text-muted);
+}
+
+/* ---------- image field ---------- */
+
+.imageField {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--border-hairline);
+  border-radius: 3px;
+}
+
+.imageRow {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.thumb {
+  display: block;
+  width: 96px;
+  height: 120px;
+  object-fit: cover;
+  background: var(--surface-sunken);
+  border: 1px solid var(--border-hairline);
+}
+
+.empty {
+  display: grid;
+  width: 96px;
+  height: 120px;
+  font-size: var(--fs-xs, 0.75rem);
+  color: var(--text-subtle);
+  text-align: center;
+  place-content: center;
+  background: var(--surface-sunken);
+  border: 1px dashed var(--border-hairline);
+}
+
+.imageMeta {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.file {
+  font-size: var(--fs-xs, 0.75rem);
+  color: var(--text-muted);
+}
+
+.file::file-selector-button {
+  min-height: 36px;
+  padding: 0 12px;
+  margin-right: 10px;
+  font-size: var(--fs-sm);
+  color: var(--text-link);
+  background: none;
+  border: 1px solid var(--border-hairline);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.imageList {
+  display: grid;
+  gap: 10px;
+}
+
+/* ---------- repeatable rows ---------- */
+
+.rowCard {
+  padding: 14px;
+  border: 1px solid var(--border-hairline);
+  border-radius: 3px;
+}
+
+.rowCard + .rowCard {
+  margin-top: 12px;
+}
+
+.rowHead {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.rowTitle {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin: 0;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--text-heading);
+}
+
+.dot {
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--border-hairline);
+  border-radius: 50%;
+}
+
+/* ---------- stock ---------- */
+
+.stock {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(76px, 1fr));
+  gap: 8px;
+}
+
+.stockCell {
+  display: grid;
+  gap: 3px;
+}
+
+.stockLabel {
+  font-size: var(--fs-xs, 0.75rem);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.stockInput {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px;
+  font: var(--type-body);
+  color: var(--text-body);
+  text-align: center;
+  background: var(--surface-page);
+  border: 1px solid var(--border-hairline);
+  border-radius: 3px;
+}
+
+.stockInput[data-out="true"] {
+  color: var(--text-subtle);
+  background: var(--surface-sunken);
+}
+
+/* ---------- product list ---------- */
+
+.list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-hairline);
+}
+
+.item:last-child {
+  border-bottom: 0;
+}
+
+.item[data-active="false"] {
+  opacity: 0.55;
+}
+
+.itemThumb {
+  width: 56px;
+  height: 70px;
+  object-fit: cover;
+  background: var(--surface-sunken);
+  border: 1px solid var(--border-hairline);
+}
+
+.itemBody {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.itemName {
+  overflow: hidden;
+  font: var(--type-body);
+  color: var(--text-heading);
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.itemName:hover {
+  text-decoration: underline;
+}
+
+.itemMeta {
+  font-size: var(--fs-xs, 0.75rem);
+  color: var(--text-subtle);
+}
+
+.pill {
+  padding: 2px 8px;
+  font-size: var(--fs-xs, 0.75rem);
+  color: var(--text-muted);
+  white-space: nowrap;
+  background: var(--surface-sunken);
+  border-radius: 999px;
+}
+
+.pill[data-tone="out"] {
+  color: #7a1219;
+  background: #f7e3e4;
+}
+
+.pill[data-tone="low"] {
+  color: #6b5312;
+  background: #f6eed8;
+}
+
+.itemActions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+@media (max-width: 560px) {
+  .item {
+    grid-template-columns: 56px minmax(0, 1fr);
+  }
+
+  .itemActions {
+    grid-column: 1 / -1;
+  }
+}
+
+.emptyState {
+  padding: 28px 16px;
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+  color: var(--text-muted);
+  text-align: center;
+  border: 1px dashed var(--border-hairline);
+}
+
+/* ---------- confirm ---------- */
+
+.confirm {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  margin-top: 12px;
+  border: 1px solid var(--status-danger);
+  border-radius: 3px;
+}
+
+.confirmTitle {
+  margin: 0;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--status-danger);
+}

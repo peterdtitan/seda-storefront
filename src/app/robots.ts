@@ -22,8 +22,6 @@ export default function robots(): MetadataRoute.Robots {
         // not public work. Both also carry noindex, which is what actually keeps
         // them out of an index — this just saves the crawl.
         disallow: [
-          "/studio",
-          "/studio/",
           "/styleguide",
           "/admin",
           "/admin/",

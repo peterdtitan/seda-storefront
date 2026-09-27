@@ -32,7 +32,7 @@ export default async function SeoPage() {
     { path: "/checkout", why: "per-visitor" },
     { path: "/admin", why: "not public work" },
     { path: "/superuser", why: "not public work" },
-    { path: "/studio", why: "the CMS" },
+    { path: "/admin/studio", why: "the CMS, inside the admin" },
     { path: "/styleguide", why: "development only" },
   ];
 

@@ -7,6 +7,8 @@ export type NavItem = {
   roles: Role[];
   /** Leaves the panel — Sanity has its own session and its own login. */
   external?: boolean;
+  /** Not shown to anyone else, including an owner. */
+  superuserOnly?: boolean;
 };
 
 export const NAV: NavItem[] = [
@@ -18,10 +20,16 @@ export const NAV: NavItem[] = [
   { href: "/admin/analytics", label: "Analytics", roles: ["content", "finance"] },
   { href: "/admin/payouts", label: "Payouts", roles: [] },
   { href: "/admin/staff", label: "Staff", roles: [] },
-  { href: "/studio", label: "Catalogue", roles: ["content"], external: true },
-];
+  { href: "/admin/catalogue", label: "Catalogue", roles: ["content"] },
 
-const SUPERUSER_ITEM: NavItem = { href: "/superuser", label: "Platform", roles: [] };
+  // Sanity's own interface, kept as the way out of anything the catalogue editor
+  // cannot express. It needs a seat on the Sanity project as well as an account here,
+  // which is exactly why nobody running the shop should have to see it.
+  { href: "/admin/studio", label: "Studio", roles: [], superuserOnly: true },
+
+  // The way back to the other surface, and the only place it is advertised.
+  { href: "/superuser", label: "Platform", roles: [], superuserOnly: true },
+];
 
 /**
  * What this person should see in the nav.
@@ -30,10 +38,15 @@ const SUPERUSER_ITEM: NavItem = { href: "/superuser", label: "Platform", roles: 
  * role is for. Every page and action re-checks server side.
  */
 export function navFor(roles: Role[], tier: Tier): NavItem[] {
-  // The way back to the other surface, and the only place it is advertised.
-  if (tier === "superuser") return [...NAV, SUPERUSER_ITEM];
-  if (roles.includes("owner")) return NAV;
-  return NAV.filter((item) => item.roles.some((role) => roles.includes(role)));
+  const superuser = tier === "superuser";
+
+  return NAV.filter((item) => {
+    // An owner runs the shop and still does not get these. They are not about
+    // seniority — they are the surfaces that step outside this panel's own roles.
+    if (item.superuserOnly) return superuser;
+    if (superuser || roles.includes("owner")) return true;
+    return item.roles.some((role) => roles.includes(role));
+  });
 }
 
 /** Marks the current section. Longest match wins, so /admin/orders/123 lights up

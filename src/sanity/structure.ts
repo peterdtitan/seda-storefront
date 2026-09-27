@@ -1,11 +1,13 @@
 import type { StructureResolver } from "sanity/structure";
 
+import { SITE_COPY_ID } from "@/lib/catalogue/ids";
+
 /**
  * Site copy is a singleton — one document, fixed id, edited in place. Left to the
  * default document list an editor can create a second one, and the storefront would
  * then pick an arbitrary winner.
  */
-export const SITE_COPY_ID = "siteCopy";
+export { SITE_COPY_ID } from "@/lib/catalogue/ids";
 
 const SINGLETONS = new Set(["siteCopy"]);
 

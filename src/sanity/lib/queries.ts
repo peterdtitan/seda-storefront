@@ -37,6 +37,11 @@ export const SITE_COPY_QUERY = groq`*[_id == "siteCopy"][0]{
 
 export const FOOTER_QUERY = groq`*[_id == "siteCopy"][0]{ tagline }`;
 
+/** The announcement bar, fetched with the layout so it costs no extra round trip. */
+export const ANNOUNCEMENT_QUERY = groq`*[_id == "siteCopy"][0].announcement{
+  enabled, message, linkLabel, linkHref, startsAt, endsAt
+}`;
+
 export const CATEGORIES_QUERY = groq`*[_type == "category"] | order(order asc){
   _id,
   title,

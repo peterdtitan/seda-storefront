@@ -1,6 +1,6 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
-import { SIZES } from "./sizeStock";
+import { SIZES } from "@/lib/catalogue/sizes";
 
 /**
  * A colourway is an object inside a product, not a document of its own: its stock

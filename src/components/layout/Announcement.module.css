@@ -1,0 +1,63 @@
+.bar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 44px 9px 16px;
+  text-align: center;
+  background: var(--surface-inverse);
+}
+
+.message {
+  margin: 0;
+  font: var(--type-ui-label);
+  font-size: var(--fs-sm);
+  line-height: 1.45;
+  color: var(--text-on-inverse);
+}
+
+.link {
+  margin-left: 8px;
+  color: var(--text-on-inverse);
+  border-bottom-color: currentColor;
+}
+
+.link:hover {
+  color: var(--seda-ochre);
+}
+
+.close {
+  position: absolute;
+  right: 8px;
+  display: grid;
+  place-items: center;
+  /* 44px of target on a bar that is only 38px tall, because a close control people
+     miss is worse than a bar with no close control. */
+  width: 44px;
+  height: 44px;
+  color: var(--text-on-inverse-muted);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: var(--text-on-inverse);
+}
+
+.bar {
+  position: relative;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .bar {
+    animation: drop var(--dur-md, 280ms) var(--ease-out, ease);
+  }
+
+  @keyframes drop {
+    from {
+      opacity: 0;
+      transform: translateY(-100%);
+    }
+  }
+}

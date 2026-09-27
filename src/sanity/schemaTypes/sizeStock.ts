@@ -1,7 +1,6 @@
 import { defineField, defineType } from "sanity";
 
-export const SIZES = ["S", "M", "L", "XL"] as const;
-export type Size = (typeof SIZES)[number];
+import { SIZES } from "@/lib/catalogue/sizes";
 
 /**
  * One size's stock inside one colourway. Real counts, not a boolean: the product
