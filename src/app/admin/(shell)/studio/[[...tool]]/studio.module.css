@@ -1,0 +1,18 @@
+/* Studio expects to own a viewport. Inside the admin it gets the content column, so
+   it is given a real height to lay itself out in and the shell's padding is undone —
+   otherwise Studio's own panes scroll inside a box that is already scrolling. */
+.frame {
+  height: calc(100svh - 40px);
+  margin: -20px -16px -64px;
+}
+
+.frame > div {
+  height: 100%;
+}
+
+@media (width >= 900px) {
+  .frame {
+    height: 100svh;
+    margin: -36px -40px -80px;
+  }
+}

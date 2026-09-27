@@ -81,8 +81,8 @@ export function nextSteps(input: {
       tone: "good",
       title: `${product.productName} is converting`,
       why: `${percent(product.addToBagRate)} of the people who look at it put it in a bag, across ${product.views} views. That is well above a normal rate.`,
-      todo: "Check what is left in the Studio and cut more before the run ends. This is the piece to put behind any spend.",
-      href: "/studio",
+      todo: "Check what is left in the catalogue and cut more before the run ends. This is the piece to put behind any spend.",
+      href: "/admin/catalogue",
     });
   }
 

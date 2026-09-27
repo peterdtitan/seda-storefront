@@ -10,13 +10,62 @@ export const siteCopy = defineType({
   title: "Site copy",
   type: "document",
   groups: [
-    { name: "home", title: "Home", default: true },
+    { name: "announcement", title: "Announcement", default: true },
+    { name: "home", title: "Home" },
     { name: "shop", title: "Shop" },
     { name: "story", title: "Our story" },
     { name: "lookbook", title: "Lookbook" },
     { name: "contact", title: "Contact" },
   ],
   fields: [
+    defineField({
+      name: "announcement",
+      title: "Announcement bar",
+      description:
+        "The line above the header. Leave it switched off between drops rather than deleting the text.",
+      type: "object",
+      group: "announcement",
+      options: { collapsible: true, collapsed: false },
+      fields: [
+        defineField({
+          name: "enabled",
+          title: "Show it",
+          type: "boolean",
+          initialValue: false,
+        }),
+        defineField({
+          name: "message",
+          type: "string",
+          description: "One line. It sits above everything, so it has to earn the room.",
+          validation: (rule) => rule.max(90).warning("Over 90 characters wraps on a phone."),
+        }),
+        defineField({
+          name: "linkLabel",
+          title: "Link text",
+          type: "string",
+          description: "Optional. Leave empty for a message with nothing to click.",
+        }),
+        defineField({
+          name: "linkHref",
+          title: "Link target",
+          type: "string",
+          description: "A path on this site, like /shop, or a full https:// address.",
+        }),
+        defineField({
+          name: "startsAt",
+          title: "Show from",
+          type: "datetime",
+          description: "Optional. Before this it stays hidden even when switched on.",
+        }),
+        defineField({
+          name: "endsAt",
+          title: "Hide after",
+          type: "datetime",
+          description:
+            "Optional, and the useful one: a drop announcement that expires by itself is one nobody has to remember to take down.",
+        }),
+      ],
+    }),
     defineField({
       name: "tagline",
       description: "Under the hero headline and in the footer.",
