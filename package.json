@@ -16,6 +16,7 @@
     "db:migrate": "node scripts/migrate.mjs",
     "db:status": "node scripts/migrate.mjs --status",
     "admin:invite": "node scripts/admin-invite.mjs",
+    "email:test": "node scripts/email-test.mjs",
     "env:push": "bash scripts/vercel-env.sh"
   },
   "dependencies": {
