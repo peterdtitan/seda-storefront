@@ -47,9 +47,9 @@ export function nextSteps(input: {
   if (funnel.checkoutsStarted >= 5 && checkoutToPaid < 0.5) {
     steps.push({
       tone: "act",
-      title: "People reach Paystack and do not pay",
+      title: "People reach payment and do not pay",
       why: `Only ${percent(checkoutToPaid)} of started checkouts finished. That is the most expensive place to lose someone — they had decided.`,
-      todo: "Open Payments and run the Paystack check: some of those may have paid without the webhook arriving. If they genuinely dropped, the cause is usually the card form, not the price.",
+      todo: "Open Payments and run the payment check: some of those may have paid without the webhook arriving. If they genuinely dropped, the cause is usually the card form, not the price.",
       href: "/admin/payments",
     });
   }

@@ -26,7 +26,7 @@ export default async function RefundsPage() {
       <div className={s.head}>
         <h1 className={s.title}>Refunds</h1>
         <p className={s.lede}>
-          Started from an order. Paystack decides when the money is actually back.
+          Started from an order. The payment provider decides when the money is actually back.
         </p>
       </div>
 
@@ -34,7 +34,7 @@ export default async function RefundsPage() {
         <li className={s.tile}>
           <span className={s.tileLabel}>Returned</span>
           <span className={s.tileValue}>{formatNaira(returned)}</span>
-          <span className={s.tileNote}>confirmed by Paystack</span>
+          <span className={s.tileNote}>confirmed by the provider</span>
         </li>
         <li className={s.tile}>
           <span className={s.tileLabel}>In flight</span>

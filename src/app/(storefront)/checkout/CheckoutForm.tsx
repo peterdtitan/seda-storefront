@@ -13,7 +13,7 @@ function Submit({ total }: { total: string }) {
   const { pending } = useFormStatus();
   return (
     <Cta full type="submit" disabled={pending} className={s.pay}>
-      {pending ? "Taking you to Paystack…" : `Pay ${total}`}
+      {pending ? "Taking you to payment…" : `Pay ${total}`}
     </Cta>
   );
 }
@@ -79,7 +79,7 @@ export function CheckoutForm({ total }: { total: string }) {
       <Submit total={total} />
 
       <p className={s.note}>
-        You will be taken to Paystack to pay. Card, bank transfer and USSD are accepted.
+        You will be taken to our secure payment page. Card, bank transfer and USSD are accepted.
       </p>
     </form>
   );

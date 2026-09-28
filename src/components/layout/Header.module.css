@@ -15,10 +15,36 @@
 
 .mobile {
   display: none;
+  flex-direction: column;
+  border-bottom: 1px solid var(--border-hairline);
+}
+
+.mobileBar {
+  display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 16px 20px;
-  border-bottom: 1px solid var(--border-hairline);
+}
+
+/* Sideways rather than wrapping: a second row that wraps to three pushes the shop
+   below the fold on a short phone. */
+.mobileNav {
+  display: flex;
+  gap: 22px;
+  padding: 0 20px 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.mobileNav::-webkit-scrollbar {
+  display: none;
+}
+
+.mobileNav .link {
+  white-space: nowrap;
+  /* WCAG 2.2 target size — the row is short, so the tappable area comes from padding
+     rather than from the text box. */
+  padding: 6px 0;
 }
 
 .nav {
@@ -63,6 +89,24 @@
   display: block;
   border: none;
   flex-shrink: 0;
+}
+
+/* The icon replaced the word "Bag". The link keeps its accessible name in aria-label,
+   so the count beside it is decorative and hidden from screen readers. */
+.bag {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  /* A comfortable thumb target without moving anything around it — the negative
+     margin gives the padding back so the row keeps its original alignment. */
+  padding: 11px 7px;
+  margin: -11px -7px;
+}
+
+.count {
+  font-variant-numeric: tabular-nums;
+  /* Fixed width so the row does not jiggle between 9 and 10 items. */
+  min-width: 1ch;
 }
 
 .mobileMark,

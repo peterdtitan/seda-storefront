@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { Cta } from "@/components/ui/Button";
 import { Logo } from "@/components/ui/Logo";
+import { PoweredBy } from "@/components/ui/PoweredBy";
 import { BrandBody } from "@/components/ui/Text";
 
 import s from "./Footer.module.css";
@@ -83,6 +84,7 @@ export function Footer({ tagline }: { tagline: string }) {
 
       <div className={s.bottom}>
         <span>Wear Șèdá</span>
+        <PoweredBy tone="cream" />
         <span className={s.year}>2026</span>
       </div>
     </footer>

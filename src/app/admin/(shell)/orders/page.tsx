@@ -56,7 +56,7 @@ async function Results({ params }: { params: Search }) {
               Nothing here. <Link href="/admin/orders">Clear the filters</Link> to see everything.
             </>
           ) : (
-            "Orders appear the moment Paystack confirms one."
+            "Orders appear the moment a payment clears."
           )}
         </p>
       ) : (

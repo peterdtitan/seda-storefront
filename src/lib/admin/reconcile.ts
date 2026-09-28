@@ -68,7 +68,7 @@ export async function reconcile(): Promise<Reconciliation> {
         amountOurs,
         amountTheirs: 0,
         action: "unknown",
-        note: "Paystack did not answer for this reference.",
+        note: "The payment provider did not answer for this reference.",
       });
       continue;
     }
@@ -96,7 +96,7 @@ export async function reconcile(): Promise<Reconciliation> {
         findings.push({
           ...base,
           action: "mismatch",
-          note: "Paystack took a different amount from the one we asked for. Do not fulfil; look at this by hand.",
+          note: "The payment provider took a different amount from the one we asked for. Do not fulfil; look at this by hand.",
         });
         continue;
       }
@@ -121,7 +121,11 @@ export async function reconcile(): Promise<Reconciliation> {
 
     if (verified.status === "failed") {
       await markFailed(order.reference, verified.gatewayResponse);
-      findings.push({ ...base, action: "marked_failed", note: "Paystack says the card failed." });
+      findings.push({
+        ...base,
+        action: "marked_failed",
+        note: "The payment provider says the card failed.",
+      });
       continue;
     }
 
@@ -129,7 +133,7 @@ export async function reconcile(): Promise<Reconciliation> {
     findings.push({
       ...base,
       action: "agrees",
-      note: `Paystack also has it as ${verified.status}. Nothing owed.`,
+      note: `The provider also has it as ${verified.status}. Nothing owed.`,
     });
   }
 

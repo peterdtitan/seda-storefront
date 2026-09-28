@@ -26,7 +26,7 @@ const CONCERN_TITLE: Record<string, string> = {
 
 const CONCERN_BLURB: Record<string, string> = {
   stuck_pending:
-    "Reached Paystack and never came back. Check against Paystack below to find out which were actually paid.",
+    "Reached the payment page and never came back. Check with the provider below to find out which were actually paid.",
   no_webhook:
     "Paid, but the confirmation came from the callback page rather than a webhook. Harmless once; worth asking about if it becomes the norm.",
   stock_error: "Paid and fulfilled, but the inventory could not be adjusted.",
@@ -128,7 +128,7 @@ async function Concerns() {
           </section>
         ) : (
           <section className={`${s.card} ${m.rise}`}>
-            <h2 className={s.cardTitle}>Check against Paystack</h2>
+            <h2 className={s.cardTitle}>Check with the provider</h2>
             <p className={s.quiet}>
               Recovering an order moves stock and emails a customer, so it needs fulfilment rights.
               Yours are read-only.
@@ -201,7 +201,7 @@ export default async function PaymentsPage() {
         !isLiveKey && (
           <p className={s.testNote}>
             {/* Worth saying out loud. Test-mode figures look exactly like real ones. */}
-            Paystack is in <strong>test mode</strong>. Everything below is play money.
+            Payments are in <strong>test mode</strong>. Everything below is play money.
           </p>
         )
       )}

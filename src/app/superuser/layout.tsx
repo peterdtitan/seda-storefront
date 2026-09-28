@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { endSession } from "@/app/admin/actions";
 import { requireSuperuser } from "@/lib/auth/superuser";
+import { PoweredBy } from "@/components/ui/PoweredBy";
 
 import s from "./superuser.module.css";
 
@@ -48,6 +49,10 @@ export default async function SuperuserLayout({ children }: { children: React.Re
       </header>
 
       <main className={s.main}>{children}</main>
+
+      <footer className={s.credit}>
+        <PoweredBy tone="cream" />
+      </footer>
     </div>
   );
 }

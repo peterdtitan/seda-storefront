@@ -157,7 +157,7 @@ export function ProductForm({
             hint={
               Number.isFinite(input.priceKobo)
                 ? `Stored as ${input.priceKobo.toLocaleString("en-NG")} kobo — ${formatNaira(input.priceKobo)}`
-                : "Whole naira. Stored in kobo so Paystack totals are exact."
+                : "Whole naira. Stored in kobo so payment totals are exact."
             }
             kobo={input.priceKobo}
             error={errors.priceKobo}

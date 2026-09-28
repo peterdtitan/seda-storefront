@@ -307,3 +307,8 @@
     animation: none;
   }
 }
+
+/* Sits under the signed-in block, quiet enough not to compete with the nav. */
+.credit {
+  margin-top: 14px;
+}
