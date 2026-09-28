@@ -246,7 +246,7 @@ export function BagContents({ products }: { products: Product[] }) {
           </Cta>
         )}
 
-        <p className={s.payNote}>Paystack · Bank transfer · Pay on delivery in Lagos</p>
+        <p className={s.payNote}>Card · Bank transfer · USSD</p>
       </aside>
     </div>
   );

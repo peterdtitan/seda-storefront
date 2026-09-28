@@ -1,0 +1,35 @@
+.credit {
+  display: inline-flex;
+  gap: 7px;
+  align-items: center;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  /* Quieter than the brand around it. A credit should be findable, not competing. */
+  opacity: 0.72;
+  transition: var(--transition-hover);
+}
+
+a.credit:hover {
+  opacity: 1;
+}
+
+.credit[data-tone="cream"] {
+  color: var(--seda-cream);
+}
+
+.credit[data-tone="ink"] {
+  color: var(--text-muted);
+}
+
+.mark {
+  display: block;
+  flex-shrink: 0;
+}
+
+.name {
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}

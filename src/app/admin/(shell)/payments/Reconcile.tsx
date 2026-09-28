@@ -10,7 +10,7 @@ function Button({ label }: { label: string }) {
   const { pending } = useFormStatus();
   return (
     <button type="submit" className={s.check} disabled={pending}>
-      {pending ? "Asking Paystack…" : label}
+      {pending ? "Asking the provider…" : label}
     </button>
   );
 }
@@ -23,7 +23,7 @@ export function Reconcile({ pendingCount }: { pendingCount: number }) {
   return (
     <form action={action} className={s.reconcile}>
       <div>
-        <h2 className={s.cardTitle}>Check against Paystack</h2>
+        <h2 className={s.cardTitle}>Check with the provider</h2>
         <p className={s.quiet}>
           {pendingCount === 0
             ? "Nothing is sitting unresolved. Running this will find nothing, which is the right answer."
@@ -53,7 +53,7 @@ export function Reconcile({ pendingCount }: { pendingCount: number }) {
                 <li key={finding.reference} className={s.finding} data-action={finding.action}>
                   <span className={s.findingRef}>{finding.reference}</span>
                   <span className={s.findingWhat}>
-                    ours <strong>{finding.ours}</strong> · Paystack{" "}
+                    ours <strong>{finding.ours}</strong> · provider{" "}
                     <strong>{finding.theirs}</strong>
                   </span>
                   <span className={s.findingNote}>{finding.note}</span>

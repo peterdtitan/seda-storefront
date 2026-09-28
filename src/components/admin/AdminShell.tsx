@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
+import { PoweredBy } from "@/components/ui/PoweredBy";
 import { activeHref, type NavItem } from "@/lib/admin/nav";
 import type { Role, Tier } from "@/lib/auth/store";
 
@@ -142,6 +143,8 @@ export function AdminShell({
               Sign out
             </button>
           </form>
+
+          <PoweredBy className={s.credit} />
         </div>
       </aside>
 

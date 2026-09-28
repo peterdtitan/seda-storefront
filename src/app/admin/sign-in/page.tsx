@@ -5,6 +5,8 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { isEmailConfigured } from "@/lib/auth/email";
 
+import { PoweredBy } from "@/components/ui/PoweredBy";
+
 import { SignInForm } from "./SignInForm";
 import s from "./signin.module.css";
 
@@ -58,6 +60,8 @@ export default async function SignInPage({
             <Link href="/admin/sign-in/dev">/admin/sign-in/dev</Link>.
           </p>
         )}
+
+        <PoweredBy className={s.credit} />
       </div>
     </main>
   );

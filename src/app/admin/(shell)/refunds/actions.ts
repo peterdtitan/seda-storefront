@@ -21,7 +21,10 @@ export async function submitRefund(
   const naira = Number(String(formData.get("amount") ?? "").replace(/[^\d.]/g, ""));
 
   if (reason.length < 3) {
-    return { status: "error", message: "Say why. It goes on the record and to Paystack." };
+    return {
+      status: "error",
+      message: "Say why. It goes on the record and to the payment provider.",
+    };
   }
   if (!Number.isFinite(naira) || naira <= 0) {
     return { status: "error", message: "Give an amount in naira." };
@@ -46,6 +49,6 @@ export async function submitRefund(
   return {
     status: "done",
     message:
-      "Paystack has it. The money is not back with the customer until they confirm, which shows here when it happens.",
+      "The provider has it. The money is not back with the customer until they confirm, which shows here when it happens.",
   };
 }

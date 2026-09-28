@@ -10,7 +10,7 @@ function Submit() {
   const { pending } = useFormStatus();
   return (
     <button type="submit" className={s.submit} disabled={pending}>
-      {pending ? "Asking Paystack…" : "Refund"}
+      {pending ? "Asking the provider…" : "Refund"}
     </button>
   );
 }

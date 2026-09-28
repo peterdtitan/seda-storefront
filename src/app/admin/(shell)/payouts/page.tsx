@@ -42,22 +42,24 @@ export default async function PayoutsPage() {
     <>
       <div className={s.head}>
         <h1 className={s.title}>Payouts</h1>
-        <p className={s.lede}>What Paystack is holding, and what it has already sent on.</p>
+        <p className={s.lede}>
+          What the payment provider is holding, and what it has already sent on.
+        </p>
       </div>
 
       {!isPaystackConfigured ? (
-        <p className={s.bad}>No Paystack key is set, so there is nothing to read.</p>
+        <p className={s.bad}>No payment provider key is set, so there is nothing to read.</p>
       ) : (
         <>
           {!isLiveKey && (
             <p className={s.note}>
-              Paystack is in <strong>test mode</strong>. These are test balances, not money.
+              Payments are in <strong>test mode</strong>. These are test balances, not money.
             </p>
           )}
 
           <ul className={s.tiles}>
             <li className={s.tile}>
-              <span className={s.tileLabel}>Paystack balance</span>
+              <span className={s.tileLabel}>Settlement balance</span>
               <span className={s.tileValue}>{naira ? formatNaira(naira.balanceKobo) : "—"}</span>
               <span className={s.tileNote}>waiting to be settled</span>
             </li>
@@ -83,15 +85,15 @@ export default async function PayoutsPage() {
                 Paystack Nigeria settles on its own schedule to the registered bank
                 account; there is no "pay me now" call to make. */}
             <p className={s.body}>
-              Paystack settles to your registered bank account on its own schedule — daily by
-              default, on T+1 for card payments. There is no request to make from here, which is why
-              this screen reports rather than asks.
+              The payment provider settles to your registered bank account on its own schedule —
+              daily by default, on T+1 for card payments. There is no request to make from here,
+              which is why this screen reports rather than asks.
             </p>
             <p className={s.body}>
               To change the account or the schedule, or to move money somewhere other than the
-              settlement account, use the Paystack dashboard. Those actions need the bank details
-              and two-factor approval that live there, and putting a second path to them behind a
-              magic link would be the weakest point in this whole panel.
+              settlement account, use the provider&apos;s dashboard. Those actions need the bank
+              details and two-factor approval that live there, and putting a second path to them
+              behind a magic link would be the weakest point in this whole panel.
             </p>
           </section>
 
@@ -123,7 +125,7 @@ export default async function PayoutsPage() {
             </h2>
             {paidOut.length === 0 ? (
               <p className={s.quiet}>
-                Nothing settled yet. The first payout lands once Paystack has takings to send.
+                Nothing settled yet. The first payout lands once there are takings to send.
               </p>
             ) : (
               <ul className={s.rows}>

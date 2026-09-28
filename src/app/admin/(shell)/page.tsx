@@ -110,7 +110,7 @@ async function Recent() {
       </div>
 
       {orders.length === 0 ? (
-        <p className={s.empty}>No orders yet. They appear here the moment Paystack confirms one.</p>
+        <p className={s.empty}>No orders yet. They appear here the moment a payment clears.</p>
       ) : (
         <ul className={s.orders}>
           {orders.map((order) => (

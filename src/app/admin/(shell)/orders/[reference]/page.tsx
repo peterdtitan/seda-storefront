@@ -225,7 +225,7 @@ export default async function OrderDetailPage({
                 <dd>{order.channel ?? "—"}</dd>
               </div>
               <div className={s.fact}>
-                <dt>Paystack</dt>
+                <dt>Payment</dt>
                 <dd>{order.paystackStatus ?? "—"}</dd>
               </div>
               {order.gatewayResponse && (

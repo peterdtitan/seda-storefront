@@ -34,7 +34,7 @@ export default async function PlatformPage() {
   const services = [
     { name: "Database", state: "Neon Postgres", good: true },
     {
-      name: "Paystack",
+      name: "Payments",
       state: !isPaystackConfigured ? "no key" : isLiveKey ? "live" : "test mode",
       good: isPaystackConfigured,
     },

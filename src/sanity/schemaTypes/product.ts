@@ -54,7 +54,7 @@ export const product = defineType({
       name: "priceKobo",
       title: "Price (kobo)",
       description:
-        "Integer minor units: ₦48,000 is 4800000. Stored this way so totals and Paystack amounts are exact.",
+        "Integer minor units: ₦48,000 is 4800000. Stored this way so totals and payment amounts are exact.",
       type: "number",
       group: "commerce",
       validation: (rule) => rule.required().integer().min(0),
