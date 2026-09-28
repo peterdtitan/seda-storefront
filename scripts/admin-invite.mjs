@@ -1,8 +1,5 @@
 // Creates or updates a staff account.
 //
-// The invite screen is step 11, so until then this is the only way to make the first
-// account — and it stays useful afterwards for the one thing the UI cannot do, which
-// is create the owner who would have sent the invitation.
 //
 //   pnpm admin:invite peter@example.com --name "Peter" --role owner
 //   pnpm admin:invite ops@example.com   --role delivery --role refunds
