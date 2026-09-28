@@ -20,14 +20,16 @@
   border-bottom: 1px solid var(--border-on-inverse);
 }
 
+/* Icon only. The word "Menu" beside three lines said the same thing twice, and the
+   accessible name now lives in aria-label. */
 .menuButton {
   display: inline-flex;
-  gap: 8px;
   align-items: center;
-  /* 44px of touch target, per WCAG 2.2 target size. */
-  min-height: 44px;
-  padding: 0 10px 0 0;
-  font: var(--type-ui-label);
+  justify-content: center;
+  /* Square, and 44px per WCAG 2.2 target size — the icon inside is only 18px. */
+  width: 44px;
+  height: 44px;
+  margin-left: -12px;
   color: var(--text-on-inverse);
   background: none;
   border: 0;
@@ -311,4 +313,27 @@
 /* Sits under the signed-in block, quiet enough not to compete with the nav. */
 .credit {
   margin-top: 14px;
+}
+
+/* ---------- superuser ----------
+
+   The same shell, a darker ground. This surface can revoke an owner and should never
+   be mistaken for the screen next door, which is the whole reason it is a separate
+   palette rather than a separate component. */
+
+.shell[data-surface="superuser"] {
+  background: var(--seda-ink);
+}
+
+.shell[data-surface="superuser"] .bar,
+.shell[data-surface="superuser"] .sidebar {
+  background: var(--seda-ink-deep);
+}
+
+.shell[data-surface="superuser"] .main {
+  color: var(--seda-cream);
+}
+
+.shell[data-surface="superuser"] .bar {
+  border-bottom: 1px solid rgb(255 250 232 / 18%);
 }
