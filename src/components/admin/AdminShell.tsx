@@ -22,11 +22,21 @@ export function AdminShell({
   user,
   signOut,
   children,
+  // The superuser panel is the same shell with a different palette and a different
+  // home. Two copies of a drawer is two places to get focus handling wrong.
+  homeHref = "/admin",
+  tierLabel,
+  navLabel = "Admin sections",
+  surface = "admin",
 }: {
   items: NavItem[];
   user: ShellUser;
   signOut: () => Promise<void>;
   children: React.ReactNode;
+  homeHref?: string;
+  tierLabel?: string;
+  navLabel?: string;
+  surface?: "admin" | "superuser";
 }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -34,6 +44,7 @@ export function AdminShell({
   const drawer = useRef<HTMLElement>(null);
 
   const current = activeHref(pathname, items);
+  const tier = tierLabel ?? (user.tier === "superuser" ? "superuser" : "admin");
 
   // The drawer only exists below the sidebar breakpoint — the button that opens it is
   // display:none above, which takes it out of the tab order too. So `open` being true
@@ -69,7 +80,14 @@ export function AdminShell({
   };
 
   return (
-    <div className={s.shell} data-open={open || undefined}>
+    <div
+      className={s.shell}
+      data-open={open || undefined}
+      data-surface={surface}
+      // The superuser panels are written for a dark ground — cream text on
+      // translucent cream — so the theme has to come with the palette.
+      data-theme={surface === "superuser" ? "ink" : undefined}
+    >
       <header className={s.bar}>
         <button
           type="button"
@@ -77,29 +95,31 @@ export function AdminShell({
           className={s.menuButton}
           aria-expanded={open}
           aria-controls="admin-nav"
+          // The word went; the accessible name cannot. A button whose only content is
+          // a decorative span is announced as "button" and nothing else.
+          aria-label={open ? "Close menu" : "Open menu"}
           onClick={() => setOpen((was) => !was)}
         >
           <span className={s.burger} aria-hidden="true" />
-          {open ? "Close" : "Menu"}
         </button>
 
-        <Link href="/admin" className={s.mark}>
+        <Link href={homeHref} className={s.mark}>
           ȘÈDÁ
         </Link>
 
-        <span className={s.barTier}>{user.tier === "superuser" ? "superuser" : "admin"}</span>
+        <span className={s.barTier}>{tier}</span>
       </header>
 
       {/* Not a <dialog>: the same element is the permanent sidebar on a wide screen,
           and a dialog cannot be both modal and part of the layout. Closed on a narrow
           screen it is visibility:hidden rather than merely translated away, which is
           what keeps a keyboard from tabbing into links nobody can see. */}
-      <aside id="admin-nav" ref={drawer} className={s.sidebar} aria-label="Admin sections">
+      <aside id="admin-nav" ref={drawer} className={s.sidebar} aria-label={navLabel}>
         {/* The open drawer sits over the bar, so the button that opened it is no longer
             reachable. The scrim and Escape both close it, but neither is obvious on a
             phone. */}
         <div className={s.drawerHead}>
-          <Link href="/admin" className={s.drawerMark}>
+          <Link href={homeHref} className={s.drawerMark}>
             ȘÈDÁ
           </Link>
           <button type="button" className={s.closeButton} onClick={close}>
@@ -107,7 +127,7 @@ export function AdminShell({
           </button>
         </div>
 
-        <Link href="/admin" className={s.sidebarMark}>
+        <Link href={homeHref} className={s.sidebarMark}>
           ȘÈDÁ
         </Link>
 
@@ -144,7 +164,9 @@ export function AdminShell({
             </button>
           </form>
 
-          <PoweredBy className={s.credit} />
+          {/* Cream: the sidebar is oxblood in the admin and ink in the superuser
+              panel, and the ink mark would be invisible against either. */}
+          <PoweredBy tone="cream" className={s.credit} />
         </div>
       </aside>
 

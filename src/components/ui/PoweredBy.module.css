@@ -7,21 +7,26 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   text-decoration: none;
-  /* Quieter than the brand around it. A credit should be findable, not competing. */
-  opacity: 0.72;
   transition: var(--transition-hover);
 }
 
-a.credit:hover {
-  opacity: 1;
+/* Quieter than the brand around it, but set per tone rather than by dimming the
+   whole thing. A blanket opacity took the muted ink colour to 2.9:1 on the white
+   sign-in card — legible to me, not to everyone. */
+.credit[data-tone="ink"] {
+  color: var(--text-muted);
 }
 
 .credit[data-tone="cream"] {
-  color: var(--seda-cream);
+  color: rgb(255 250 232 / 78%);
 }
 
-.credit[data-tone="ink"] {
-  color: var(--text-muted);
+a.credit[data-tone="ink"]:hover {
+  color: var(--text-body);
+}
+
+a.credit[data-tone="cream"]:hover {
+  color: var(--seda-cream);
 }
 
 .mark {

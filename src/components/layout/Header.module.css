@@ -15,36 +15,169 @@
 
 .mobile {
   display: none;
-  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
   border-bottom: 1px solid var(--border-hairline);
 }
 
-.mobileBar {
+/* Menu first, then the mark: where a thumb already expects it. */
+.menuButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Square and 44px, per WCAG 2.2 target size. The icon inside is 18px. */
+  width: 44px;
+  height: 44px;
+  margin-left: -12px;
+  color: var(--text-body);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.burger {
+  position: relative;
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background: currentColor;
+}
+
+.burger::before,
+.burger::after {
+  position: absolute;
+  left: 0;
+  width: 18px;
+  height: 1.5px;
+  content: "";
+  background: currentColor;
+}
+
+.burger::before {
+  top: -6px;
+}
+
+.burger::after {
+  top: 6px;
+}
+
+/* ---------- the drawer ---------- */
+
+.drawer {
+  width: min(82vw, 320px);
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  /* Pinned left rather than centred, which is where a dialog would otherwise sit. */
+  margin: 0 auto 0 0;
+  padding: 0;
+  color: var(--text-body);
+  background: var(--surface-page);
+  border: 0;
+  border-right: 1px solid var(--border-hairline);
+}
+
+.drawer::backdrop {
+  background: rgb(0 0 50 / 38%);
+}
+
+/* Slides in from the edge it is anchored to. @starting-style is what gives the
+   opening frame something to animate from; without support it simply appears. */
+@media (prefers-reduced-motion: no-preference) {
+  .drawer,
+  .drawer::backdrop {
+    transition:
+      transform var(--dur-md, 240ms) var(--ease-out, ease),
+      opacity var(--dur-md, 240ms) var(--ease-out, ease),
+      overlay var(--dur-md, 240ms) allow-discrete,
+      display var(--dur-md, 240ms) allow-discrete;
+  }
+
+  .drawer {
+    transform: translateX(-100%);
+  }
+
+  .drawer::backdrop {
+    opacity: 0;
+  }
+
+  .drawer[open] {
+    transform: translateX(0);
+  }
+
+  .drawer[open]::backdrop {
+    opacity: 1;
+  }
+
+  @starting-style {
+    .drawer[open] {
+      transform: translateX(-100%);
+    }
+
+    .drawer[open]::backdrop {
+      opacity: 0;
+    }
+  }
+}
+
+.drawerInner {
   display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 16px 0 24px;
+}
+
+.drawerHead {
+  display: flex;
+  gap: 12px;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
+  padding: 0 20px 18px;
 }
 
-/* Sideways rather than wrapping: a second row that wraps to three pushes the shop
-   below the fold on a short phone. */
-.mobileNav {
+.close {
+  min-height: 44px;
+  padding: 0 4px;
+  font: var(--type-label);
+  font-family: var(--font-ui);
+  letter-spacing: var(--ls-label);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: var(--seda-oxblood);
+}
+
+.drawerNav {
   display: flex;
-  gap: 22px;
-  padding: 0 20px 12px;
-  overflow-x: auto;
-  scrollbar-width: none;
+  flex-direction: column;
 }
 
-.mobileNav::-webkit-scrollbar {
-  display: none;
+.drawerLink {
+  padding: 14px 20px;
+  font: var(--type-label);
+  font-family: var(--font-ui);
+  font-size: var(--fs-md);
+  letter-spacing: var(--ls-label);
+  color: var(--text-body);
+  text-decoration: none;
+  text-transform: uppercase;
+  border: 0;
+  border-bottom: 1px solid var(--border-hairline);
 }
 
-.mobileNav .link {
-  white-space: nowrap;
-  /* WCAG 2.2 target size — the row is short, so the tappable area comes from padding
-     rather than from the text box. */
-  padding: 6px 0;
+.drawerLink:hover {
+  color: var(--seda-oxblood);
+}
+
+.drawerLink.active {
+  color: var(--seda-oxblood);
 }
 
 .nav {
@@ -109,10 +242,9 @@
   min-width: 1ch;
 }
 
-.mobileMark,
 .mobileWordmark {
-  border: none;
   display: block;
+  border: none;
 }
 
 .skip {
