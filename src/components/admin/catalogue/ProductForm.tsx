@@ -10,6 +10,7 @@ import { SIZES } from "@/lib/catalogue/sizes";
 import type { ColourwayInput, EditorState, ProductInput } from "@/lib/catalogue/types";
 import { summarise, validateProduct } from "@/lib/catalogue/validate";
 import { formatNaira } from "@/lib/money";
+import { absoluteUrl } from "@/lib/site";
 
 import { saveProduct } from "@/app/admin/(shell)/catalogue/actions";
 import s from "./catalogue.module.css";
@@ -106,10 +107,16 @@ export function ProductForm({
       <section className={s.card}>
         <div className={s.cardHead}>
           <h2 className={s.cardTitle}>The garment</h2>
-          {input.slug && (
+          {/* Absolute, and only once the garment exists.
+              Relative would resolve against admin.pieceofseda.com, where the
+              middleware turns /product/x into /admin/product/x and nothing answers.
+              The id gate matters too: the slug fills in as soon as a name is typed,
+              so on the create form this used to offer a link to a page that had not
+              been written yet. */}
+          {id && input.slug && (
             <Link
               className={s.ghost}
-              href={`/product/${input.slug}`}
+              href={absoluteUrl(`/product/${input.slug}`)}
               target="_blank"
               rel="noreferrer"
             >
