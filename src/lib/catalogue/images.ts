@@ -2,14 +2,14 @@ import "server-only";
 
 import { canWriteToSanity, writeClient } from "@/sanity/lib/writeClient";
 
+import { UPLOAD_MAX_BYTES } from "./limits";
+
 /**
  * Photographs go into Sanity's asset store, which is the one part of the CMS the
  * storefront cannot do without: it is where the CDN, the crop and the blur placeholder
  * come from. The owner never sees any of that — they choose a file, and the upload
  * happens server side under the application's token.
  */
-
-const MAX_BYTES = 12 * 1024 * 1024;
 
 // Allowlist rather than a blocklist, and checked server side. A browser accept=""
 // attribute is a suggestion; this is the rule.
@@ -32,11 +32,15 @@ export async function uploadImage(file: File): Promise<UploadResult> {
     };
   }
 
-  if (file.size > MAX_BYTES) {
+  // The browser shrinks anything oversized before it gets here, so reaching this is
+  // either a photograph that would not compress or a request that did not come from
+  // the form. Either way it cannot be carried, and saying so beats a failed upload.
+  if (file.size > UPLOAD_MAX_BYTES) {
     const mb = (file.size / 1024 / 1024).toFixed(1);
+    const limit = (UPLOAD_MAX_BYTES / 1024 / 1024).toFixed(0);
     return {
       ok: false,
-      message: `${mb}MB is over the 12MB limit. Export it at around 2400px on the long edge — the shop never serves it larger.`,
+      message: `${mb}MB is over the ${limit}MB limit, even after resizing. Export it at around 2400px on the long edge — the shop never serves it larger.`,
     };
   }
 
