@@ -1,0 +1,50 @@
+.panel {
+  max-width: 52ch;
+  padding: 24px;
+  background: var(--surface-card);
+  border: 1px solid var(--border-hairline);
+}
+
+.title {
+  margin: 0 0 12px;
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: 400;
+  color: var(--text-heading);
+}
+
+.body {
+  margin: 0 0 18px;
+  font: var(--type-body);
+  line-height: 1.6;
+  color: var(--text-body);
+}
+
+.actions {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.retry {
+  min-height: 44px;
+  padding: 0 22px;
+  font: var(--type-ui-label);
+  color: var(--action-primary-fg);
+  background: var(--action-primary-bg);
+  border: 0;
+  cursor: pointer;
+}
+
+.back {
+  font: var(--type-ui-label);
+  color: var(--text-link);
+}
+
+.digest {
+  margin: 18px 0 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: var(--fs-xs, 0.8rem);
+  color: var(--text-muted);
+}

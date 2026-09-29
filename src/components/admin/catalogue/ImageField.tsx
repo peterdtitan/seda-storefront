@@ -2,6 +2,7 @@
 
 import { useId, useRef, useState, useTransition } from "react";
 
+import { downscale } from "@/lib/catalogue/downscale";
 import { assetPreview } from "@/lib/catalogue/preview";
 import type { ImageInput } from "@/lib/catalogue/types";
 
@@ -48,26 +49,39 @@ export function ImageField({
     setFailure(null);
 
     start(async () => {
-      const body = new FormData();
-      body.set("file", file);
-      const result = await upload(body);
+      // Everything here is inside the catch on purpose. An upload that rejects —
+      // a payload the platform refused, a phone that lost signal halfway — used to
+      // escape the transition and take the whole document down to the offline
+      // screen, losing every unsaved field on the way. It belongs in this one label.
+      try {
+        // Shrunk before it is sent rather than after it is refused.
+        const ready = await downscale(file);
 
-      if (!result.ok) {
-        setFailure(result.message);
-        // Clearing the input matters: without it, picking the same file again fires no
-        // change event and the retry looks like it did nothing.
+        const body = new FormData();
+        body.set("file", ready);
+        const result = await upload(body);
+
+        if (!result.ok) {
+          setFailure(result.message);
+          // Clearing the input matters: without it, picking the same file again fires no
+          // change event and the retry looks like it did nothing.
+          if (input.current) input.current.value = "";
+          return;
+        }
+
+        onChange({
+          assetId: result.assetId,
+          alt: value?.alt ?? "",
+          decorative: value?.decorative ?? false,
+          hotspot: value?.hotspot,
+          crop: value?.crop,
+        });
+      } catch (error) {
+        console.error("[catalogue] upload failed", error);
+        setFailure("That photograph did not upload. Check the connection and try again.");
+      } finally {
         if (input.current) input.current.value = "";
-        return;
       }
-
-      onChange({
-        assetId: result.assetId,
-        alt: value?.alt ?? "",
-        decorative: value?.decorative ?? false,
-        hotspot: value?.hotspot,
-        crop: value?.crop,
-      });
-      if (input.current) input.current.value = "";
     });
   }
 
